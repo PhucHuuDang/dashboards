@@ -1,4 +1,3 @@
-import { SidebarProvider } from "@/components/animate-ui/components/radix/sidebar";
 import { SidebarContainer } from "@/container/sidebar-container";
 import React from "react";
 
