@@ -338,10 +338,8 @@ function KanbanBoard({ children, className }: KanbanBoardProps) {
 
   return (
     <SortableContext items={columnIds} strategy={rectSortingStrategy}>
-      <div
-        data-slot="kanban-board"
-        className={cn("grid auto-rows-fr sm:grid-cols-3 gap-4", className)}
-      >
+      {/* grid auto-rows-fr sm:grid-cols-3 gap-4 */}
+      <div data-slot="kanban-board" className={cn("", className)}>
         {children}
       </div>
     </SortableContext>
@@ -420,6 +418,8 @@ function KanbanColumnHandle({
 }: KanbanColumnHandleProps) {
   const { attributes, listeners, isDragging, disabled } =
     React.useContext(ColumnContext);
+
+  console.log({ attributes, listeners, isDragging, disabled });
 
   const Comp = asChild ? Slot : "div";
 

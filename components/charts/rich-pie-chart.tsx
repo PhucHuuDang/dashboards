@@ -135,7 +135,7 @@ export function RichPieChart() {
   });
 
   return (
-    <Card className="flex flex-col col-span-1">
+    <Card className="flex flex-col">
       <CardHeader className="items-center flex justify-between pb-0">
         <div>
           <CardTitle className="flex items-center gap-2">

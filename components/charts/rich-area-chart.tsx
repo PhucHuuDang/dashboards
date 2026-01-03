@@ -154,7 +154,7 @@ export function RichAreaChart() {
   });
 
   return (
-    <Card className="pt-0 col-span-2">
+    <Card className="pt-0 w-full">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>Area Chart - Interactive</CardTitle>
@@ -258,13 +258,13 @@ export function RichAreaChart() {
               stackId="a"
             />
 
-            <Area
+            {/* <Area
               dataKey="desktop"
               type="natural"
               fill="url(#fillDesktop)"
               stroke="var(--color-desktop)"
               stackId="a"
-            />
+            /> */}
             <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
         </ChartContainer>

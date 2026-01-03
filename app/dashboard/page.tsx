@@ -2,9 +2,18 @@ import { RichAreaChart } from "@/components/charts/rich-area-chart";
 import { RichPieChart } from "@/components/charts/rich-pie-chart";
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
 import { DashboardKanban } from "@/components/common/dashboard-kanban";
+import { DashboardKanbanImplement } from "@/components/common/dashboard-kanban-implement";
 import { StatisticCard } from "@/components/common/statistic-card";
+import { DataGridDemo } from "@/components/data-grid/data-grid-demo";
+import DataGridRenderPage from "@/components/data-grid/data-grid-render/render-demo";
+import {
+  DataGridSkeleton,
+  DataGridSkeletonGrid,
+  DataGridSkeletonToolbar,
+} from "@/components/data-grid/data-grid-skeleton";
 import { UserIcon } from "lucide-react";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Statistics",
@@ -16,37 +25,19 @@ const DashboardPage = () => {
   return (
     <SidebarInsetContent>
       <div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
-          <StatisticCard
-            title="Total Users"
-            description="100"
-            icon={UserIcon}
-          />
+        <DashboardKanbanImplement />
 
-          <StatisticCard
-            title="Total Orders"
-            description="100"
-            icon={UserIcon}
-          />
-
-          <StatisticCard
-            title="Total Revenue"
-            description="100"
-            icon={UserIcon}
-          />
-
-          <StatisticCard
-            title="Total Products"
-            description="100"
-            icon={UserIcon}
-          />
-        </div>
-
-        <div className="mt-5 grid grid-cols-1 lg:grid-cols-3 lg:gap-x-4 gap-y-4">
-          <RichPieChart />
-          <RichAreaChart />
-        </div>
-        {/* <DashboardKanban /> */}
+        {/* <Suspense
+          fallback={
+            <DataGridSkeleton className="container flex flex-col gap-4 py-4">
+              <DataGridSkeletonToolbar actionCount={5} />
+              <DataGridSkeletonGrid />
+            </DataGridSkeleton>
+          }
+        >
+          <DataGridDemo />
+        </Suspense> */}
+        <DataGridRenderPage />
       </div>
     </SidebarInsetContent>
   );
