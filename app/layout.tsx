@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Figtree } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { metadataConfig } from "@/config/metadata";
+import Script from "next/script";
+import { siteConfig } from "@/config/site";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,9 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={figtree.variable} suppressHydrationWarning>
+      <head />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* <Script
+          defer
+          data-site-id={siteConfig.url}
+          src="https://assets.onedollarstats.com/stonks.js"
+        /> */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

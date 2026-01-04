@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
-import { Shell } from "@/components/shell";
+// import { Shell } from "@/components/shell";
 import { getValidFilters } from "@/lib/data-table";
 import type { SearchParams } from "@/types";
 import { FeatureFlagsProvider } from "./components/feature-flags-provider";
@@ -10,14 +10,16 @@ import {
   getTaskPriorityCounts,
   getTaskStatusCounts,
   getTasks,
-} from "./lib/queries";
+} from "@/lib/queries";
 import { searchParamsCache } from "@/lib/validations";
+import { Shell } from "@/components/ui/shell";
+import { KanbanColumnHandle } from "@/components/ui/kanban";
 
-interface IndexPageProps {
-  searchParams: Promise<SearchParams>;
+interface TaskTableWrapperProps {
+  searchParams?: Promise<SearchParams>;
 }
 
-export default function IndexPage(props: IndexPageProps) {
+export default function TaskTableWrapper(props: TaskTableWrapperProps) {
   return (
     <Shell>
       <Suspense
@@ -39,18 +41,23 @@ export default function IndexPage(props: IndexPageProps) {
         }
       >
         <FeatureFlagsProvider>
-          <TasksTableWrapper {...props} />
+          <KanbanColumnHandle
+            className={`transition-opacity opacity-100 group-hover/kanban-column:backdrop-opacity-90 group-hover/kanban-column:shadow-2xl w-full`}
+          >
+            <TasksTableWrapper {...props} />
+          </KanbanColumnHandle>
         </FeatureFlagsProvider>
       </Suspense>
     </Shell>
   );
 }
 
-async function TasksTableWrapper(props: IndexPageProps) {
-  const searchParams = await props.searchParams;
+async function TasksTableWrapper(props: TaskTableWrapperProps) {
+  const searchParams = (await props.searchParams) ?? {};
   const search = searchParamsCache.parse(searchParams);
-
   const validFilters = getValidFilters(search.filters);
+
+  console.log({ validFilters });
 
   const promises = Promise.all([
     getTasks({

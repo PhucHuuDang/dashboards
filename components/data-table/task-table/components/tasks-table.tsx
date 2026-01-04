@@ -7,7 +7,7 @@ import { DataTableFilterList } from "@/components/data-table/data-table-filter-l
 import { DataTableFilterMenu } from "@/components/data-table/data-table-filter-menu";
 import { DataTableSortList } from "@/components/data-table/data-table-sort-list";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
-import type { Task } from "@/db/schema";
+// import type { Task } from "@/db/schema";
 import { useDataTable } from "@/hooks/use-data-table";
 import type { DataTableRowAction, QueryKeys } from "@/types/data-table";
 import type {
@@ -15,12 +15,13 @@ import type {
   getTaskPriorityCounts,
   getTaskStatusCounts,
   getTasks,
-} from "../lib/queries";
+} from "@/lib/queries";
 import { DeleteTasksDialog } from "./delete-tasks-dialog";
 import { useFeatureFlags } from "./feature-flags-provider";
 import { TasksTableActionBar } from "./tasks-table-action-bar";
 import { getTasksTableColumns } from "./tasks-table-columns";
 import { UpdateTaskSheet } from "./update-task-sheet";
+import type { Task } from "@/lib/tasks-seeds";
 
 interface TasksTableProps {
   promises: Promise<
@@ -39,10 +40,14 @@ export function TasksTable({ promises, queryKeys }: TasksTableProps) {
 
   const [
     { data, pageCount },
+
     statusCounts,
     priorityCounts,
     estimatedHoursRange,
   ] = React.use(promises);
+
+  console.log({ data });
+  console.log({ pageCount });
 
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<Task> | null>(null);
@@ -71,6 +76,7 @@ export function TasksTable({ promises, queryKeys }: TasksTableProps) {
     getRowId: (originalRow) => originalRow.id,
     shallow: false,
     clearOnDefault: true,
+    scroll: true,
   });
 
   return (

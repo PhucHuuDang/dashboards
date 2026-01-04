@@ -7,8 +7,9 @@ import {
 } from "nuqs/server";
 import * as z from "zod";
 import { flagConfig } from "@/config/flag";
-import { type Task, tasks } from "@/db/schema";
+import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
+import { TASK_LABELS, TASK_PRIORITIES, TASK_STATUSES } from "./task-constants";
 
 export const searchParamsCache = createSearchParamsCache({
   filterFlag: parseAsStringEnum(
@@ -20,12 +21,8 @@ export const searchParamsCache = createSearchParamsCache({
     { id: "createdAt", desc: true },
   ]),
   title: parseAsString.withDefault(""),
-  status: parseAsArrayOf(
-    parseAsStringEnum(tasks.status.enumValues)
-  ).withDefault([]),
-  priority: parseAsArrayOf(
-    parseAsStringEnum(tasks.priority.enumValues)
-  ).withDefault([]),
+  status: parseAsArrayOf(parseAsStringEnum(TASK_STATUSES)).withDefault([]),
+  priority: parseAsArrayOf(parseAsStringEnum(TASK_PRIORITIES)).withDefault([]),
   estimatedHours: parseAsArrayOf(parseAsInteger).withDefault([]),
   createdAt: parseAsArrayOf(parseAsInteger).withDefault([]),
   // advanced filter
@@ -35,17 +32,17 @@ export const searchParamsCache = createSearchParamsCache({
 
 export const createTaskSchema = z.object({
   title: z.string(),
-  label: z.enum(tasks.label.enumValues),
-  status: z.enum(tasks.status.enumValues),
-  priority: z.enum(tasks.priority.enumValues),
+  label: z.enum(TASK_LABELS),
+  status: z.enum(TASK_STATUSES),
+  priority: z.enum(TASK_PRIORITIES),
   estimatedHours: z.number().optional(),
 });
 
 export const updateTaskSchema = z.object({
   title: z.string().optional(),
-  label: z.enum(tasks.label.enumValues).optional(),
-  status: z.enum(tasks.status.enumValues).optional(),
-  priority: z.enum(tasks.priority.enumValues).optional(),
+  label: z.enum(TASK_LABELS).optional(),
+  status: z.enum(TASK_STATUSES).optional(),
+  priority: z.enum(TASK_PRIORITIES).optional(),
   estimatedHours: z.number().optional(),
 });
 

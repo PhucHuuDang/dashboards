@@ -242,6 +242,7 @@ export function DataGrid<TData>({
             );
           })}
         </div>
+        {/* eslint-disable-next-line */}
         {!readOnly && onRowAdd && (
           <div
             role="rowgroup"

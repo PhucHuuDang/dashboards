@@ -14,40 +14,17 @@ import { RichPieChart } from "../charts/rich-pie-chart";
 import { RichAreaChart } from "../charts/rich-area-chart";
 import { cn } from "@/lib/utils";
 import { div } from "motion/react-client";
+import TaskTableWrapper from "../data-table/task-table/task-table-wrapper";
+import { Prettify, SearchParams } from "@/types";
 
 interface DashboardBlock {
   id: string;
   component: React.ReactNode;
 }
 
-const statisticBlocks: DashboardBlock[] = [
-  {
-    id: "1",
-    component: (
-      <StatisticCard title="Total 1" description="100" icon={UserIcon} />
-    ),
-  },
-
-  {
-    id: "2",
-    component: (
-      <StatisticCard title="Total 3" description="100" icon={UserIcon} />
-    ),
-  },
-  {
-    id: "3",
-    component: (
-      <StatisticCard title="Total 2" description="100" icon={UserIcon} />
-    ),
-  },
-
-  {
-    id: "4",
-    component: (
-      <StatisticCard title="Total 4" description="100" icon={UserIcon} />
-    ),
-  },
-];
+interface DashboardKanbanProps {
+  searchParams: Promise<SearchParams>;
+}
 
 function StatisticBlock() {
   const [columns, setColumns] = useState<Record<string, DashboardBlock[]>>({
@@ -122,9 +99,12 @@ function ChartsBlock() {
 
 export const DashboardKanbanImplement = ({
   blocks: initialBlocks,
-}: {
-  blocks?: DashboardBlock[];
-}) => {
+  searchParams,
+}: Prettify<
+  DashboardKanbanProps & {
+    blocks?: DashboardBlock[];
+  }
+>) => {
   const [columns, setColumns] = useState<Record<string, DashboardBlock[]>>({
     totalUsers: [
       {
@@ -137,6 +117,13 @@ export const DashboardKanbanImplement = ({
       {
         id: "2",
         component: <ChartsBlock />,
+      },
+    ],
+
+    dataTable: [
+      {
+        id: "3",
+        component: <TaskTableWrapper searchParams={searchParams} />,
       },
     ],
   });
