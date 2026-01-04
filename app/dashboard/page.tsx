@@ -1,8 +1,8 @@
 import { RichAreaChart } from "@/components/charts/rich-area-chart";
 import { RichPieChart } from "@/components/charts/rich-pie-chart";
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
-import { DashboardKanban } from "@/components/common/dashboard-kanban";
-import { DashboardKanbanImplement } from "@/components/common/dashboard-kanban-implement";
+import { DashboardKanban } from "@/components/segments/dashboard/dashboard-kanban";
+
 import { StatisticCard } from "@/components/common/statistic-card";
 import { DataGridDemo } from "@/components/data-grid/data-grid-demo";
 import DataGridRenderPage from "@/components/data-grid/data-grid-render/data-grid-render-page";
@@ -31,7 +31,7 @@ const DashboardPage = ({ searchParams }: Prettify<DashboardPageProps>) => {
   return (
     <SidebarInsetContent>
       <div>
-        <DashboardKanbanImplement searchParams={searchParams} />
+        <DashboardKanban searchParams={searchParams} />
 
         {/* Data Grid */}
         {/* <Suspense

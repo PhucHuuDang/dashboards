@@ -57,7 +57,7 @@ async function TasksTableWrapper(props: TaskTableWrapperProps) {
   const search = searchParamsCache.parse(searchParams);
   const validFilters = getValidFilters(search.filters);
 
-  console.log({ validFilters });
+  // console.log({ validFilters });
 
   const promises = Promise.all([
     getTasks({

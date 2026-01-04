@@ -46,8 +46,8 @@ export function TasksTable({ promises, queryKeys }: TasksTableProps) {
     estimatedHoursRange,
   ] = React.use(promises);
 
-  console.log({ data });
-  console.log({ pageCount });
+  // console.log({ data });
+  // console.log({ pageCount });
 
   const [rowAction, setRowAction] =
     React.useState<DataTableRowAction<Task> | null>(null);

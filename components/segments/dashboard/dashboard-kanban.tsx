@@ -8,13 +8,12 @@ import {
   KanbanOverlay,
 } from "@/components/ui/kanban";
 import { GripVerticalIcon, UserIcon } from "lucide-react";
-import { useState } from "react";
-import { StatisticCard } from "./statistic-card";
-import { RichPieChart } from "../charts/rich-pie-chart";
-import { RichAreaChart } from "../charts/rich-area-chart";
+import { Fragment, useState } from "react";
+import { StatisticCard } from "../../common/statistic-card";
+import { RichPieChart } from "../../charts/rich-pie-chart";
+import { RichAreaChart } from "../../charts/rich-area-chart";
 import { cn } from "@/lib/utils";
-import { div } from "motion/react-client";
-import TaskTableWrapper from "../data-table/task-table/task-table-wrapper";
+import TaskTableWrapper from "../../data-table/task-table/task-table-wrapper";
 import { Prettify, SearchParams } from "@/types";
 
 interface DashboardBlock {
@@ -75,7 +74,13 @@ function StatisticBlock() {
           <KanbanBoard className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4">
             {Object.entries(columns).map(([columnId, blocks]) => (
               <KanbanColumn key={columnId} value={columnId}>
-                {blocks.map((block) => block.component)}
+                {blocks.map((block) => {
+                  return (
+                    <Fragment key={`${columnId}-block-${block.id}`}>
+                      {block.component}
+                    </Fragment>
+                  );
+                })}
               </KanbanColumn>
             ))}
           </KanbanBoard>
@@ -92,12 +97,11 @@ function ChartsBlock() {
         <RichPieChart />
         <RichAreaChart />
       </KanbanColumnHandle>
-      {/* </div> */}
     </>
   );
 }
 
-export const DashboardKanbanImplement = ({
+export const DashboardKanban = ({
   blocks: initialBlocks,
   searchParams,
 }: Prettify<
@@ -138,15 +142,25 @@ export const DashboardKanbanImplement = ({
       className=""
     >
       <KanbanBoard className=" overflow-hidden space-y-2 md:space-y-3 lg:space-y-4 ">
-        {Object.entries(columns).map(([columnId, blocks]) => (
-          <KanbanColumn key={columnId} value={columnId} className="min-w-full ">
-            <div className="">
-              {blocks.map((block) => (
-                <div key={block.id}>{block.component}</div>
-              ))}
-            </div>
-          </KanbanColumn>
-        ))}
+        {Object.entries(columns).map(([columnId, blocks]) => {
+          console.log({ columnId });
+
+          return (
+            <KanbanColumn
+              key={columnId}
+              value={columnId}
+              className="min-w-full "
+            >
+              <div className="">
+                {blocks.map((block) => (
+                  <div key={`${columnId}-block-${block.id}`}>
+                    {block.component}
+                  </div>
+                ))}
+              </div>
+            </KanbanColumn>
+          );
+        })}
       </KanbanBoard>
     </Kanban>
   );

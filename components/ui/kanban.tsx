@@ -419,9 +419,9 @@ function KanbanColumnHandle({
   const { attributes, listeners, isDragging, disabled } =
     React.useContext(ColumnContext);
 
-  console.log({ attributes, listeners, isDragging, disabled });
-
   const Comp = asChild ? Slot : "div";
+
+  // console.log({ isDragging });
 
   return (
     <Comp

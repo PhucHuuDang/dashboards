@@ -61,6 +61,8 @@ function Fps(props: FpsProps) {
   const [mounted, setMounted] = React.useState(false);
   const [fps, setFps] = React.useState(0);
   const frameCountRef = React.useRef(0);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const lastTimeRef = React.useRef(performance.now());
   const animationFrameRef = React.useRef<number | null>(null);
   const updateTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(

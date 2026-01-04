@@ -54,7 +54,7 @@ export function FeatureFlagsProvider({ children }: FeatureFlagsProviderProps) {
     }
   );
 
-  console.log("filterFlag", filterFlag);
+  // console.log("filterFlag", filterFlag);
 
   const onFilterFlagChange = React.useCallback(
     (value: FilterFlag) => {
