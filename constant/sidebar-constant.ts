@@ -146,7 +146,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
     items: [
       {
         name: "General",
-        url: "/profile/general",
+        url: "/dashboard",
         icon: MonitorCogIcon,
         dropdownItems: [
           {
@@ -168,7 +168,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "Activities",
-        url: "/profile/activities",
+        url: "/dashboard/activities",
         icon: ActivityIcon,
         dropdownItems: [
           {
@@ -190,7 +190,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "Profile",
-        url: "/profile",
+        url: "/dashboard",
         icon: FileUserIcon,
         dropdownItems: [
           {
@@ -212,7 +212,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "My Cooking",
-        url: "/profile/my-cooking",
+        url: "/dashboard/my-cooking",
         icon: ChefHatIcon,
         dropdownItems: [
           {
@@ -235,7 +235,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
 
       {
         name: "Password & Authentication",
-        url: "/profile/password",
+        url: "/dashboard/password",
         icon: ShieldUserIcon,
       },
     ],

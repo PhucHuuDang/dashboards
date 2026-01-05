@@ -21,13 +21,19 @@ export const StatisticCard = ({
             {title}
           </CardTitle>
 
-          <CardDescription>{description}</CardDescription>
+          <CardDescription id={`statistic-desc-${title}`}>
+            {description}
+          </CardDescription>
         </div>
         <KanbanColumnHandle
           className=" transition duration-300 hover:scale-105 p-0.5"
           asChild
         >
-          <GripVerticalIcon className="size-6 text-muted-foreground bg-accent-foreground/10 hover:bg-muted-foreground/40 rounded-sm focus:outline-none focus:ring-0 focus:ring-offset-0" />
+          <GripVerticalIcon
+            aria-label={`Reorder ${title}`}
+            aria-describedby={`statistic-desc-${title}`}
+            className="size-6 text-muted-foreground bg-accent-foreground/10 hover:bg-muted-foreground/40 rounded-sm focus:outline-none focus:ring-0 focus:ring-offset-0"
+          />
         </KanbanColumnHandle>
       </CardHeader>
     </Card>

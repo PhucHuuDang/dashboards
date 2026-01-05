@@ -7,12 +7,11 @@ import {
   KanbanColumnHandle,
   KanbanOverlay,
 } from "@/components/ui/kanban";
-import { GripVerticalIcon, UserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 import { Fragment, useState } from "react";
 import { StatisticCard } from "../../common/statistic-card";
 import { RichPieChart } from "../../charts/rich-pie-chart";
 import { RichAreaChart } from "../../charts/rich-area-chart";
-import { cn } from "@/lib/utils";
 import TaskTableWrapper from "../../data-table/task-table/task-table-wrapper";
 import { Prettify, SearchParams } from "@/types";
 
@@ -143,7 +142,7 @@ export const DashboardKanban = ({
     >
       <KanbanBoard className=" overflow-hidden space-y-2 md:space-y-3 lg:space-y-4 ">
         {Object.entries(columns).map(([columnId, blocks]) => {
-          console.log({ columnId });
+          // console.log({ columnId });
 
           return (
             <KanbanColumn

@@ -29,6 +29,8 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Slot } from "@radix-ui/react-slot";
+import { toast } from "sonner";
+import { ReplaceIcon } from "lucide-react";
 
 interface KanbanContextProps<T> {
   columns: Record<string, T[]>;
@@ -98,22 +100,39 @@ export interface KanbanRootProps<T> {
   value: Record<string, T[]>;
   onValueChange: (value: Record<string, T[]>) => void;
   getItemValue: (item: T) => string;
+  /** Optional function to get the display label/title of an item for toast notifications */
+  getItemLabel?: (item: T) => string;
   children: React.ReactNode;
   className?: string;
   onMove?: (event: KanbanMoveEvent) => void;
+  successMessage?: string;
 }
 
 function Kanban<T>({
   value,
   onValueChange,
   getItemValue,
+  getItemLabel,
   children,
   className,
   onMove,
+  successMessage = "Position changed successfully",
 }: KanbanRootProps<T>) {
   const columns = value;
   const setColumns = onValueChange;
   const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(null);
+
+  // Helper to find item by ID and get its label
+  const findItemById = React.useCallback(
+    (id: UniqueIdentifier): T | undefined => {
+      for (const columnItems of Object.values(columns)) {
+        const item = columnItems.find((item) => getItemValue(item) === id);
+        if (item) return item;
+      }
+      return undefined;
+    },
+    [columns, getItemValue]
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -205,6 +224,11 @@ function Kanban<T>({
 
       if (!over) return;
 
+      // Get the item label for toast
+      const activeItem = findItemById(active.id);
+      const itemLabel =
+        activeItem && getItemLabel ? getItemLabel(activeItem) : undefined;
+
       // Handle item move callback
       if (onMove && !isColumn(active.id)) {
         const activeContainer = findContainer(active.id);
@@ -220,6 +244,10 @@ function Kanban<T>({
                 (item: T) => getItemValue(item) === over.id
               );
 
+          // Check if position actually changed
+          const hasChanged =
+            activeContainer !== overContainer || activeIndex !== overIndex;
+
           onMove({
             event,
             activeContainer,
@@ -227,6 +255,15 @@ function Kanban<T>({
             overContainer,
             overIndex,
           });
+
+          if (hasChanged) {
+            toast(
+              <KanbanSuccessToast
+                message={successMessage}
+                itemTitle={itemLabel}
+              />
+            );
+          }
         }
         return;
       }
@@ -246,6 +283,12 @@ function Kanban<T>({
             newColumns[key] = columns[key];
           });
           setColumns(newColumns);
+          toast(
+            <KanbanSuccessToast
+              message={successMessage}
+              itemTitle={active.id as string}
+            />
+          );
         }
         return;
       }
@@ -272,6 +315,12 @@ function Kanban<T>({
             ...columns,
             [container]: arrayMove(columns[container], activeIndex, overIndex),
           });
+          toast(
+            <KanbanSuccessToast
+              message={successMessage}
+              itemTitle={itemLabel}
+            />
+          );
         }
       }
     },
@@ -279,10 +328,13 @@ function Kanban<T>({
       columnIds,
       columns,
       findContainer,
+      findItemById,
+      getItemLabel,
       getItemValue,
       isColumn,
       setColumns,
       onMove,
+      successMessage,
     ]
   );
 
@@ -629,6 +681,34 @@ function KanbanOverlay({ children, className }: KanbanOverlayProps) {
         {content}
       </div>
     </DragOverlay>
+  );
+}
+
+function KanbanSuccessToast({
+  className,
+  message,
+  itemTitle,
+}: {
+  className?: string;
+  message: string;
+  itemTitle?: string;
+}) {
+  const wordRegex = /[A-Z]?[a-z]+|[0-9]+|[A-Z]+(?![a-z])/g;
+  const reTitle = itemTitle?.match(wordRegex)?.join(" ").toLowerCase();
+
+  // console.log({ reTitle });
+  return (
+    <div className={cn("flex gap-1 items-center", className)}>
+      <ReplaceIcon className="size-6 text-primary" />
+      <div className="flex gap-1">
+        {itemTitle && (
+          <span className="text-sm capitalize text-primary underline truncate max-w-[200px]">
+            {`(${reTitle})`}
+          </span>
+        )}
+        <span className="font-medium">{message}</span>
+      </div>
+    </div>
   );
 }
 

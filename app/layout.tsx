@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { metadataConfig } from "@/config/metadata";
 import Script from "next/script";
 import { siteConfig } from "@/config/site";
+import { Toaster } from "sonner";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -36,6 +37,9 @@ export default function RootLayout({
           data-site-id={siteConfig.url}
           src="https://assets.onedollarstats.com/stonks.js"
         /> */}
+
+        <Toaster richColors closeButton position="top-right" />
+
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
