@@ -47,7 +47,9 @@
   --radius-4xl: calc(var(--radius) + 16px);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-color-destructive-foreground: var(----color-destructive-foreground);
-  --color-color-color-destructive-foreground: var(----color-color-destructive-foreground);
+  --color-color-color-destructive-foreground: var(
+    ----color-color-destructive-foreground
+  );
 }
 
 :root {
@@ -73,7 +75,7 @@
   --chart-2: oklch(0.72 0.18 306);
   --chart-3: oklch(0.63 0.23 304);
   --chart-4: oklch(0.56 0.25 302);
-  --chart-5: oklch(0.50 0.24 302);
+  --chart-5: oklch(0.5 0.24 302);
   --radius: 0.875rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
@@ -109,7 +111,7 @@
   --chart-2: oklch(0.72 0.18 306);
   --chart-3: oklch(0.63 0.23 304);
   --chart-4: oklch(0.56 0.25 302);
-  --chart-5: oklch(0.50 0.24 302);
+  --chart-5: oklch(0.5 0.24 302);
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.72 0.18 306);
@@ -119,6 +121,11 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
   --destructive-foreground: oklch(1 0 0);
+}
+
+.maplibregl-compact-show,
+.maplibregl-compact {
+  display: none;
 }
 
 @layer base {

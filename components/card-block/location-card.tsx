@@ -1,8 +1,9 @@
 import {
   HeartIcon,
-  LocateIcon,
+  Loader2,
   LucideIcon,
   Pin,
+  Route,
   UsersIcon,
 } from "lucide-react";
 import {
@@ -18,7 +19,7 @@ import { Prettify } from "@/types";
 import { Location } from "@/mocks/location-mock";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 interface LocationCardProps
   extends Prettify<React.ComponentProps<typeof Card>> {
@@ -26,33 +27,35 @@ interface LocationCardProps
 
   location: Location;
   handleGetCoordinates: (coordinates: Location["coordinates"]) => void;
+  handleRouteToLocation: () => void;
+  isLoadingRoute?: boolean;
 }
 
-export const LocationCard = ({ icon: Icon, ...props }: LocationCardProps) => {
-  const { location, handleGetCoordinates, className } = props;
-
+export const LocationCard = ({
+  icon: Icon,
+  location,
+  className,
+  handleGetCoordinates,
+  handleRouteToLocation,
+  isLoadingRoute = false,
+  ...props
+}: LocationCardProps) => {
   const refCard = useRef<HTMLDivElement>(null);
 
   const [mouse, setMouse] = useState<{ x: number; y: number } | null>(null);
 
-  const [rect, setRect] = useState<Pick<
-    DOMRect,
-    "top" | "left" | "width" | "height"
-  > | null>(null);
-
   const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    // console.log(event.clientX, event.clientY);
 
     setMouse({
       x: event.clientX - rect.left,
       y: event.clientY - rect.top,
     });
   };
+
   const handleMouseLeave = () => {
     if (refCard.current) {
       refCard.current.style.backgroundColor = "";
-      setRect(null);
       setMouse(null);
     }
   };
@@ -61,7 +64,7 @@ export const LocationCard = ({ icon: Icon, ...props }: LocationCardProps) => {
     <Card
       {...props}
       className={cn(
-        "w-full group/card cursor-pointer relative border hover:border-primary/30 transition-all duration-300",
+        "w-full group/card  cursor-pointer relative border hover:border-primary/30 transition-all duration-300",
         className
       )}
       ref={refCard}
@@ -139,7 +142,27 @@ export const LocationCard = ({ icon: Icon, ...props }: LocationCardProps) => {
 
       <CardFooter className="flex-wrap gap-1 justify-end">
         <Button variant="outline" size="sm" onClick={() => {}}>
-          Favorite{" "}
+          Favorite
+        </Button>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleRouteToLocation}
+          disabled={isLoadingRoute}
+          className="gap-1.5"
+        >
+          {isLoadingRoute ? (
+            <>
+              <Loader2 className="size-3.5 animate-spin" />
+              Loading...
+            </>
+          ) : (
+            <>
+              <Route className="size-3.5" />
+              Route
+            </>
+          )}
         </Button>
         <Button
           variant="default"
