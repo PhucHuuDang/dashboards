@@ -22,6 +22,11 @@ import {
 } from "@/lib/tasks-seeds";
 
 import { generateId } from "@/lib/id";
+import {
+  TASK_LABELS,
+  TASK_PRIORITIES,
+  TASK_STATUSES,
+} from "@/lib/task-constants";
 
 export function generateRandomTask(input?: Partial<Task>): Task {
   return {
@@ -31,15 +36,30 @@ export function generateRandomTask(input?: Partial<Task>): Task {
       .phrase()
       .replace(/^./, (letter) => letter.toUpperCase()),
     estimatedHours: faker.number.int({ min: 1, max: 24 }),
-    status: faker.helpers.shuffle(tasks.status.enumValues)[0] ?? "todo",
-    label: faker.helpers.shuffle(tasks.label.enumValues)[0] ?? "bug",
-    priority: faker.helpers.shuffle(tasks.priority.enumValues)[0] ?? "low",
+    status: faker.helpers.shuffle(TASK_STATUSES)[0] ?? "todo",
+    label: faker.helpers.shuffle(TASK_LABELS)[0] ?? "bug",
+    priority: faker.helpers.shuffle(TASK_PRIORITIES)[0] ?? "low",
     archived: faker.datatype.boolean({ probability: 0.2 }),
     createdAt: new Date(),
     updatedAt: new Date(),
     ...input,
   };
 }
+
+export const SKATER_STANCES = ["regular", "goofy"] as const;
+export const SKATER_STYLES = [
+  "street",
+  "vert",
+  "park",
+  "freestyle",
+  "all-around",
+] as const;
+export const SKATER_STATUSES = [
+  "amateur",
+  "sponsored",
+  "pro",
+  "legend",
+] as const;
 
 export function getStatusIcon(status: Task["status"]) {
   const statusIcons: Record<Task["status"], LucideIcon> = {
@@ -134,17 +154,17 @@ export function generateRandomSkater(input?: Partial<Skater>): Skater {
     id: generateId("skater"),
     name: `${firstName} ${lastName}`,
     email: faker.internet.email({ firstName, lastName }).toLowerCase(),
-    stance: faker.helpers.shuffle(skaters.stance.enumValues)[0] ?? "regular",
-    style: faker.helpers.shuffle(skaters.style.enumValues)[0] ?? "street",
-    status: faker.helpers.shuffle(skaters.status.enumValues)[0] ?? "amateur",
+    stance: faker.helpers.shuffle(SKATER_STANCES)[0] ?? "regular",
+    style: faker.helpers.shuffle(SKATER_STYLES)[0] ?? "street",
+    status: faker.helpers.shuffle(SKATER_STATUSES)[0] ?? "amateur",
     yearsSkating: faker.number.int({ min: 1, max: 25 }),
     startedSkating: faker.date.between({
       from: "2000-01-01",
       to: "2023-01-01",
     }),
     isPro: faker.datatype.boolean({ probability: 0.3 }),
-    tricks,
-    media,
+    tricks: tricks ?? [],
+    media: media ?? [],
     order: 0,
     createdAt: new Date(),
     updatedAt: new Date(),

@@ -365,27 +365,33 @@ export const SidebarInsetContent = ({
   isSidebarInset = true,
   children,
   className,
+  classNameContainer,
+  isShowSidebarInsetHeader = true,
 }: {
   isSidebarInset?: boolean;
   children: React.ReactNode;
   className?: string;
+  classNameContainer?: string;
+  isShowSidebarInsetHeader?: boolean;
 }) => {
   return (
     <SidebarInset>
-      <SidebarInsetHeader>
-        <div className="">
-          <div className="flex items-center gap-2 px-4">
-            {isSidebarInset && (
-              <SidebarTrigger className="-ml-1 cursor-pointer" />
-            )}
-            <Separator
-              orientation="vertical"
-              className="mr-2 h-4 hover:text-accent-foreground"
-            />
-            <DynamicBreadcrumbs />
+      {isShowSidebarInsetHeader && (
+        <SidebarInsetHeader>
+          <div className={cn("", classNameContainer)}>
+            <div className="flex items-center gap-2 px-4">
+              {isSidebarInset && (
+                <SidebarTrigger className="-ml-1 cursor-pointer" />
+              )}
+              <Separator
+                orientation="vertical"
+                className="mr-2 h-4 hover:text-accent-foreground"
+              />
+              <DynamicBreadcrumbs />
+            </div>
           </div>
-        </div>
-      </SidebarInsetHeader>
+        </SidebarInsetHeader>
+      )}
 
       <div className={cn("p-4", className)}>{children}</div>
     </SidebarInset>

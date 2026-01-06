@@ -13,6 +13,7 @@ import {
   Folder,
   Forward,
   GalleryVerticalEnd,
+  Globe2Icon,
   LogOut,
   MonitorCogIcon,
   Settings2,
@@ -148,6 +149,28 @@ export const SIDEBAR_CONSTANT: DataProps = {
         name: "General",
         url: "/dashboard",
         icon: MonitorCogIcon,
+        dropdownItems: [
+          {
+            title: "View Project",
+            icon: Folder,
+            url: "#",
+          },
+          {
+            title: "Share Project",
+            icon: Forward,
+            url: "#",
+          },
+          {
+            title: "Delete Project",
+            icon: Trash2,
+            url: "#",
+          },
+        ],
+      },
+      {
+        name: "Locations",
+        url: "/dashboard/locations",
+        icon: Globe2Icon,
         dropdownItems: [
           {
             title: "View Project",
