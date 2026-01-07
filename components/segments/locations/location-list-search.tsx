@@ -18,6 +18,7 @@ import {
   useState,
   useTransition,
 } from "react";
+import { BlurFade } from "@/components/common/blur-fade";
 
 interface LocationListSearchProps {
   locationList: Location[];
@@ -142,22 +143,24 @@ export const LocationListSearch = memo(
             )}
 
             {/* Location cards */}
-            {filteredLocations.map((location: Location) => (
-              <LocationCard
-                key={location.id}
-                icon={MapPinIcon}
-                onClick={() => handleGetCoordinates(location.coordinates)}
-                location={location}
-                handleGetCoordinates={handleGetCoordinates}
-                handleRouteToLocation={() => {
-                  handleRouteToLocation(location.coordinates);
-                }}
-                isLoadingRoute={
-                  isLoadingRoute &&
-                  selectedCoordinates?.lat === location.coordinates.lat &&
-                  selectedCoordinates?.lng === location.coordinates.lng
-                }
-              />
+            {filteredLocations.map((location: Location, index: number) => (
+              <BlurFade key={location.id} inView delay={0.03 * index}>
+                <LocationCard
+                  // key={location.id}
+                  icon={MapPinIcon}
+                  onClick={() => handleGetCoordinates(location.coordinates)}
+                  location={location}
+                  handleGetCoordinates={handleGetCoordinates}
+                  handleRouteToLocation={() => {
+                    handleRouteToLocation(location.coordinates);
+                  }}
+                  isLoadingRoute={
+                    isLoadingRoute &&
+                    selectedCoordinates?.lat === location.coordinates.lat &&
+                    selectedCoordinates?.lng === location.coordinates.lng
+                  }
+                />
+              </BlurFade>
             ))}
           </div>
         </ScrollArea>

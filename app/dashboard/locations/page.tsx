@@ -37,6 +37,7 @@ import { InputGroup } from "@/components/ui/input-group";
 import { LocationListSearch } from "@/components/segments/locations/location-list-search";
 import dynamic from "next/dynamic";
 import { useMap } from "@/components/ui/map";
+import { BlurFade } from "@/components/common/blur-fade";
 
 const Map = dynamic(
   () => import("@/components/ui/map").then((mod) => mod.Map),
@@ -258,36 +259,38 @@ const LocationsPage = () => {
                 selectedCoordinates?.lng === location.coordinates.lng;
 
               return (
-                <MapMarkerComponent
-                  longitude={location.coordinates.lng}
-                  latitude={location.coordinates.lat}
-                  key={index}
-                >
-                  <MarkerContentComponent key={index}>
-                    <MapPinIcon
-                      className={`${
-                        isSelected ? "text-primary scale-125" : "text-white"
-                      } transition-all duration-300`}
-                    />
-                  </MarkerContentComponent>
+                <BlurFade key={index} inView delay={index * 0.03}>
+                  <MapMarkerComponent
+                    longitude={location.coordinates.lng}
+                    latitude={location.coordinates.lat}
+                  >
+                    <MarkerContentComponent key={index}>
+                      <MapPinIcon
+                        className={`${
+                          isSelected ? "text-primary scale-125" : "text-white"
+                        } transition-all duration-300`}
+                      />
+                    </MarkerContentComponent>
 
-                  <MarkerPopupComponent className="bg-transparent border-none p-0">
-                    <LocationCard
-                      icon={MapPinIcon}
-                      location={location}
-                      handleGetCoordinates={() => {}}
-                      className="w-96"
-                      handleRouteToLocation={() =>
-                        handleRouteToLocation(location.coordinates)
-                      }
-                      isLoadingRoute={
-                        isLoadingRoute &&
-                        selectedCoordinates?.lat === location.coordinates.lat &&
-                        selectedCoordinates?.lng === location.coordinates.lng
-                      }
-                    />
-                  </MarkerPopupComponent>
-                </MapMarkerComponent>
+                    <MarkerPopupComponent className="bg-transparent border-none p-0">
+                      <LocationCard
+                        icon={MapPinIcon}
+                        location={location}
+                        handleGetCoordinates={() => {}}
+                        className="w-96"
+                        handleRouteToLocation={() =>
+                          handleRouteToLocation(location.coordinates)
+                        }
+                        isLoadingRoute={
+                          isLoadingRoute &&
+                          selectedCoordinates?.lat ===
+                            location.coordinates.lat &&
+                          selectedCoordinates?.lng === location.coordinates.lng
+                        }
+                      />
+                    </MarkerPopupComponent>
+                  </MapMarkerComponent>
+                </BlurFade>
               );
             })}
           </MapComponent>
