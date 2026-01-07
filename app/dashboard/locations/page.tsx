@@ -1,43 +1,20 @@
 "use client";
+import dynamic from "next/dynamic";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useMap } from "@/components/ui/map";
+import { useGeolocation } from "react-use";
 
-import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
-import React, {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { MapPinIcon, Navigation } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
-// import {
-//   Map,
-//   MapControls,
-//   MapMarker,
-//   MapRoute,
-//   MarkerContent,
-//   MarkerPopup,
-//   useMap,
-// } from "@/components/ui/map";
-
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
 import { LocationCard } from "@/components/card-block/location-card";
-import { MapPinIcon, Navigation } from "lucide-react";
+import { BlurFade } from "@/components/common/blur-fade";
+
 import { Location, locations } from "@/mocks/location-mock";
 import { universityLocations } from "@/mocks/univerity-mock";
-
-import { useGeolocation } from "react-use";
-import { CinematicThemeSwitcher } from "@/components/ui/cinematic-theme-switcher";
-import { Input } from "@/components/ui/input";
-import { ButtonGroup } from "@/components/ui/button-group";
-import { Button } from "@/components/ui/button";
-import MagnifierIcon from "@/components/ui/magnifier-icon";
-import { InputGroup } from "@/components/ui/input-group";
 import { LocationListSearch } from "@/components/segments/locations/location-list-search";
-import dynamic from "next/dynamic";
-import { useMap } from "@/components/ui/map";
-import { BlurFade } from "@/components/common/blur-fade";
+import { toast } from "sonner";
 
 const Map = dynamic(
   () => import("@/components/ui/map").then((mod) => mod.Map),
@@ -102,8 +79,6 @@ async function fetchRoute(
 ): Promise<RouteCoordinates> {
   const url = `https://router.project-osrm.org/route/v1/driving/${start[0]},${start[1]};${end[0]},${end[1]}?overview=full&geometries=geojson`;
 
-  // console.log("Fetching route:", { start, end, url });
-
   try {
     const response = await fetch(url);
 
@@ -118,11 +93,9 @@ async function fetchRoute(
     if (data.code === "Ok" && data.routes && data.routes.length > 0) {
       const coordinates = data.routes[0].geometry
         .coordinates as RouteCoordinates;
-      // console.log("Route coordinates count:", coordinates.length);
       return coordinates;
     }
 
-    // console.warn("No routes found in response:", data);
     return [];
   } catch (error) {
     console.error("Failed to fetch route:", error);
@@ -130,15 +103,8 @@ async function fetchRoute(
   }
 }
 
-// https://router.project-osrm.org/route/v1/driving/${start[0]},${start[1]};${end[0]},${end[1]}?overview=full&geometries=geojson
-
-// https://router.project-osrm.org/route/v1/driving/2.3522,48.8566;2.3522,48.8566?overview=full&geometries=geojson
 const LocationsPage = () => {
   const locationList: Location[] = [...locations, ...universityLocations];
-
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const myLocation = useGeolocation({
     enableHighAccuracy: true,
@@ -168,7 +134,7 @@ const LocationsPage = () => {
   const handleRouteToLocation = useCallback(
     async (destinationCoords: Location["coordinates"]) => {
       if (!myLocation.latitude || !myLocation.longitude) {
-        alert("Please enable location access to get directions");
+        toast.warning("Please enable location access to get directions");
         return;
       }
 

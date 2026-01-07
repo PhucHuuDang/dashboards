@@ -21,7 +21,7 @@ interface TaskTableWrapperProps {
 
 export default function TaskTableWrapper(props: TaskTableWrapperProps) {
   return (
-    <Shell>
+    <Shell variant="sidebar">
       <Suspense
         fallback={
           <DataTableSkeleton
@@ -42,7 +42,7 @@ export default function TaskTableWrapper(props: TaskTableWrapperProps) {
       >
         <FeatureFlagsProvider>
           <KanbanColumnHandle
-            className={`transition-opacity opacity-100 group-hover/kanban-column:backdrop-opacity-90 group-hover/kanban-column:shadow-2xl w-full`}
+            className={`transition-opacity opacity-100 group-hover/kanban-column:backdrop-opacity-90 group-hover/kanban-column:shadow-2xl w-full min-w-full`}
           >
             <TasksTableWrapper {...props} />
           </KanbanColumnHandle>
