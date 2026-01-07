@@ -18,6 +18,7 @@ import { createPortal } from "react-dom";
 import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { CinematicThemeSwitcher } from "./cinematic-theme-switcher";
 
 type MapContextValue = {
   map: MapLibreGL.Map | null;
@@ -48,6 +49,7 @@ type MapProps = {
     light?: MapStyleOption;
     dark?: MapStyleOption;
   };
+  showToggleTheme?: boolean;
 } & Omit<MapLibreGL.MapOptions, "container" | "style">;
 
 const DefaultLoader = () => (
@@ -60,7 +62,12 @@ const DefaultLoader = () => (
   </div>
 );
 
-function Map({ children, styles, ...props }: MapProps) {
+function Map({
+  children,
+  styles,
+  showToggleTheme = false,
+  ...props
+}: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreGL.Map | null>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -126,12 +133,19 @@ function Map({ children, styles, ...props }: MapProps) {
   return (
     <MapContext.Provider
       value={{
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         map: mapRef.current,
         isLoaded: isMounted && isLoaded && isStyleLoaded,
       }}
     >
       <div ref={containerRef} className="relative w-full h-full">
         {isLoading && <DefaultLoader />}
+
+        {showToggleTheme && (
+          <div className="transition-colors z-20 duration-700 ease-in-out absolute top-2 right-2 ">
+            <CinematicThemeSwitcher size="sm" className="cursor-pointer" />
+          </div>
+        )}
         {/* guard against hydration error */}
         {isMounted && children}
       </div>
@@ -228,6 +242,7 @@ function MapMarker({
     marker.on("drag", handleDrag);
     marker.on("dragend", handleDragEnd);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setIsReady(true);
 
     return () => {
@@ -295,6 +310,7 @@ type MarkerContentProps = {
 function MarkerContent({ children, className }: MarkerContentProps) {
   const { markerElementRef, isReady } = useMarkerContext();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   if (!isReady || !markerElementRef.current) return null;
 
   return createPortal(
@@ -393,6 +409,7 @@ function MarkerPopup({
       )}
       {children}
     </div>,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     containerRef.current
   );
 }
@@ -478,6 +495,7 @@ function MarkerTooltip({
     >
       {children}
     </div>,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     containerRef.current
   );
 }
@@ -707,8 +725,8 @@ function CompassButton({ onClick }: { onClick: () => void }) {
         className="size-5 transition-transform duration-200"
         style={{ transformStyle: "preserve-3d" }}
       >
-        <path d="M12 2L16 12H12V2Z" className="fill-red-500" />
-        <path d="M12 2L8 12H12V2Z" className="fill-red-300" />
+        <path d="M12 2L16 12H12V2Z" className="fill-rose-500" />
+        <path d="M12 2L8 12H12V2Z" className="fill-rose-300" />
         <path d="M12 22L16 12H12V22Z" className="fill-muted-foreground/60" />
         <path d="M12 22L8 12H12V22Z" className="fill-muted-foreground/30" />
       </svg>

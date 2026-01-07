@@ -1,18 +1,26 @@
 "use client";
 
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Map,
-  MapControls,
-  MapMarker,
-  MapRoute,
-  MarkerContent,
-  MarkerPopup,
-  useMap,
-} from "@/components/ui/map";
+// import {
+//   Map,
+//   MapControls,
+//   MapMarker,
+//   MapRoute,
+//   MarkerContent,
+//   MarkerPopup,
+//   useMap,
+// } from "@/components/ui/map";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LocationCard } from "@/components/card-block/location-card";
 import { MapPinIcon, Navigation } from "lucide-react";
@@ -20,6 +28,47 @@ import { Location, locations } from "@/mocks/location-mock";
 import { universityLocations } from "@/mocks/univerity-mock";
 
 import { useGeolocation } from "react-use";
+import { CinematicThemeSwitcher } from "@/components/ui/cinematic-theme-switcher";
+import { Input } from "@/components/ui/input";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Button } from "@/components/ui/button";
+import MagnifierIcon from "@/components/ui/magnifier-icon";
+import { InputGroup } from "@/components/ui/input-group";
+import { LocationListSearch } from "@/components/segments/locations/location-list-search";
+import dynamic from "next/dynamic";
+import { useMap } from "@/components/ui/map";
+
+const Map = dynamic(
+  () => import("@/components/ui/map").then((mod) => mod.Map),
+  { ssr: false }
+);
+const MapControls = dynamic(
+  () => import("@/components/ui/map").then((mod) => mod.MapControls),
+  { ssr: false }
+);
+const MapMarker = dynamic(
+  () => import("@/components/ui/map").then((mod) => mod.MapMarker),
+  { ssr: false }
+);
+const MapRoute = dynamic(
+  () => import("@/components/ui/map").then((mod) => mod.MapRoute),
+  { ssr: false }
+);
+const MarkerContent = dynamic(
+  () => import("@/components/ui/map").then((mod) => mod.MarkerContent),
+  { ssr: false }
+);
+const MarkerPopup = dynamic(
+  () => import("@/components/ui/map").then((mod) => mod.MarkerPopup),
+  { ssr: false }
+);
+
+const MapComponent = memo(Map);
+const MapControlsComponent = memo(MapControls);
+const MapMarkerComponent = memo(MapMarker);
+const MapRouteComponent = memo(MapRoute);
+const MarkerContentComponent = memo(MarkerContent);
+const MarkerPopupComponent = memo(MarkerPopup);
 
 type RouteCoordinates = [number, number][];
 
@@ -52,7 +101,7 @@ async function fetchRoute(
 ): Promise<RouteCoordinates> {
   const url = `https://router.project-osrm.org/route/v1/driving/${start[0]},${start[1]};${end[0]},${end[1]}?overview=full&geometries=geojson`;
 
-  console.log("Fetching route:", { start, end, url });
+  // console.log("Fetching route:", { start, end, url });
 
   try {
     const response = await fetch(url);
@@ -68,11 +117,11 @@ async function fetchRoute(
     if (data.code === "Ok" && data.routes && data.routes.length > 0) {
       const coordinates = data.routes[0].geometry
         .coordinates as RouteCoordinates;
-      console.log("Route coordinates count:", coordinates.length);
+      // console.log("Route coordinates count:", coordinates.length);
       return coordinates;
     }
 
-    console.warn("No routes found in response:", data);
+    // console.warn("No routes found in response:", data);
     return [];
   } catch (error) {
     console.error("Failed to fetch route:", error);
@@ -85,6 +134,10 @@ async function fetchRoute(
 // https://router.project-osrm.org/route/v1/driving/2.3522,48.8566;2.3522,48.8566?overview=full&geometries=geojson
 const LocationsPage = () => {
   const locationList: Location[] = [...locations, ...universityLocations];
+
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const myLocation = useGeolocation({
     enableHighAccuracy: true,
@@ -132,54 +185,29 @@ const LocationsPage = () => {
 
       const route = await fetchRoute(start, end);
 
-      console.log({ route });
-      // const route: RouteCoordinates = [
-      //   [2.3522, 48.8566],
-      //   [2.3522, 48.8566],
-      // ];
       setRouteCoordinates(route);
       setIsLoadingRoute(false);
     },
     [myLocation.latitude, myLocation.longitude]
   );
 
-  console.log(routeCoordinates);
-
   return (
     <SidebarInsetContent isShowSidebarInsetHeader={false} className="p-0">
       <div className="relative overflow-hidden">
         <Card className="min-w-1/3 absolute h-full top-0 left-0 my-2 z-10 p-0">
           <CardContent className="p-0">
-            <ScrollArea className="h-dvh w-full ">
-              <div className="p-2 space-y-2">
-                {locationList.map((location: Location, index: number) => {
-                  return (
-                    <LocationCard
-                      key={index}
-                      icon={MapPinIcon}
-                      onClick={() => handleGetCoordinates(location.coordinates)}
-                      className=""
-                      location={location}
-                      handleGetCoordinates={handleGetCoordinates}
-                      handleRouteToLocation={() => {
-                        // console.log(object);
-                        handleRouteToLocation(location.coordinates);
-                      }}
-                      isLoadingRoute={
-                        isLoadingRoute &&
-                        selectedCoordinates?.lat === location.coordinates.lat &&
-                        selectedCoordinates?.lng === location.coordinates.lng
-                      }
-                    />
-                  );
-                })}
-              </div>
-            </ScrollArea>
+            <LocationListSearch
+              locationList={locationList}
+              handleGetCoordinates={handleGetCoordinates}
+              handleRouteToLocation={handleRouteToLocation}
+              isLoadingRoute={isLoadingRoute}
+              selectedCoordinates={selectedCoordinates}
+            />
           </CardContent>
         </Card>
 
         <Card className="h-dvh p-0 overflow-hidden">
-          <Map center={initialCenter} zoom={11}>
+          <MapComponent center={initialCenter} zoom={11} showToggleTheme>
             {/* Disable flyTo when showing route (fitBounds will handle it) */}
             <MapFlyTo
               coordinates={selectedCoordinates}
@@ -187,14 +215,14 @@ const LocationsPage = () => {
             />
 
             {/* Route line from user location to destination */}
-            <MapRoute
+            <MapRouteComponent
               coordinates={routeCoordinates}
               color="#3b82f6"
               width={5}
               opacity={0.85}
             />
 
-            <MapControls
+            <MapControlsComponent
               showCompass
               showZoom
               showFullscreen
@@ -210,17 +238,17 @@ const LocationsPage = () => {
 
             {/* User's current location marker */}
             {myLocation.latitude && myLocation.longitude && (
-              <MapMarker
+              <MapMarkerComponent
                 longitude={myLocation.longitude}
                 latitude={myLocation.latitude}
               >
-                <MarkerContent>
+                <MarkerContentComponent>
                   <div className="relative">
                     <div className="absolute -inset-2 bg-blue-500/30 rounded-full animate-ping" />
                     <Navigation className="size-6 text-blue-500 fill-blue-500 rotate-0" />
                   </div>
-                </MarkerContent>
-              </MapMarker>
+                </MarkerContentComponent>
+              </MapMarkerComponent>
             )}
 
             {/* Location markers */}
@@ -230,20 +258,20 @@ const LocationsPage = () => {
                 selectedCoordinates?.lng === location.coordinates.lng;
 
               return (
-                <MapMarker
+                <MapMarkerComponent
                   longitude={location.coordinates.lng}
                   latitude={location.coordinates.lat}
                   key={index}
                 >
-                  <MarkerContent key={index}>
+                  <MarkerContentComponent key={index}>
                     <MapPinIcon
                       className={`${
                         isSelected ? "text-primary scale-125" : "text-white"
                       } transition-all duration-300`}
                     />
-                  </MarkerContent>
+                  </MarkerContentComponent>
 
-                  <MarkerPopup className="bg-transparent border-none p-0">
+                  <MarkerPopupComponent className="bg-transparent border-none p-0">
                     <LocationCard
                       icon={MapPinIcon}
                       location={location}
@@ -258,11 +286,11 @@ const LocationsPage = () => {
                         selectedCoordinates?.lng === location.coordinates.lng
                       }
                     />
-                  </MarkerPopup>
-                </MapMarker>
+                  </MarkerPopupComponent>
+                </MapMarkerComponent>
               );
             })}
-          </Map>
+          </MapComponent>
         </Card>
       </div>
     </SidebarInsetContent>
