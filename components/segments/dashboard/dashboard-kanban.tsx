@@ -9,11 +9,12 @@ import {
 } from "@/components/ui/kanban";
 import { UserIcon } from "lucide-react";
 import { Fragment, useState } from "react";
-import { StatisticCard } from "../../card-block/statistic-card";
+
 import { RichPieChart } from "../../charts/rich-pie-chart";
 import { RichAreaChart } from "../../charts/rich-area-chart";
 import TaskTableWrapper from "../../data-table/task-table/task-table-wrapper";
 import { Prettify, SearchParams } from "@/types";
+import { StatisticCard } from "@/components/card-block/statistic-card";
 
 interface DashboardBlock {
   id: string;

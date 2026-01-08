@@ -51,6 +51,7 @@ import { DynamicBreadcrumbs } from "./dynamic-breadcrumbs";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
+import { CinematicThemeSwitcher } from "../ui/cinematic-theme-switcher";
 
 export interface UserProps {
   name: string;
@@ -367,18 +368,25 @@ export const SidebarInsetContent = ({
   className,
   classNameContainer,
   isShowSidebarInsetHeader = true,
+  isShowToggleTheme = true,
 }: {
   isSidebarInset?: boolean;
   children: React.ReactNode;
   className?: string;
   classNameContainer?: string;
   isShowSidebarInsetHeader?: boolean;
+  isShowToggleTheme?: boolean;
 }) => {
   return (
     <SidebarInset>
       {isShowSidebarInsetHeader && (
         <SidebarInsetHeader>
-          <div className={cn("", classNameContainer)}>
+          <div
+            className={cn(
+              "flex items-center justify-between",
+              classNameContainer
+            )}
+          >
             <div className="flex items-center gap-2 px-4">
               {isSidebarInset && (
                 <SidebarTrigger className="-ml-1 cursor-pointer" />
@@ -389,6 +397,12 @@ export const SidebarInsetContent = ({
               />
               <DynamicBreadcrumbs />
             </div>
+
+            {isShowToggleTheme && (
+              <div className="transition-colors z-20 duration-700 ease-in-out ">
+                <CinematicThemeSwitcher size="sm" className="cursor-pointer" />
+              </div>
+            )}
           </div>
         </SidebarInsetHeader>
       )}

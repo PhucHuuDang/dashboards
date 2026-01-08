@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { LocationCard } from "@/components/card-block/location-card";
+import { LocationCard } from "@/components/segments/locations/components/location-card";
 import { Loader2Icon, MapPinIcon, SearchX } from "lucide-react";
 import { Location } from "@/mocks/location-mock";
 

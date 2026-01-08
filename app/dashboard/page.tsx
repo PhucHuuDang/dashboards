@@ -3,7 +3,7 @@ import { RichPieChart } from "@/components/charts/rich-pie-chart";
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
 import { DashboardKanban } from "@/components/segments/dashboard/dashboard-kanban";
 
-import { StatisticCard } from "@/components/card-block/statistic-card";
+import { StatisticCard } from "@/components/segments/locations/card-block/statistic-card";
 import { DataGridDemo } from "@/components/data-grid/data-grid-demo";
 import DataGridRenderPage from "@/components/data-grid/data-grid-render/data-grid-render-page";
 import {

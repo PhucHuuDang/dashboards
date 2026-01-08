@@ -1,6 +1,11 @@
 import { GripVerticalIcon, LucideIcon } from "lucide-react";
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { KanbanColumnHandle } from "../ui/kanban";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { KanbanColumnHandle } from "@/components/ui/kanban";
 
 interface StatisticCardProps {
   title: string;

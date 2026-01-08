@@ -13,11 +13,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Badge } from "../ui/badge";
+} from "../../../ui/card";
+import { Badge } from "../../../ui/badge";
 import { Prettify } from "@/types";
 import { Location } from "@/mocks/location-mock";
-import { Button } from "../ui/button";
+import { Button } from "../../../ui/button";
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 
