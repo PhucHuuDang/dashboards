@@ -1,14 +1,15 @@
 "use client";
 import dynamic from "next/dynamic";
+
 import { Navigation } from "lucide-react";
 
 const MapMarker = dynamic(
   () => import("@/components/ui/map").then((m) => m.MapMarker),
-  { ssr: false }
+  { ssr: false },
 );
 const MarkerContent = dynamic(
   () => import("@/components/ui/map").then((m) => m.MarkerContent),
-  { ssr: false }
+  { ssr: false },
 );
 
 export function UserLocationMarker({

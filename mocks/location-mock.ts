@@ -1,17 +1,4 @@
-import { AnimatedIconProps } from "@/components/ui/types";
 import { IconComponent } from "@/types";
-import {
-  BedIcon,
-  CoffeeIcon,
-  DumbbellIcon,
-  LandmarkIcon,
-  LucideIcon,
-  LucideProps,
-  ShoppingBagIcon,
-  TreesIcon,
-  UtensilsIcon,
-  WineIcon,
-} from "lucide-react";
 
 export type LocationCategory = {
   id: string;
@@ -37,22 +24,6 @@ export type Location = {
   visitCount: number;
   lastVisited?: string;
 };
-
-export const categories: LocationCategory[] = [
-  {
-    id: "restaurants",
-    name: "Restaurants",
-    icon: UtensilsIcon,
-    color: "#ef4444",
-  },
-  { id: "cafes", name: "Cafés", icon: CoffeeIcon, color: "#f97316" },
-  { id: "bars", name: "Bars", icon: WineIcon, color: "#8b5cf6" },
-  { id: "parks", name: "Parks", icon: TreesIcon, color: "#22c55e" },
-  { id: "museums", name: "Museums", icon: LandmarkIcon, color: "#3b82f6" },
-  { id: "shops", name: "Shopping", icon: ShoppingBagIcon, color: "#ec4899" },
-  { id: "hotels", name: "Hotels", icon: BedIcon, color: "#06b6d4" },
-  { id: "gyms", name: "Fitness", icon: DumbbellIcon, color: "#eab308" },
-];
 
 export const tags = [
   { id: "family-friendly", name: "Family Friendly" },
@@ -83,7 +54,7 @@ export const createLocation = (
   lat: number,
   lng: number,
   rating: number,
-  isFavorite: boolean = false
+  isFavorite: boolean = false,
 ): Location => ({
   id,
   name,
@@ -95,7 +66,7 @@ export const createLocation = (
   tags: getRandomTags(),
   createdAt: `2024-${String(Math.floor(Math.random() * 12) + 1).padStart(
     2,
-    "0"
+    "0",
   )}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, "0")}`,
   isFavorite,
   visitCount: Math.floor(Math.random() * 100) + 1,
@@ -117,7 +88,7 @@ export const locations: Location[] = [
     48.8462,
     2.3464,
     4.5,
-    true
+    true,
   ),
   createLocation(
     "rest-2",
@@ -128,7 +99,7 @@ export const locations: Location[] = [
     48.8531,
     2.38,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "rest-3",
@@ -138,7 +109,7 @@ export const locations: Location[] = [
     "restaurants",
     45.832,
     4.8408,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-4",
@@ -148,7 +119,7 @@ export const locations: Location[] = [
     "restaurants",
     48.8555,
     2.366,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-5",
@@ -158,7 +129,7 @@ export const locations: Location[] = [
     "restaurants",
     45.768,
     4.834,
-    4.7
+    4.7,
   ),
   // USA (8)
   createLocation(
@@ -170,7 +141,7 @@ export const locations: Location[] = [
     38.4046,
     -122.3649,
     4.9,
-    true
+    true,
   ),
   createLocation(
     "rest-7",
@@ -180,7 +151,7 @@ export const locations: Location[] = [
     "restaurants",
     40.7417,
     -73.9872,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-8",
@@ -190,7 +161,7 @@ export const locations: Location[] = [
     "restaurants",
     41.9132,
     -87.6482,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-9",
@@ -200,7 +171,7 @@ export const locations: Location[] = [
     "restaurants",
     34.0382,
     -118.6793,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-10",
@@ -210,7 +181,7 @@ export const locations: Location[] = [
     "restaurants",
     40.7685,
     -73.983,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-11",
@@ -220,7 +191,7 @@ export const locations: Location[] = [
     "restaurants",
     29.929,
     -90.089,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-12",
@@ -230,7 +201,7 @@ export const locations: Location[] = [
     "restaurants",
     37.8795,
     -122.269,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-13",
@@ -240,7 +211,7 @@ export const locations: Location[] = [
     "restaurants",
     40.7615,
     -73.982,
-    4.9
+    4.9,
   ),
   // Canada (6)
   createLocation(
@@ -251,7 +222,7 @@ export const locations: Location[] = [
     "restaurants",
     45.5048,
     -73.5605,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-15",
@@ -261,7 +232,7 @@ export const locations: Location[] = [
     "restaurants",
     43.649,
     -79.396,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-16",
@@ -271,7 +242,7 @@ export const locations: Location[] = [
     "restaurants",
     49.283,
     -123.12,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-17",
@@ -281,7 +252,7 @@ export const locations: Location[] = [
     "restaurants",
     43.6475,
     -79.381,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-18",
@@ -291,7 +262,7 @@ export const locations: Location[] = [
     "restaurants",
     45.479,
     -73.585,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-19",
@@ -301,7 +272,7 @@ export const locations: Location[] = [
     "restaurants",
     43.42,
     -80.35,
-    4.8
+    4.8,
   ),
   // Japan (6)
   createLocation(
@@ -312,7 +283,7 @@ export const locations: Location[] = [
     "restaurants",
     35.6719,
     139.7642,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-21",
@@ -322,7 +293,7 @@ export const locations: Location[] = [
     "restaurants",
     35.6687,
     139.7101,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-22",
@@ -332,7 +303,7 @@ export const locations: Location[] = [
     "restaurants",
     35.669,
     139.719,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-23",
@@ -342,7 +313,7 @@ export const locations: Location[] = [
     "restaurants",
     34.996,
     135.781,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-24",
@@ -352,7 +323,7 @@ export const locations: Location[] = [
     "restaurants",
     34.69,
     135.186,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-25",
@@ -362,7 +333,7 @@ export const locations: Location[] = [
     "restaurants",
     35.6619,
     139.6992,
-    4.5
+    4.5,
   ),
   // Italy (4)
   createLocation(
@@ -373,7 +344,7 @@ export const locations: Location[] = [
     "restaurants",
     44.6471,
     10.9252,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-27",
@@ -383,7 +354,7 @@ export const locations: Location[] = [
     "restaurants",
     40.85,
     14.264,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-28",
@@ -393,7 +364,7 @@ export const locations: Location[] = [
     "restaurants",
     41.922,
     12.453,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-29",
@@ -403,7 +374,7 @@ export const locations: Location[] = [
     "restaurants",
     43.772,
     11.246,
-    4.5
+    4.5,
   ),
   // Spain (3)
   createLocation(
@@ -414,7 +385,7 @@ export const locations: Location[] = [
     "restaurants",
     41.9924,
     2.8048,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-31",
@@ -424,7 +395,7 @@ export const locations: Location[] = [
     "restaurants",
     43.131,
     -2.597,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-32",
@@ -434,7 +405,7 @@ export const locations: Location[] = [
     "restaurants",
     40.457,
     -3.687,
-    4.8
+    4.8,
   ),
   // UK (3)
   createLocation(
@@ -445,7 +416,7 @@ export const locations: Location[] = [
     "restaurants",
     51.5123,
     -0.1268,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-34",
@@ -455,7 +426,7 @@ export const locations: Location[] = [
     "restaurants",
     51.508,
     -0.701,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-35",
@@ -465,7 +436,7 @@ export const locations: Location[] = [
     "restaurants",
     51.4855,
     -0.163,
-    4.8
+    4.8,
   ),
   // Russia (5)
   createLocation(
@@ -476,7 +447,7 @@ export const locations: Location[] = [
     "restaurants",
     55.747,
     37.583,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-37",
@@ -486,7 +457,7 @@ export const locations: Location[] = [
     "restaurants",
     55.763,
     37.615,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-38",
@@ -496,7 +467,7 @@ export const locations: Location[] = [
     "restaurants",
     59.934,
     30.344,
-    4.5
+    4.5,
   ),
   createLocation(
     "rest-39",
@@ -506,7 +477,7 @@ export const locations: Location[] = [
     "restaurants",
     55.768,
     37.608,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-40",
@@ -516,7 +487,7 @@ export const locations: Location[] = [
     "restaurants",
     59.931,
     30.308,
-    4.6
+    4.6,
   ),
   // Afrique de l'Ouest (6)
   createLocation(
@@ -527,7 +498,7 @@ export const locations: Location[] = [
     "restaurants",
     14.745,
     -17.513,
-    4.4
+    4.4,
   ),
   createLocation(
     "rest-42",
@@ -537,7 +508,7 @@ export const locations: Location[] = [
     "restaurants",
     5.359,
     -3.987,
-    4.3
+    4.3,
   ),
   createLocation(
     "rest-43",
@@ -547,7 +518,7 @@ export const locations: Location[] = [
     "restaurants",
     6.428,
     3.422,
-    4.4
+    4.4,
   ),
   createLocation(
     "rest-44",
@@ -557,7 +528,7 @@ export const locations: Location[] = [
     "restaurants",
     5.556,
     -0.174,
-    4.3
+    4.3,
   ),
   createLocation(
     "rest-45",
@@ -567,7 +538,7 @@ export const locations: Location[] = [
     "restaurants",
     12.653,
     -7.992,
-    4.2
+    4.2,
   ),
   createLocation(
     "rest-46",
@@ -577,7 +548,7 @@ export const locations: Location[] = [
     "restaurants",
     12.368,
     -1.524,
-    4.3
+    4.3,
   ),
   // Afrique du Nord (4)
   createLocation(
@@ -588,7 +559,7 @@ export const locations: Location[] = [
     "restaurants",
     36.798,
     10.171,
-    4.4
+    4.4,
   ),
   createLocation(
     "rest-48",
@@ -598,7 +569,7 @@ export const locations: Location[] = [
     "restaurants",
     31.631,
     -7.989,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-49",
@@ -608,7 +579,7 @@ export const locations: Location[] = [
     "restaurants",
     36.765,
     3.058,
-    4.3
+    4.3,
   ),
   createLocation(
     "rest-50",
@@ -618,7 +589,7 @@ export const locations: Location[] = [
     "restaurants",
     30.048,
     31.242,
-    4.4
+    4.4,
   ),
   // Asie Centrale (4)
   createLocation(
@@ -629,7 +600,7 @@ export const locations: Location[] = [
     "restaurants",
     43.238,
     76.945,
-    4.4
+    4.4,
   ),
   createLocation(
     "rest-52",
@@ -639,7 +610,7 @@ export const locations: Location[] = [
     "restaurants",
     39.654,
     66.976,
-    4.5
+    4.5,
   ),
   createLocation(
     "rest-53",
@@ -649,7 +620,7 @@ export const locations: Location[] = [
     "restaurants",
     41.311,
     69.279,
-    4.4
+    4.4,
   ),
   createLocation(
     "rest-54",
@@ -659,7 +630,7 @@ export const locations: Location[] = [
     "restaurants",
     47.918,
     106.917,
-    4.3
+    4.3,
   ),
   // Cameroun & Afrique (3)
   createLocation(
@@ -671,7 +642,7 @@ export const locations: Location[] = [
     3.886,
     11.5021,
     4.4,
-    true
+    true,
   ),
   createLocation(
     "rest-56",
@@ -681,7 +652,7 @@ export const locations: Location[] = [
     "restaurants",
     4.055,
     9.71,
-    4.3
+    4.3,
   ),
   createLocation(
     "rest-57",
@@ -691,7 +662,7 @@ export const locations: Location[] = [
     "restaurants",
     -1.3333,
     36.75,
-    4.4
+    4.4,
   ),
   // Reste du monde (10)
   createLocation(
@@ -702,7 +673,7 @@ export const locations: Location[] = [
     "restaurants",
     1.2819,
     103.8445,
-    4.5
+    4.5,
   ),
   createLocation(
     "rest-59",
@@ -712,7 +683,7 @@ export const locations: Location[] = [
     "restaurants",
     55.6834,
     12.61,
-    4.9
+    4.9,
   ),
   createLocation(
     "rest-60",
@@ -722,7 +693,7 @@ export const locations: Location[] = [
     "restaurants",
     25.1972,
     55.2744,
-    4.6
+    4.6,
   ),
   createLocation(
     "rest-61",
@@ -732,7 +703,7 @@ export const locations: Location[] = [
     "restaurants",
     28.593,
     77.219,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-62",
@@ -742,7 +713,7 @@ export const locations: Location[] = [
     "restaurants",
     -12.0464,
     -77.0428,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-63",
@@ -752,7 +723,7 @@ export const locations: Location[] = [
     "restaurants",
     -34.5833,
     -58.4266,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-64",
@@ -762,7 +733,7 @@ export const locations: Location[] = [
     "restaurants",
     19.432,
     -99.2003,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-65",
@@ -772,7 +743,7 @@ export const locations: Location[] = [
     "restaurants",
     -33.8577,
     151.21,
-    4.7
+    4.7,
   ),
   createLocation(
     "rest-66",
@@ -782,7 +753,7 @@ export const locations: Location[] = [
     "restaurants",
     13.74,
     100.5416,
-    4.8
+    4.8,
   ),
   createLocation(
     "rest-67",
@@ -792,7 +763,7 @@ export const locations: Location[] = [
     "restaurants",
     37.5254,
     127.0437,
-    4.8
+    4.8,
   ),
 
   // ===== CAFÉS (58) =====
@@ -806,7 +777,7 @@ export const locations: Location[] = [
     48.8541,
     2.3326,
     4.3,
-    true
+    true,
   ),
   createLocation(
     "cafe-2",
@@ -817,7 +788,7 @@ export const locations: Location[] = [
     48.8505,
     2.3262,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "cafe-3",
@@ -827,7 +798,7 @@ export const locations: Location[] = [
     "cafes",
     48.8635,
     2.3378,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-4",
@@ -837,7 +808,7 @@ export const locations: Location[] = [
     "cafes",
     48.871,
     2.305,
-    4.4
+    4.4,
   ),
   // USA (6)
   createLocation(
@@ -848,7 +819,7 @@ export const locations: Location[] = [
     "cafes",
     37.7825,
     -122.4046,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-6",
@@ -858,7 +829,7 @@ export const locations: Location[] = [
     "cafes",
     45.5204,
     -122.6763,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-7",
@@ -868,7 +839,7 @@ export const locations: Location[] = [
     "cafes",
     37.7617,
     -122.4243,
-    4.6
+    4.6,
   ),
   createLocation(
     "cafe-8",
@@ -878,7 +849,7 @@ export const locations: Location[] = [
     "cafes",
     41.8847,
     -87.6257,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-9",
@@ -888,7 +859,7 @@ export const locations: Location[] = [
     "cafes",
     35.996,
     -78.924,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-10",
@@ -898,7 +869,7 @@ export const locations: Location[] = [
     "cafes",
     39.951,
     -75.166,
-    4.4
+    4.4,
   ),
   // Canada (4)
   createLocation(
@@ -909,7 +880,7 @@ export const locations: Location[] = [
     "cafes",
     49.26,
     -123.101,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-12",
@@ -919,7 +890,7 @@ export const locations: Location[] = [
     "cafes",
     45.497,
     -73.578,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-13",
@@ -929,7 +900,7 @@ export const locations: Location[] = [
     "cafes",
     43.644,
     -79.417,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-14",
@@ -939,7 +910,7 @@ export const locations: Location[] = [
     "cafes",
     53.542,
     -113.501,
-    4.4
+    4.4,
   ),
   // Russia (3)
   createLocation(
@@ -950,7 +921,7 @@ export const locations: Location[] = [
     "cafes",
     55.763,
     37.643,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-16",
@@ -960,7 +931,7 @@ export const locations: Location[] = [
     "cafes",
     59.936,
     30.326,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-17",
@@ -970,7 +941,7 @@ export const locations: Location[] = [
     "cafes",
     55.759,
     37.649,
-    4.4
+    4.4,
   ),
   // Japan (4)
   createLocation(
@@ -981,7 +952,7 @@ export const locations: Location[] = [
     "cafes",
     35.6803,
     139.8003,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-19",
@@ -991,7 +962,7 @@ export const locations: Location[] = [
     "cafes",
     34.9984,
     135.7813,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-20",
@@ -1001,7 +972,7 @@ export const locations: Location[] = [
     "cafes",
     35.666,
     139.688,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-21",
@@ -1011,7 +982,7 @@ export const locations: Location[] = [
     "cafes",
     35.644,
     139.7,
-    4.5
+    4.5,
   ),
   // UK (3)
   createLocation(
@@ -1022,7 +993,7 @@ export const locations: Location[] = [
     "cafes",
     51.514,
     -0.1267,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-23",
@@ -1032,7 +1003,7 @@ export const locations: Location[] = [
     "cafes",
     51.52,
     -0.1092,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-24",
@@ -1042,7 +1013,7 @@ export const locations: Location[] = [
     "cafes",
     51.5138,
     -0.1346,
-    4.4
+    4.4,
   ),
   // Australia (3)
   createLocation(
@@ -1053,7 +1024,7 @@ export const locations: Location[] = [
     "cafes",
     -37.812,
     144.959,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-26",
@@ -1063,7 +1034,7 @@ export const locations: Location[] = [
     "cafes",
     -33.885,
     151.212,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-27",
@@ -1073,7 +1044,7 @@ export const locations: Location[] = [
     "cafes",
     -33.91,
     151.194,
-    4.6
+    4.6,
   ),
   // Italy (3)
   createLocation(
@@ -1084,7 +1055,7 @@ export const locations: Location[] = [
     "cafes",
     45.4341,
     12.3387,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-29",
@@ -1094,7 +1065,7 @@ export const locations: Location[] = [
     "cafes",
     41.8986,
     12.4751,
-    4.6
+    4.6,
   ),
   createLocation(
     "cafe-30",
@@ -1104,7 +1075,7 @@ export const locations: Location[] = [
     "cafes",
     43.771,
     11.254,
-    4.3
+    4.3,
   ),
   // Afrique de l'Ouest (4)
   createLocation(
@@ -1115,7 +1086,7 @@ export const locations: Location[] = [
     "cafes",
     14.699,
     -17.472,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-32",
@@ -1125,7 +1096,7 @@ export const locations: Location[] = [
     "cafes",
     5.314,
     -4.001,
-    4.2
+    4.2,
   ),
   createLocation(
     "cafe-33",
@@ -1135,7 +1106,7 @@ export const locations: Location[] = [
     "cafes",
     5.557,
     -0.176,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-34",
@@ -1145,7 +1116,7 @@ export const locations: Location[] = [
     "cafes",
     6.601,
     3.353,
-    4.2
+    4.2,
   ),
   // Afrique du Nord (3)
   createLocation(
@@ -1156,7 +1127,7 @@ export const locations: Location[] = [
     "cafes",
     36.869,
     10.348,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-36",
@@ -1166,7 +1137,7 @@ export const locations: Location[] = [
     "cafes",
     31.629,
     -7.985,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-37",
@@ -1176,7 +1147,7 @@ export const locations: Location[] = [
     "cafes",
     36.773,
     3.061,
-    4.2
+    4.2,
   ),
   // Asie Centrale (4)
   createLocation(
@@ -1187,7 +1158,7 @@ export const locations: Location[] = [
     "cafes",
     43.218,
     76.928,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-39",
@@ -1197,7 +1168,7 @@ export const locations: Location[] = [
     "cafes",
     41.315,
     69.281,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-40",
@@ -1207,7 +1178,7 @@ export const locations: Location[] = [
     "cafes",
     42.874,
     74.6,
-    4.2
+    4.2,
   ),
   createLocation(
     "cafe-41",
@@ -1217,7 +1188,7 @@ export const locations: Location[] = [
     "cafes",
     47.915,
     106.918,
-    4.3
+    4.3,
   ),
   // Cameroun & Afrique (3)
   createLocation(
@@ -1228,7 +1199,7 @@ export const locations: Location[] = [
     "cafes",
     3.87,
     11.52,
-    4.1
+    4.1,
   ),
   createLocation(
     "cafe-43",
@@ -1238,7 +1209,7 @@ export const locations: Location[] = [
     "cafes",
     -33.928,
     18.424,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-44",
@@ -1248,7 +1219,7 @@ export const locations: Location[] = [
     "cafes",
     9.0167,
     38.75,
-    4.5
+    4.5,
   ),
   // Reste du monde (16)
   createLocation(
@@ -1259,7 +1230,7 @@ export const locations: Location[] = [
     "cafes",
     48.2104,
     16.3652,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-46",
@@ -1269,7 +1240,7 @@ export const locations: Location[] = [
     "cafes",
     59.922,
     10.758,
-    4.6
+    4.6,
   ),
   createLocation(
     "cafe-47",
@@ -1279,7 +1250,7 @@ export const locations: Location[] = [
     "cafes",
     55.691,
     12.553,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-48",
@@ -1289,7 +1260,7 @@ export const locations: Location[] = [
     "cafes",
     37.5628,
     126.9854,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-49",
@@ -1299,7 +1270,7 @@ export const locations: Location[] = [
     "cafes",
     37.56,
     126.923,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-50",
@@ -1309,7 +1280,7 @@ export const locations: Location[] = [
     "cafes",
     13.815,
     100.561,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-51",
@@ -1319,7 +1290,7 @@ export const locations: Location[] = [
     "cafes",
     21.029,
     105.849,
-    4.3
+    4.3,
   ),
   createLocation(
     "cafe-52",
@@ -1329,7 +1300,7 @@ export const locations: Location[] = [
     "cafes",
     -6.262,
     106.818,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-53",
@@ -1339,7 +1310,7 @@ export const locations: Location[] = [
     "cafes",
     41.0315,
     28.9742,
-    4.6
+    4.6,
   ),
   createLocation(
     "cafe-54",
@@ -1349,7 +1320,7 @@ export const locations: Location[] = [
     "cafes",
     6.21,
     -75.57,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-55",
@@ -1359,7 +1330,7 @@ export const locations: Location[] = [
     "cafes",
     -23.559,
     -46.681,
-    4.5
+    4.5,
   ),
   createLocation(
     "cafe-56",
@@ -1369,7 +1340,7 @@ export const locations: Location[] = [
     "cafes",
     -41.291,
     174.777,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-57",
@@ -1379,7 +1350,7 @@ export const locations: Location[] = [
     "cafes",
     52.495,
     13.435,
-    4.4
+    4.4,
   ),
   createLocation(
     "cafe-58",
@@ -1389,7 +1360,7 @@ export const locations: Location[] = [
     "cafes",
     52.54,
     13.41,
-    4.5
+    4.5,
   ),
 
   // ===== BARS (47) =====
@@ -1402,7 +1373,7 @@ export const locations: Location[] = [
     "bars",
     48.8689,
     2.3335,
-    4.4
+    4.4,
   ),
   createLocation(
     "bar-2",
@@ -1413,7 +1384,7 @@ export const locations: Location[] = [
     48.8491,
     2.3785,
     4.5,
-    true
+    true,
   ),
   createLocation(
     "bar-3",
@@ -1423,7 +1394,7 @@ export const locations: Location[] = [
     "bars",
     48.8654,
     2.348,
-    4.5
+    4.5,
   ),
   // USA (6)
   createLocation(
@@ -1434,7 +1405,7 @@ export const locations: Location[] = [
     "bars",
     40.726,
     -73.985,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-5",
@@ -1444,7 +1415,7 @@ export const locations: Location[] = [
     "bars",
     40.7275,
     -73.9846,
-    4.5
+    4.5,
   ),
   createLocation(
     "bar-6",
@@ -1454,7 +1425,7 @@ export const locations: Location[] = [
     "bars",
     41.8866,
     -87.6522,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-7",
@@ -1464,7 +1435,7 @@ export const locations: Location[] = [
     "bars",
     37.7789,
     -122.4232,
-    4.5
+    4.5,
   ),
   createLocation(
     "bar-8",
@@ -1474,7 +1445,7 @@ export const locations: Location[] = [
     "bars",
     40.703,
     -74.04,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-9",
@@ -1484,7 +1455,7 @@ export const locations: Location[] = [
     "bars",
     40.733,
     -74.006,
-    4.5
+    4.5,
   ),
   // Canada (3)
   createLocation(
@@ -1495,7 +1466,7 @@ export const locations: Location[] = [
     "bars",
     43.648,
     -79.403,
-    4.5
+    4.5,
   ),
   createLocation(
     "bar-11",
@@ -1505,7 +1476,7 @@ export const locations: Location[] = [
     "bars",
     45.479,
     -73.586,
-    4.4
+    4.4,
   ),
   createLocation(
     "bar-12",
@@ -1515,7 +1486,7 @@ export const locations: Location[] = [
     "bars",
     49.28,
     -123.102,
-    4.5
+    4.5,
   ),
   // Russia (3)
   createLocation(
@@ -1526,7 +1497,7 @@ export const locations: Location[] = [
     "bars",
     55.765,
     37.617,
-    4.5
+    4.5,
   ),
   createLocation(
     "bar-14",
@@ -1536,7 +1507,7 @@ export const locations: Location[] = [
     "bars",
     59.938,
     30.324,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-15",
@@ -1546,7 +1517,7 @@ export const locations: Location[] = [
     "bars",
     55.768,
     37.6,
-    4.4
+    4.4,
   ),
   // UK (3)
   createLocation(
@@ -1557,7 +1528,7 @@ export const locations: Location[] = [
     "bars",
     51.5101,
     -0.149,
-    4.7
+    4.7,
   ),
   createLocation(
     "bar-17",
@@ -1567,7 +1538,7 @@ export const locations: Location[] = [
     "bars",
     51.5277,
     -0.0888,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-18",
@@ -1577,7 +1548,7 @@ export const locations: Location[] = [
     "bars",
     51.513,
     -0.132,
-    4.4
+    4.4,
   ),
   // Germany (2)
   createLocation(
@@ -1589,7 +1560,7 @@ export const locations: Location[] = [
     48.1376,
     11.5799,
     4.4,
-    true
+    true,
   ),
   createLocation(
     "bar-20",
@@ -1599,7 +1570,7 @@ export const locations: Location[] = [
     "bars",
     52.533,
     13.399,
-    4.5
+    4.5,
   ),
   // Japan (3)
   createLocation(
@@ -1610,7 +1581,7 @@ export const locations: Location[] = [
     "bars",
     35.6937,
     139.7036,
-    4.4
+    4.4,
   ),
   createLocation(
     "bar-22",
@@ -1620,7 +1591,7 @@ export const locations: Location[] = [
     "bars",
     35.6721,
     139.7655,
-    4.7
+    4.7,
   ),
   createLocation(
     "bar-23",
@@ -1630,7 +1601,7 @@ export const locations: Location[] = [
     "bars",
     35.655,
     139.737,
-    4.7
+    4.7,
   ),
   // Spain (2)
   createLocation(
@@ -1641,7 +1612,7 @@ export const locations: Location[] = [
     "bars",
     41.385,
     2.181,
-    4.7
+    4.7,
   ),
   createLocation(
     "bar-25",
@@ -1651,7 +1622,7 @@ export const locations: Location[] = [
     "bars",
     40.415,
     -3.701,
-    4.5
+    4.5,
   ),
   // Afrique de l'Ouest (3)
   createLocation(
@@ -1662,7 +1633,7 @@ export const locations: Location[] = [
     "bars",
     14.685,
     -17.435,
-    4.2
+    4.2,
   ),
   createLocation(
     "bar-27",
@@ -1672,7 +1643,7 @@ export const locations: Location[] = [
     "bars",
     5.323,
     -4.019,
-    4.3
+    4.3,
   ),
   createLocation(
     "bar-28",
@@ -1682,7 +1653,7 @@ export const locations: Location[] = [
     "bars",
     6.431,
     3.427,
-    4.2
+    4.2,
   ),
   // Afrique du Nord (2)
   createLocation(
@@ -1693,7 +1664,7 @@ export const locations: Location[] = [
     "bars",
     36.799,
     10.17,
-    4.3
+    4.3,
   ),
   createLocation(
     "bar-30",
@@ -1703,7 +1674,7 @@ export const locations: Location[] = [
     "bars",
     31.621,
     -7.998,
-    4.6
+    4.6,
   ),
   // Asie Centrale (3)
   createLocation(
@@ -1714,7 +1685,7 @@ export const locations: Location[] = [
     "bars",
     43.235,
     76.941,
-    4.3
+    4.3,
   ),
   createLocation(
     "bar-32",
@@ -1724,7 +1695,7 @@ export const locations: Location[] = [
     "bars",
     41.312,
     69.28,
-    4.2
+    4.2,
   ),
   createLocation(
     "bar-33",
@@ -1734,7 +1705,7 @@ export const locations: Location[] = [
     "bars",
     47.919,
     106.916,
-    4.1
+    4.1,
   ),
   // Cameroun (2)
   createLocation(
@@ -1745,7 +1716,7 @@ export const locations: Location[] = [
     "bars",
     4.0483,
     9.7043,
-    4.2
+    4.2,
   ),
   createLocation(
     "bar-35",
@@ -1755,7 +1726,7 @@ export const locations: Location[] = [
     "bars",
     2.94,
     9.91,
-    4.3
+    4.3,
   ),
   // Reste du monde (12)
   createLocation(
@@ -1766,7 +1737,7 @@ export const locations: Location[] = [
     "bars",
     31.2179,
     121.4553,
-    4.5
+    4.5,
   ),
   createLocation(
     "bar-37",
@@ -1776,7 +1747,7 @@ export const locations: Location[] = [
     "bars",
     1.2944,
     103.8588,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-38",
@@ -1786,7 +1757,7 @@ export const locations: Location[] = [
     "bars",
     22.283,
     114.153,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-39",
@@ -1796,7 +1767,7 @@ export const locations: Location[] = [
     "bars",
     37.575,
     126.975,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-40",
@@ -1806,7 +1777,7 @@ export const locations: Location[] = [
     "bars",
     13.724,
     100.514,
-    4.5
+    4.5,
   ),
   createLocation(
     "bar-41",
@@ -1816,7 +1787,7 @@ export const locations: Location[] = [
     "bars",
     -34.595,
     -58.378,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-42",
@@ -1826,7 +1797,7 @@ export const locations: Location[] = [
     "bars",
     19.417,
     -99.162,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-43",
@@ -1836,7 +1807,7 @@ export const locations: Location[] = [
     "bars",
     -33.861,
     151.207,
-    4.6
+    4.6,
   ),
   createLocation(
     "bar-44",
@@ -1846,7 +1817,7 @@ export const locations: Location[] = [
     "bars",
     41.896,
     12.47,
-    4.5
+    4.5,
   ),
   createLocation(
     "bar-45",
@@ -1856,7 +1827,7 @@ export const locations: Location[] = [
     "bars",
     53.3456,
     -6.264,
-    4.2
+    4.2,
   ),
   createLocation(
     "bar-46",
@@ -1866,7 +1837,7 @@ export const locations: Location[] = [
     "bars",
     50.848,
     4.354,
-    4.4
+    4.4,
   ),
   createLocation(
     "bar-47",
@@ -1876,7 +1847,7 @@ export const locations: Location[] = [
     "bars",
     28.568,
     77.223,
-    4.4
+    4.4,
   ),
 
   // ===== PARKS (52) =====
@@ -1889,7 +1860,7 @@ export const locations: Location[] = [
     "parks",
     48.8462,
     2.3371,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-2",
@@ -1899,7 +1870,7 @@ export const locations: Location[] = [
     "parks",
     48.8634,
     2.3275,
-    4.7
+    4.7,
   ),
   // USA (6)
   createLocation(
@@ -1911,7 +1882,7 @@ export const locations: Location[] = [
     40.7829,
     -73.9654,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "park-4",
@@ -1921,7 +1892,7 @@ export const locations: Location[] = [
     "parks",
     36.0544,
     -112.1401,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-5",
@@ -1931,7 +1902,7 @@ export const locations: Location[] = [
     "parks",
     44.428,
     -110.5885,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-6",
@@ -1941,7 +1912,7 @@ export const locations: Location[] = [
     "parks",
     37.8651,
     -119.5383,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-7",
@@ -1951,7 +1922,7 @@ export const locations: Location[] = [
     "parks",
     37.2982,
     -113.0263,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-8",
@@ -1961,7 +1932,7 @@ export const locations: Location[] = [
     "parks",
     44.3386,
     -68.2733,
-    4.8
+    4.8,
   ),
   // Canada (4)
   createLocation(
@@ -1972,7 +1943,7 @@ export const locations: Location[] = [
     "parks",
     51.4968,
     -115.9281,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-10",
@@ -1982,7 +1953,7 @@ export const locations: Location[] = [
     "parks",
     49.3017,
     -123.1417,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-11",
@@ -1992,7 +1963,7 @@ export const locations: Location[] = [
     "parks",
     43.0896,
     -79.0849,
-    4.7
+    4.7,
   ),
   createLocation(
     "park-12",
@@ -2002,7 +1973,7 @@ export const locations: Location[] = [
     "parks",
     52.8737,
     -117.955,
-    4.8
+    4.8,
   ),
   // Russia (4)
   createLocation(
@@ -2013,7 +1984,7 @@ export const locations: Location[] = [
     "parks",
     55.731,
     37.601,
-    4.5
+    4.5,
   ),
   createLocation(
     "park-14",
@@ -2023,7 +1994,7 @@ export const locations: Location[] = [
     "parks",
     59.8863,
     29.9087,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-15",
@@ -2033,7 +2004,7 @@ export const locations: Location[] = [
     "parks",
     53.5587,
     108.165,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-16",
@@ -2043,7 +2014,7 @@ export const locations: Location[] = [
     "parks",
     53.0129,
     158.653,
-    4.8
+    4.8,
   ),
   // Japan (3)
   createLocation(
@@ -2054,7 +2025,7 @@ export const locations: Location[] = [
     "parks",
     35.6852,
     139.71,
-    4.7
+    4.7,
   ),
   createLocation(
     "park-18",
@@ -2064,7 +2035,7 @@ export const locations: Location[] = [
     "parks",
     35.0094,
     135.6722,
-    4.6
+    4.6,
   ),
   createLocation(
     "park-19",
@@ -2074,7 +2045,7 @@ export const locations: Location[] = [
     "parks",
     34.6851,
     135.8048,
-    4.7
+    4.7,
   ),
   // UK (2)
   createLocation(
@@ -2085,7 +2056,7 @@ export const locations: Location[] = [
     "parks",
     51.5073,
     -0.1657,
-    4.6
+    4.6,
   ),
   createLocation(
     "park-21",
@@ -2095,7 +2066,7 @@ export const locations: Location[] = [
     "parks",
     54.4609,
     -3.0886,
-    4.8
+    4.8,
   ),
   // Afrique de l'Ouest (4)
   createLocation(
@@ -2106,7 +2077,7 @@ export const locations: Location[] = [
     "parks",
     11.416,
     1.481,
-    4.5
+    4.5,
   ),
   createLocation(
     "park-23",
@@ -2116,7 +2087,7 @@ export const locations: Location[] = [
     "parks",
     9.617,
     -1.853,
-    4.4
+    4.4,
   ),
   createLocation(
     "park-24",
@@ -2126,7 +2097,7 @@ export const locations: Location[] = [
     "parks",
     13.067,
     -12.717,
-    4.5
+    4.5,
   ),
   createLocation(
     "park-25",
@@ -2136,7 +2107,7 @@ export const locations: Location[] = [
     "parks",
     9.75,
     10.5,
-    4.3
+    4.3,
   ),
   // Afrique du Nord (2)
   createLocation(
@@ -2147,7 +2118,7 @@ export const locations: Location[] = [
     "parks",
     31.099,
     -3.999,
-    4.7
+    4.7,
   ),
   createLocation(
     "park-27",
@@ -2157,7 +2128,7 @@ export const locations: Location[] = [
     "parks",
     37.164,
     9.674,
-    4.4
+    4.4,
   ),
   // Asie Centrale (5)
   createLocation(
@@ -2168,7 +2139,7 @@ export const locations: Location[] = [
     "parks",
     43.351,
     79.081,
-    4.6
+    4.6,
   ),
   createLocation(
     "park-29",
@@ -2178,7 +2149,7 @@ export const locations: Location[] = [
     "parks",
     39.654,
     66.976,
-    4.7
+    4.7,
   ),
   createLocation(
     "park-30",
@@ -2188,7 +2159,7 @@ export const locations: Location[] = [
     "parks",
     42.531,
     74.488,
-    4.5
+    4.5,
   ),
   createLocation(
     "park-31",
@@ -2198,7 +2169,7 @@ export const locations: Location[] = [
     "parks",
     47.803,
     107.467,
-    4.6
+    4.6,
   ),
   createLocation(
     "park-32",
@@ -2208,7 +2179,7 @@ export const locations: Location[] = [
     "parks",
     39.086,
     68.383,
-    4.5
+    4.5,
   ),
   // Cameroun & Afrique (4)
   createLocation(
@@ -2219,7 +2190,7 @@ export const locations: Location[] = [
     "parks",
     11.3167,
     14.65,
-    4.6
+    4.6,
   ),
   createLocation(
     "park-34",
@@ -2229,7 +2200,7 @@ export const locations: Location[] = [
     "parks",
     4.217,
     9.17,
-    4.6
+    4.6,
   ),
   createLocation(
     "park-35",
@@ -2240,7 +2211,7 @@ export const locations: Location[] = [
     -1.5,
     35.0,
     4.9,
-    true
+    true,
   ),
   createLocation(
     "park-36",
@@ -2250,7 +2221,7 @@ export const locations: Location[] = [
     "parks",
     -2.3333,
     34.8333,
-    4.9
+    4.9,
   ),
   // Reste du monde (16)
   createLocation(
@@ -2261,7 +2232,7 @@ export const locations: Location[] = [
     "parks",
     -23.9884,
     31.5547,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-38",
@@ -2271,7 +2242,7 @@ export const locations: Location[] = [
     "parks",
     -33.9628,
     18.4098,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-39",
@@ -2281,7 +2252,7 @@ export const locations: Location[] = [
     "parks",
     -25.6953,
     -54.4367,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-40",
@@ -2291,7 +2262,7 @@ export const locations: Location[] = [
     "parks",
     -50.9423,
     -73.4068,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-41",
@@ -2301,7 +2272,7 @@ export const locations: Location[] = [
     "parks",
     -0.9538,
     -90.9656,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-42",
@@ -2311,7 +2282,7 @@ export const locations: Location[] = [
     "parks",
     20.9101,
     107.1839,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-43",
@@ -2321,7 +2292,7 @@ export const locations: Location[] = [
     "parks",
     1.2816,
     103.8636,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-44",
@@ -2331,7 +2302,7 @@ export const locations: Location[] = [
     "parks",
     -18.2871,
     147.6992,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-45",
@@ -2341,7 +2312,7 @@ export const locations: Location[] = [
     "parks",
     -25.3444,
     131.0369,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-46",
@@ -2351,7 +2322,7 @@ export const locations: Location[] = [
     "parks",
     -44.6414,
     167.8987,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-47",
@@ -2361,7 +2332,7 @@ export const locations: Location[] = [
     "parks",
     36.4167,
     25.4333,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-48",
@@ -2371,7 +2342,7 @@ export const locations: Location[] = [
     "parks",
     62.1008,
     7.0956,
-    4.9
+    4.9,
   ),
   createLocation(
     "park-49",
@@ -2381,7 +2352,7 @@ export const locations: Location[] = [
     "parks",
     29.5833,
     35.4333,
-    4.7
+    4.7,
   ),
   createLocation(
     "park-50",
@@ -2391,7 +2362,7 @@ export const locations: Location[] = [
     "parks",
     33.4996,
     126.5312,
-    4.7
+    4.7,
   ),
   createLocation(
     "park-51",
@@ -2401,7 +2372,7 @@ export const locations: Location[] = [
     "parks",
     44.8654,
     15.582,
-    4.8
+    4.8,
   ),
   createLocation(
     "park-52",
@@ -2411,7 +2382,7 @@ export const locations: Location[] = [
     "parks",
     46.537,
     7.962,
-    4.8
+    4.8,
   ),
 
   // ===== MUSEUMS (49) =====
@@ -2425,7 +2396,7 @@ export const locations: Location[] = [
     48.8606,
     2.3376,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "mus-2",
@@ -2435,7 +2406,7 @@ export const locations: Location[] = [
     "museums",
     48.86,
     2.3266,
-    4.9
+    4.9,
   ),
   createLocation(
     "mus-3",
@@ -2445,7 +2416,7 @@ export const locations: Location[] = [
     "museums",
     48.8049,
     2.1204,
-    4.8
+    4.8,
   ),
   // USA (4)
   createLocation(
@@ -2456,7 +2427,7 @@ export const locations: Location[] = [
     "museums",
     40.7794,
     -73.9632,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-5",
@@ -2466,7 +2437,7 @@ export const locations: Location[] = [
     "museums",
     38.8881,
     -77.026,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-6",
@@ -2476,7 +2447,7 @@ export const locations: Location[] = [
     "museums",
     40.7614,
     -73.9776,
-    4.7
+    4.7,
   ),
   createLocation(
     "mus-7",
@@ -2486,7 +2457,7 @@ export const locations: Location[] = [
     "museums",
     34.078,
     -118.474,
-    4.7
+    4.7,
   ),
   // Canada (3)
   createLocation(
@@ -2497,7 +2468,7 @@ export const locations: Location[] = [
     "museums",
     43.6677,
     -79.3948,
-    4.6
+    4.6,
   ),
   createLocation(
     "mus-9",
@@ -2507,7 +2478,7 @@ export const locations: Location[] = [
     "museums",
     45.4986,
     -73.5795,
-    4.6
+    4.6,
   ),
   createLocation(
     "mus-10",
@@ -2517,7 +2488,7 @@ export const locations: Location[] = [
     "museums",
     45.4309,
     -75.7093,
-    4.5
+    4.5,
   ),
   // Russia (4)
   createLocation(
@@ -2528,7 +2499,7 @@ export const locations: Location[] = [
     "museums",
     59.9398,
     30.3146,
-    4.9
+    4.9,
   ),
   createLocation(
     "mus-12",
@@ -2538,7 +2509,7 @@ export const locations: Location[] = [
     "museums",
     55.752,
     37.6175,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-13",
@@ -2548,7 +2519,7 @@ export const locations: Location[] = [
     "museums",
     55.7415,
     37.6208,
-    4.7
+    4.7,
   ),
   createLocation(
     "mus-14",
@@ -2558,7 +2529,7 @@ export const locations: Location[] = [
     "museums",
     59.8863,
     29.9087,
-    4.8
+    4.8,
   ),
   // UK (3)
   createLocation(
@@ -2570,7 +2541,7 @@ export const locations: Location[] = [
     51.5194,
     -0.127,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "mus-16",
@@ -2580,7 +2551,7 @@ export const locations: Location[] = [
     "museums",
     51.5076,
     -0.0994,
-    4.7
+    4.7,
   ),
   createLocation(
     "mus-17",
@@ -2590,7 +2561,7 @@ export const locations: Location[] = [
     "museums",
     55.9486,
     -3.1999,
-    4.7
+    4.7,
   ),
   // Italy (3)
   createLocation(
@@ -2601,7 +2572,7 @@ export const locations: Location[] = [
     "museums",
     41.9065,
     12.4536,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-19",
@@ -2612,7 +2583,7 @@ export const locations: Location[] = [
     41.8902,
     12.4922,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "mus-20",
@@ -2622,7 +2593,7 @@ export const locations: Location[] = [
     "museums",
     43.7687,
     11.2554,
-    4.8
+    4.8,
   ),
   // Afrique de l'Ouest (3)
   createLocation(
@@ -2633,7 +2604,7 @@ export const locations: Location[] = [
     "museums",
     14.692,
     -17.444,
-    4.3
+    4.3,
   ),
   createLocation(
     "mus-22",
@@ -2643,7 +2614,7 @@ export const locations: Location[] = [
     "museums",
     6.443,
     3.405,
-    4.2
+    4.2,
   ),
   createLocation(
     "mus-23",
@@ -2653,7 +2624,7 @@ export const locations: Location[] = [
     "museums",
     5.548,
     -0.206,
-    4.3
+    4.3,
   ),
   // Afrique du Nord (3)
   createLocation(
@@ -2665,7 +2636,7 @@ export const locations: Location[] = [
     29.9792,
     31.1342,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "mus-25",
@@ -2675,7 +2646,7 @@ export const locations: Location[] = [
     "museums",
     36.809,
     10.134,
-    4.5
+    4.5,
   ),
   createLocation(
     "mus-26",
@@ -2685,7 +2656,7 @@ export const locations: Location[] = [
     "museums",
     31.6416,
     -8.003,
-    4.6
+    4.6,
   ),
   // Asie Centrale (4)
   createLocation(
@@ -2696,7 +2667,7 @@ export const locations: Location[] = [
     "museums",
     51.128,
     71.43,
-    4.4
+    4.4,
   ),
   createLocation(
     "mus-28",
@@ -2706,7 +2677,7 @@ export const locations: Location[] = [
     "museums",
     39.654,
     66.976,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-29",
@@ -2716,7 +2687,7 @@ export const locations: Location[] = [
     "museums",
     42.8746,
     74.6048,
-    4.2
+    4.2,
   ),
   createLocation(
     "mus-30",
@@ -2726,7 +2697,7 @@ export const locations: Location[] = [
     "museums",
     47.807,
     107.527,
-    4.5
+    4.5,
   ),
   // Japan (3)
   createLocation(
@@ -2737,7 +2708,7 @@ export const locations: Location[] = [
     "museums",
     35.7148,
     139.7967,
-    4.7
+    4.7,
   ),
   createLocation(
     "mus-32",
@@ -2747,7 +2718,7 @@ export const locations: Location[] = [
     "museums",
     34.9671,
     135.7727,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-33",
@@ -2757,7 +2728,7 @@ export const locations: Location[] = [
     "museums",
     35.6265,
     139.7843,
-    4.6
+    4.6,
   ),
   // China (3)
   createLocation(
@@ -2769,7 +2740,7 @@ export const locations: Location[] = [
     40.4319,
     116.5704,
     4.9,
-    true
+    true,
   ),
   createLocation(
     "mus-35",
@@ -2779,7 +2750,7 @@ export const locations: Location[] = [
     "museums",
     39.9163,
     116.3972,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-36",
@@ -2789,7 +2760,7 @@ export const locations: Location[] = [
     "museums",
     34.3847,
     109.2785,
-    4.8
+    4.8,
   ),
   // Reste du monde (13)
   createLocation(
@@ -2800,7 +2771,7 @@ export const locations: Location[] = [
     "museums",
     30.0478,
     31.2336,
-    4.6
+    4.6,
   ),
   createLocation(
     "mus-38",
@@ -2811,7 +2782,7 @@ export const locations: Location[] = [
     27.1751,
     78.0421,
     4.9,
-    true
+    true,
   ),
   createLocation(
     "mus-39",
@@ -2822,7 +2793,7 @@ export const locations: Location[] = [
     -13.1631,
     -72.545,
     4.9,
-    true
+    true,
   ),
   createLocation(
     "mus-40",
@@ -2832,7 +2803,7 @@ export const locations: Location[] = [
     "museums",
     20.6843,
     -88.5678,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-41",
@@ -2842,7 +2813,7 @@ export const locations: Location[] = [
     "museums",
     -22.9519,
     -43.2105,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-42",
@@ -2852,7 +2823,7 @@ export const locations: Location[] = [
     "museums",
     37.9715,
     23.7267,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-43",
@@ -2863,7 +2834,7 @@ export const locations: Location[] = [
     30.3285,
     35.4444,
     4.9,
-    true
+    true,
   ),
   createLocation(
     "mus-44",
@@ -2873,7 +2844,7 @@ export const locations: Location[] = [
     "museums",
     13.4125,
     103.867,
-    4.9
+    4.9,
   ),
   createLocation(
     "mus-45",
@@ -2883,7 +2854,7 @@ export const locations: Location[] = [
     "museums",
     -33.8568,
     151.2153,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-46",
@@ -2893,7 +2864,7 @@ export const locations: Location[] = [
     "museums",
     50.0911,
     14.4008,
-    4.7
+    4.7,
   ),
   createLocation(
     "mus-47",
@@ -2903,7 +2874,7 @@ export const locations: Location[] = [
     "museums",
     37.5796,
     126.977,
-    4.7
+    4.7,
   ),
   createLocation(
     "mus-48",
@@ -2913,7 +2884,7 @@ export const locations: Location[] = [
     "museums",
     -7.6079,
     110.2038,
-    4.8
+    4.8,
   ),
   createLocation(
     "mus-49",
@@ -2923,7 +2894,7 @@ export const locations: Location[] = [
     "museums",
     13.75,
     100.4914,
-    4.7
+    4.7,
   ),
 
   // ===== SHOPS (53) =====
@@ -2936,7 +2907,7 @@ export const locations: Location[] = [
     "shops",
     48.8738,
     2.332,
-    4.2
+    4.2,
   ),
   createLocation(
     "shop-2",
@@ -2946,7 +2917,7 @@ export const locations: Location[] = [
     "shops",
     48.851,
     2.3254,
-    4.4
+    4.4,
   ),
   // USA (4)
   createLocation(
@@ -2957,7 +2928,7 @@ export const locations: Location[] = [
     "shops",
     40.758,
     -73.9778,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-4",
@@ -2967,7 +2938,7 @@ export const locations: Location[] = [
     "shops",
     34.0674,
     -118.4003,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-5",
@@ -2977,7 +2948,7 @@ export const locations: Location[] = [
     "shops",
     47.6097,
     -122.3425,
-    4.7
+    4.7,
   ),
   createLocation(
     "shop-6",
@@ -2987,7 +2958,7 @@ export const locations: Location[] = [
     "shops",
     34.072,
     -118.358,
-    4.4
+    4.4,
   ),
   // Canada (3)
   createLocation(
@@ -2998,7 +2969,7 @@ export const locations: Location[] = [
     "shops",
     43.6544,
     -79.3807,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-8",
@@ -3008,7 +2979,7 @@ export const locations: Location[] = [
     "shops",
     49.2724,
     -123.134,
-    4.6
+    4.6,
   ),
   createLocation(
     "shop-9",
@@ -3018,7 +2989,7 @@ export const locations: Location[] = [
     "shops",
     45.537,
     -73.615,
-    4.5
+    4.5,
   ),
   // Russia (3)
   createLocation(
@@ -3029,7 +3000,7 @@ export const locations: Location[] = [
     "shops",
     55.755,
     37.6215,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-11",
@@ -3039,7 +3010,7 @@ export const locations: Location[] = [
     "shops",
     59.934,
     30.335,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-12",
@@ -3049,7 +3020,7 @@ export const locations: Location[] = [
     "shops",
     55.789,
     37.748,
-    4.3
+    4.3,
   ),
   // UK (2)
   createLocation(
@@ -3060,7 +3031,7 @@ export const locations: Location[] = [
     "shops",
     51.4994,
     -0.1633,
-    4.6
+    4.6,
   ),
   createLocation(
     "shop-14",
@@ -3070,7 +3041,7 @@ export const locations: Location[] = [
     "shops",
     51.5055,
     -0.091,
-    4.6
+    4.6,
   ),
   // Japan (4)
   createLocation(
@@ -3081,7 +3052,7 @@ export const locations: Location[] = [
     "shops",
     35.6654,
     139.7707,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-16",
@@ -3091,7 +3062,7 @@ export const locations: Location[] = [
     "shops",
     35.6698,
     139.7625,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-17",
@@ -3101,7 +3072,7 @@ export const locations: Location[] = [
     "shops",
     35.671,
     139.7025,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-18",
@@ -3111,7 +3082,7 @@ export const locations: Location[] = [
     "shops",
     35.005,
     135.764,
-    4.5
+    4.5,
   ),
   // Afrique de l'Ouest (4)
   createLocation(
@@ -3122,7 +3093,7 @@ export const locations: Location[] = [
     "shops",
     14.671,
     -17.441,
-    4.2
+    4.2,
   ),
   createLocation(
     "shop-20",
@@ -3132,7 +3103,7 @@ export const locations: Location[] = [
     "shops",
     5.301,
     -3.996,
-    4.1
+    4.1,
   ),
   createLocation(
     "shop-21",
@@ -3142,7 +3113,7 @@ export const locations: Location[] = [
     "shops",
     5.553,
     -0.211,
-    4.2
+    4.2,
   ),
   createLocation(
     "shop-22",
@@ -3152,7 +3123,7 @@ export const locations: Location[] = [
     "shops",
     6.453,
     3.395,
-    4.1
+    4.1,
   ),
   // Afrique du Nord (3)
   createLocation(
@@ -3163,7 +3134,7 @@ export const locations: Location[] = [
     "shops",
     31.631,
     -7.986,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-24",
@@ -3173,7 +3144,7 @@ export const locations: Location[] = [
     "shops",
     30.0478,
     31.2625,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-25",
@@ -3183,7 +3154,7 @@ export const locations: Location[] = [
     "shops",
     36.799,
     10.17,
-    4.4
+    4.4,
   ),
   // Asie Centrale (4)
   createLocation(
@@ -3194,7 +3165,7 @@ export const locations: Location[] = [
     "shops",
     43.256,
     76.945,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-27",
@@ -3204,7 +3175,7 @@ export const locations: Location[] = [
     "shops",
     41.326,
     69.234,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-28",
@@ -3214,7 +3185,7 @@ export const locations: Location[] = [
     "shops",
     42.872,
     74.587,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-29",
@@ -3224,7 +3195,7 @@ export const locations: Location[] = [
     "shops",
     47.926,
     106.876,
-    4.2
+    4.2,
   ),
   // Cameroun & Afrique (3)
   createLocation(
@@ -3235,7 +3206,7 @@ export const locations: Location[] = [
     "shops",
     4.05,
     9.7028,
-    4.0
+    4.0,
   ),
   createLocation(
     "shop-31",
@@ -3245,7 +3216,7 @@ export const locations: Location[] = [
     "shops",
     5.725,
     10.9,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-32",
@@ -3255,7 +3226,7 @@ export const locations: Location[] = [
     "shops",
     -33.9036,
     18.4206,
-    4.5
+    4.5,
   ),
   // Reste du monde (16)
   createLocation(
@@ -3266,7 +3237,7 @@ export const locations: Location[] = [
     "shops",
     13.7999,
     100.5502,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-34",
@@ -3276,7 +3247,7 @@ export const locations: Location[] = [
     "shops",
     37.5606,
     126.985,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-35",
@@ -3286,7 +3257,7 @@ export const locations: Location[] = [
     "shops",
     1.305,
     103.8318,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-36",
@@ -3296,7 +3267,7 @@ export const locations: Location[] = [
     "shops",
     41.0106,
     28.968,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-37",
@@ -3306,7 +3277,7 @@ export const locations: Location[] = [
     "shops",
     25.1976,
     55.2793,
-    4.6
+    4.6,
   ),
   createLocation(
     "shop-38",
@@ -3316,7 +3287,7 @@ export const locations: Location[] = [
     "shops",
     22.3059,
     114.1688,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-39",
@@ -3326,7 +3297,7 @@ export const locations: Location[] = [
     "shops",
     31.2352,
     121.4755,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-40",
@@ -3336,7 +3307,7 @@ export const locations: Location[] = [
     "shops",
     10.7725,
     106.698,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-41",
@@ -3346,7 +3317,7 @@ export const locations: Location[] = [
     "shops",
     28.6505,
     77.2303,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-42",
@@ -3356,7 +3327,7 @@ export const locations: Location[] = [
     "shops",
     -37.8075,
     144.9568,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-43",
@@ -3366,7 +3337,7 @@ export const locations: Location[] = [
     "shops",
     19.429,
     -99.142,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-44",
@@ -3376,7 +3347,7 @@ export const locations: Location[] = [
     "shops",
     -13.518,
     -71.98,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-45",
@@ -3386,7 +3357,7 @@ export const locations: Location[] = [
     "shops",
     -8.5069,
     115.2625,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-46",
@@ -3396,7 +3367,7 @@ export const locations: Location[] = [
     "shops",
     25.1092,
     121.8443,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-47",
@@ -3406,7 +3377,7 @@ export const locations: Location[] = [
     "shops",
     45.4685,
     9.1955,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-48",
@@ -3416,7 +3387,7 @@ export const locations: Location[] = [
     "shops",
     41.3816,
     2.172,
-    4.5
+    4.5,
   ),
   createLocation(
     "shop-49",
@@ -3426,7 +3397,7 @@ export const locations: Location[] = [
     "shops",
     48.199,
     16.363,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-50",
@@ -3436,7 +3407,7 @@ export const locations: Location[] = [
     "shops",
     4.6297,
     -74.0897,
-    4.3
+    4.3,
   ),
   createLocation(
     "shop-51",
@@ -3446,7 +3417,7 @@ export const locations: Location[] = [
     "shops",
     25.2867,
     55.2979,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-52",
@@ -3456,7 +3427,7 @@ export const locations: Location[] = [
     "shops",
     41.0167,
     28.97,
-    4.4
+    4.4,
   ),
   createLocation(
     "shop-53",
@@ -3466,7 +3437,7 @@ export const locations: Location[] = [
     "shops",
     -32.0569,
     115.7489,
-    4.4
+    4.4,
   ),
 
   // ===== HOTELS (42) =====
@@ -3480,7 +3451,7 @@ export const locations: Location[] = [
     48.866,
     2.3043,
     4.9,
-    true
+    true,
   ),
   createLocation(
     "hotel-2",
@@ -3490,7 +3461,7 @@ export const locations: Location[] = [
     "hotels",
     48.8678,
     2.3289,
-    4.9
+    4.9,
   ),
   createLocation(
     "hotel-3",
@@ -3500,7 +3471,7 @@ export const locations: Location[] = [
     "hotels",
     48.8715,
     2.3159,
-    4.8
+    4.8,
   ),
   // USA (4)
   createLocation(
@@ -3512,7 +3483,7 @@ export const locations: Location[] = [
     40.7645,
     -73.9743,
     4.7,
-    true
+    true,
   ),
   createLocation(
     "hotel-5",
@@ -3522,7 +3493,7 @@ export const locations: Location[] = [
     "hotels",
     36.1215,
     -115.1739,
-    4.6
+    4.6,
   ),
   createLocation(
     "hotel-6",
@@ -3532,7 +3503,7 @@ export const locations: Location[] = [
     "hotels",
     34.0703,
     -118.3898,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-7",
@@ -3542,7 +3513,7 @@ export const locations: Location[] = [
     "hotels",
     40.7566,
     -73.9725,
-    4.6
+    4.6,
   ),
   // Canada (3)
   createLocation(
@@ -3553,7 +3524,7 @@ export const locations: Location[] = [
     "hotels",
     51.167,
     -115.562,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-9",
@@ -3563,7 +3534,7 @@ export const locations: Location[] = [
     "hotels",
     46.8117,
     -71.2038,
-    4.6
+    4.6,
   ),
   createLocation(
     "hotel-10",
@@ -3573,7 +3544,7 @@ export const locations: Location[] = [
     "hotels",
     43.65,
     -79.385,
-    4.6
+    4.6,
   ),
   // Russia (3)
   createLocation(
@@ -3584,7 +3555,7 @@ export const locations: Location[] = [
     "hotels",
     55.758,
     37.621,
-    4.6
+    4.6,
   ),
   createLocation(
     "hotel-12",
@@ -3594,7 +3565,7 @@ export const locations: Location[] = [
     "hotels",
     59.935,
     30.333,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-13",
@@ -3604,7 +3575,7 @@ export const locations: Location[] = [
     "hotels",
     55.757,
     37.616,
-    4.8
+    4.8,
   ),
   // UK (2)
   createLocation(
@@ -3615,7 +3586,7 @@ export const locations: Location[] = [
     "hotels",
     51.5103,
     -0.1205,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-15",
@@ -3625,7 +3596,7 @@ export const locations: Location[] = [
     "hotels",
     51.5127,
     -0.1481,
-    4.8
+    4.8,
   ),
   // Japan (2)
   createLocation(
@@ -3637,7 +3608,7 @@ export const locations: Location[] = [
     35.6864,
     139.6902,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "hotel-17",
@@ -3647,7 +3618,7 @@ export const locations: Location[] = [
     "hotels",
     35.6867,
     139.7622,
-    4.9
+    4.9,
   ),
   // Afrique de l'Ouest (3)
   createLocation(
@@ -3658,7 +3629,7 @@ export const locations: Location[] = [
     "hotels",
     14.699,
     -17.472,
-    4.4
+    4.4,
   ),
   createLocation(
     "hotel-19",
@@ -3668,7 +3639,7 @@ export const locations: Location[] = [
     "hotels",
     5.317,
     -4.017,
-    4.4
+    4.4,
   ),
   createLocation(
     "hotel-20",
@@ -3678,7 +3649,7 @@ export const locations: Location[] = [
     "hotels",
     5.553,
     -0.153,
-    4.3
+    4.3,
   ),
   // Afrique du Nord (2)
   createLocation(
@@ -3689,7 +3660,7 @@ export const locations: Location[] = [
     "hotels",
     31.6206,
     -7.9988,
-    4.8
+    4.8,
   ),
   createLocation(
     "hotel-22",
@@ -3699,7 +3670,7 @@ export const locations: Location[] = [
     "hotels",
     36.902,
     10.279,
-    4.6
+    4.6,
   ),
   // Asie Centrale (3)
   createLocation(
@@ -3710,7 +3681,7 @@ export const locations: Location[] = [
     "hotels",
     43.218,
     76.926,
-    4.6
+    4.6,
   ),
   createLocation(
     "hotel-24",
@@ -3720,7 +3691,7 @@ export const locations: Location[] = [
     "hotels",
     41.311,
     69.28,
-    4.5
+    4.5,
   ),
   createLocation(
     "hotel-25",
@@ -3730,7 +3701,7 @@ export const locations: Location[] = [
     "hotels",
     47.913,
     106.92,
-    4.5
+    4.5,
   ),
   // Cameroun & Afrique (4)
   createLocation(
@@ -3741,7 +3712,7 @@ export const locations: Location[] = [
     "hotels",
     3.8667,
     11.5167,
-    4.5
+    4.5,
   ),
   createLocation(
     "hotel-27",
@@ -3751,7 +3722,7 @@ export const locations: Location[] = [
     "hotels",
     4.05,
     9.7,
-    4.3
+    4.3,
   ),
   createLocation(
     "hotel-28",
@@ -3761,7 +3732,7 @@ export const locations: Location[] = [
     "hotels",
     2.95,
     9.9167,
-    4.4
+    4.4,
   ),
   createLocation(
     "hotel-29",
@@ -3771,7 +3742,7 @@ export const locations: Location[] = [
     "hotels",
     -1.378,
     36.745,
-    4.8
+    4.8,
   ),
   // Reste du monde (13)
   createLocation(
@@ -3783,7 +3754,7 @@ export const locations: Location[] = [
     1.2834,
     103.8607,
     4.7,
-    true
+    true,
   ),
   createLocation(
     "hotel-31",
@@ -3793,7 +3764,7 @@ export const locations: Location[] = [
     "hotels",
     13.7241,
     100.514,
-    4.9
+    4.9,
   ),
   createLocation(
     "hotel-32",
@@ -3803,7 +3774,7 @@ export const locations: Location[] = [
     "hotels",
     31.2416,
     121.4905,
-    4.8
+    4.8,
   ),
   createLocation(
     "hotel-33",
@@ -3813,7 +3784,7 @@ export const locations: Location[] = [
     "hotels",
     22.282,
     114.1588,
-    4.8
+    4.8,
   ),
   createLocation(
     "hotel-34",
@@ -3823,7 +3794,7 @@ export const locations: Location[] = [
     "hotels",
     37.5575,
     127.0053,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-35",
@@ -3833,7 +3804,7 @@ export const locations: Location[] = [
     "hotels",
     25.1412,
     55.1853,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-36",
@@ -3843,7 +3814,7 @@ export const locations: Location[] = [
     "hotels",
     -33.908,
     18.42,
-    4.6
+    4.6,
   ),
   createLocation(
     "hotel-37",
@@ -3853,7 +3824,7 @@ export const locations: Location[] = [
     "hotels",
     -33.8573,
     151.2092,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-38",
@@ -3863,7 +3834,7 @@ export const locations: Location[] = [
     "hotels",
     -22.9669,
     -43.1779,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-39",
@@ -3873,7 +3844,7 @@ export const locations: Location[] = [
     "hotels",
     18.9217,
     72.8332,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-40",
@@ -3883,7 +3854,7 @@ export const locations: Location[] = [
     "hotels",
     41.9059,
     12.4835,
-    4.7
+    4.7,
   ),
   createLocation(
     "hotel-41",
@@ -3893,7 +3864,7 @@ export const locations: Location[] = [
     "hotels",
     5.11,
     73.07,
-    4.9
+    4.9,
   ),
   createLocation(
     "hotel-42",
@@ -3903,7 +3874,7 @@ export const locations: Location[] = [
     "hotels",
     -7.614,
     110.21,
-    4.8
+    4.8,
   ),
 
   // ===== GYMS (32) =====
@@ -3916,7 +3887,7 @@ export const locations: Location[] = [
     "gyms",
     48.8556,
     2.2755,
-    4.6
+    4.6,
   ),
   createLocation(
     "gym-2",
@@ -3926,7 +3897,7 @@ export const locations: Location[] = [
     "gyms",
     48.871,
     2.337,
-    4.4
+    4.4,
   ),
   // USA (5)
   createLocation(
@@ -3937,7 +3908,7 @@ export const locations: Location[] = [
     "gyms",
     40.7378,
     -73.9909,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-4",
@@ -3947,7 +3918,7 @@ export const locations: Location[] = [
     "gyms",
     33.9926,
     -118.4658,
-    4.4
+    4.4,
   ),
   createLocation(
     "gym-5",
@@ -3957,7 +3928,7 @@ export const locations: Location[] = [
     "gyms",
     40.7449,
     -73.9903,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-6",
@@ -3967,7 +3938,7 @@ export const locations: Location[] = [
     "gyms",
     34.034,
     -118.27,
-    4.5
+    4.5,
   ),
   createLocation(
     "gym-7",
@@ -3977,7 +3948,7 @@ export const locations: Location[] = [
     "gyms",
     40.725,
     -74.005,
-    4.5
+    4.5,
   ),
   // Canada (2)
   createLocation(
@@ -3988,7 +3959,7 @@ export const locations: Location[] = [
     "gyms",
     43.67,
     -79.386,
-    4.4
+    4.4,
   ),
   createLocation(
     "gym-9",
@@ -3998,7 +3969,7 @@ export const locations: Location[] = [
     "gyms",
     49.278,
     -123.12,
-    4.3
+    4.3,
   ),
   // Russia (2)
   createLocation(
@@ -4009,7 +3980,7 @@ export const locations: Location[] = [
     "gyms",
     55.757,
     37.613,
-    4.4
+    4.4,
   ),
   createLocation(
     "gym-11",
@@ -4019,7 +3990,7 @@ export const locations: Location[] = [
     "gyms",
     59.934,
     30.328,
-    4.2
+    4.2,
   ),
   // UK (2)
   createLocation(
@@ -4030,7 +4001,7 @@ export const locations: Location[] = [
     "gyms",
     51.505,
     -0.0196,
-    4.5
+    4.5,
   ),
   createLocation(
     "gym-13",
@@ -4040,7 +4011,7 @@ export const locations: Location[] = [
     "gyms",
     51.5148,
     -0.0805,
-    4.4
+    4.4,
   ),
   // Japan (2)
   createLocation(
@@ -4051,7 +4022,7 @@ export const locations: Location[] = [
     "gyms",
     35.6702,
     139.7027,
-    4.2
+    4.2,
   ),
   createLocation(
     "gym-15",
@@ -4061,7 +4032,7 @@ export const locations: Location[] = [
     "gyms",
     35.662,
     139.7,
-    4.1
+    4.1,
   ),
   // Afrique de l'Ouest (2)
   createLocation(
@@ -4072,7 +4043,7 @@ export const locations: Location[] = [
     "gyms",
     14.742,
     -17.514,
-    4.1
+    4.1,
   ),
   createLocation(
     "gym-17",
@@ -4082,7 +4053,7 @@ export const locations: Location[] = [
     "gyms",
     6.43,
     3.424,
-    4.2
+    4.2,
   ),
   // Afrique du Nord (2)
   createLocation(
@@ -4093,7 +4064,7 @@ export const locations: Location[] = [
     "gyms",
     30.06,
     31.22,
-    4.2
+    4.2,
   ),
   createLocation(
     "gym-19",
@@ -4103,7 +4074,7 @@ export const locations: Location[] = [
     "gyms",
     31.635,
     -8.01,
-    4.1
+    4.1,
   ),
   // Asie Centrale (2)
   createLocation(
@@ -4114,7 +4085,7 @@ export const locations: Location[] = [
     "gyms",
     43.22,
     76.93,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-21",
@@ -4124,7 +4095,7 @@ export const locations: Location[] = [
     "gyms",
     41.31,
     69.275,
-    4.1
+    4.1,
   ),
   // Reste du monde (11)
   createLocation(
@@ -4135,7 +4106,7 @@ export const locations: Location[] = [
     "gyms",
     22.284,
     114.152,
-    4.4
+    4.4,
   ),
   createLocation(
     "gym-23",
@@ -4145,7 +4116,7 @@ export const locations: Location[] = [
     "gyms",
     1.282,
     103.853,
-    4.4
+    4.4,
   ),
   createLocation(
     "gym-24",
@@ -4155,7 +4126,7 @@ export const locations: Location[] = [
     "gyms",
     37.517,
     127.047,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-25",
@@ -4165,7 +4136,7 @@ export const locations: Location[] = [
     "gyms",
     13.722,
     100.569,
-    4.4
+    4.4,
   ),
   createLocation(
     "gym-26",
@@ -4175,7 +4146,7 @@ export const locations: Location[] = [
     "gyms",
     25.198,
     55.279,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-27",
@@ -4185,7 +4156,7 @@ export const locations: Location[] = [
     "gyms",
     -33.872,
     151.226,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-28",
@@ -4195,7 +4166,7 @@ export const locations: Location[] = [
     "gyms",
     41.392,
     2.162,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-29",
@@ -4205,7 +4176,7 @@ export const locations: Location[] = [
     "gyms",
     45.464,
     9.198,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-30",
@@ -4215,7 +4186,7 @@ export const locations: Location[] = [
     "gyms",
     -23.561,
     -46.656,
-    4.1
+    4.1,
   ),
   createLocation(
     "gym-31",
@@ -4225,7 +4196,7 @@ export const locations: Location[] = [
     "gyms",
     -33.905,
     18.418,
-    4.3
+    4.3,
   ),
   createLocation(
     "gym-32",
@@ -4235,7 +4206,7 @@ export const locations: Location[] = [
     "gyms",
     19.39,
     -99.18,
-    4.1
+    4.1,
   ),
 
   // ===== RESTAURANTS =====
@@ -4248,7 +4219,7 @@ export const locations: Location[] = [
     21.0159,
     105.8576,
     4.6,
-    true
+    true,
   ),
   createLocation(
     "vn-rest-2",
@@ -4258,7 +4229,7 @@ export const locations: Location[] = [
     "restaurants",
     21.0197,
     105.8525,
-    4.5
+    4.5,
   ),
   createLocation(
     "vn-rest-3",
@@ -4269,7 +4240,7 @@ export const locations: Location[] = [
     10.7932,
     106.6479,
     4.7,
-    true
+    true,
   ),
   createLocation(
     "vn-rest-4",
@@ -4279,7 +4250,7 @@ export const locations: Location[] = [
     "restaurants",
     10.7821,
     106.6983,
-    4.6
+    4.6,
   ),
 
   // ===== CAFES =====
@@ -4291,7 +4262,7 @@ export const locations: Location[] = [
     "cafes",
     21.0285,
     105.8522,
-    4.2
+    4.2,
   ),
   createLocation(
     "vn-cafe-2",
@@ -4302,7 +4273,7 @@ export const locations: Location[] = [
     10.7749,
     106.7051,
     4.5,
-    true
+    true,
   ),
   createLocation(
     "vn-cafe-3",
@@ -4312,7 +4283,7 @@ export const locations: Location[] = [
     "cafes",
     15.8801,
     108.338,
-    4.6
+    4.6,
   ),
 
   // ===== BARS =====
@@ -4324,7 +4295,7 @@ export const locations: Location[] = [
     "bars",
     10.7716,
     106.6939,
-    4.4
+    4.4,
   ),
   createLocation(
     "vn-bar-2",
@@ -4334,7 +4305,7 @@ export const locations: Location[] = [
     "bars",
     10.7677,
     106.6932,
-    4.1
+    4.1,
   ),
 
   // ===== PARKS =====
@@ -4346,7 +4317,7 @@ export const locations: Location[] = [
     "parks",
     10.7725,
     106.6894,
-    4.3
+    4.3,
   ),
   createLocation(
     "vn-park-2",
@@ -4357,7 +4328,7 @@ export const locations: Location[] = [
     21.0287,
     105.852,
     4.8,
-    true
+    true,
   ),
 
   // ===== MUSEUMS =====
@@ -4369,7 +4340,7 @@ export const locations: Location[] = [
     "museums",
     10.7798,
     106.692,
-    4.6
+    4.6,
   ),
   createLocation(
     "vn-museum-2",
@@ -4379,7 +4350,7 @@ export const locations: Location[] = [
     "museums",
     21.0404,
     105.8003,
-    4.7
+    4.7,
   ),
 
   // ===== SHOPS =====
@@ -4391,7 +4362,7 @@ export const locations: Location[] = [
     "shops",
     10.772,
     106.6983,
-    4.2
+    4.2,
   ),
   createLocation(
     "vn-shop-2",
@@ -4401,7 +4372,7 @@ export const locations: Location[] = [
     "shops",
     10.7736,
     106.7001,
-    4.5
+    4.5,
   ),
 
   // ===== HOTELS =====
@@ -4414,7 +4385,7 @@ export const locations: Location[] = [
     10.7829,
     106.6946,
     4.8,
-    true
+    true,
   ),
   createLocation(
     "vn-hotel-2",
@@ -4424,7 +4395,7 @@ export const locations: Location[] = [
     "hotels",
     21.0246,
     105.8563,
-    4.9
+    4.9,
   ),
 
   // ===== GYMS =====
@@ -4436,7 +4407,7 @@ export const locations: Location[] = [
     "gyms",
     10.7737,
     106.7004,
-    4.3
+    4.3,
   ),
   createLocation(
     "vn-gym-2",
@@ -4446,6 +4417,6 @@ export const locations: Location[] = [
     "gyms",
     21.0249,
     105.8558,
-    4.4
+    4.4,
   ),
 ];

@@ -1,23 +1,26 @@
 "use client";
+import { useMemo } from "react";
+
 import dynamic from "next/dynamic";
-import { MapFlyTo } from "./map-fly-to";
-import { UserLocationMarker } from "./user-location-marker";
-import { LocationMarkers } from "./location-marker";
-import { Location } from "@/mocks/location-mock";
 
 import { GeoLocationSensorState } from "react-use/lib/useGeolocation";
-import { useMemo } from "react";
+
+import type { Location } from "@/mocks/location-mock";
+
+import { LocationMarkers } from "./location-marker";
+import { MapFlyTo } from "./map-fly-to";
+import { UserLocationMarker } from "./user-location-marker";
 
 const Map = dynamic(() => import("@/components/ui/map").then((m) => m.Map), {
   ssr: false,
 });
 const MapControls = dynamic(
   () => import("@/components/ui/map").then((m) => m.MapControls),
-  { ssr: false }
+  { ssr: false },
 );
 const MapRoute = dynamic(
   () => import("@/components/ui/map").then((m) => m.MapRoute),
-  { ssr: false }
+  { ssr: false },
 );
 
 type Props = {
@@ -44,7 +47,7 @@ export function LocationsMap({
       myLocation.latitude && myLocation.longitude
         ? [myLocation.longitude, myLocation.latitude]
         : [2.3522, 48.8566],
-    [myLocation.latitude, myLocation.longitude]
+    [myLocation.latitude, myLocation.longitude],
   );
 
   return (

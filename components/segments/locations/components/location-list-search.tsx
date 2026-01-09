@@ -22,7 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import { categories } from "@/mocks/category-location-mock";
-import { Location } from "@/mocks/location-mock";
+import type { Location, LocationCategory } from "@/mocks/location-mock";
 
 import { SidebarTrigger } from "@/components/animate-ui/components/radix/sidebar";
 import {
@@ -49,9 +49,9 @@ import { IconComponent } from "@/types";
 const LocationCard = dynamic(
   () =>
     import("@/components/segments/locations/components/location-card").then(
-      (m) => m.LocationCard
+      (m) => m.LocationCard,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface LocationListSearchProps {
@@ -62,10 +62,12 @@ interface LocationListSearchProps {
   selectedCoordinates: Location["coordinates"] | null;
 }
 
+type CategoryId = LocationCategory["id"];
+
 function filterLocations(
   locations: Location[],
   query: string,
-  categoryId: string | null
+  categoryId: string | null,
 ): Location[] {
   return locations.filter((location) => {
     if (categoryId && location.categoryId !== categoryId) return false;
@@ -104,7 +106,7 @@ export const LocationListSearch = memo(
     const [searchQuery, setSearchQuery] = useState("");
     const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
-      null
+      null,
     );
 
     const [isPending, startTransition] = useTransition();
@@ -124,7 +126,7 @@ export const LocationListSearch = memo(
           setSearchQuery(value);
         });
       },
-      []
+      [],
     );
 
     const handleClearSearch = useCallback(() => {
@@ -140,10 +142,33 @@ export const LocationListSearch = memo(
 
     const delays = useMemo(() => {
       return Object.fromEntries(
-        filteredLocations.map((l, i) => [l.id, i * 0.03])
+        filteredLocations.map((l, i) => [l.id, i * 0.03]),
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filteredLocations.map((l) => l.id).join()]);
+
+    const countCategories = useMemo(() => {
+      const results = locationList.reduce<Record<CategoryId, number>>(
+        (acc: Record<string, number>, location) => {
+          if (location.categoryId in acc) {
+            acc[location.categoryId]++;
+          }
+          return acc;
+        },
+        {
+          restaurants: 0,
+          cafes: 0,
+          bars: 0,
+          parks: 0,
+          museums: 0,
+          shops: 0,
+          hotels: 0,
+          gyms: 0,
+          university: 0,
+        },
+      );
+      return results;
+    }, [locationList]);
 
     return (
       <div className="flex flex-col h-full">
@@ -172,7 +197,7 @@ export const LocationListSearch = memo(
                     className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-blur-md"
                   >
                     <DropdownMenuGroup>
-                      {categories.map((category) => {
+                      {categories.map((category: LocationCategory) => {
                         const Icon: IconComponent = category.icon;
 
                         const active =
@@ -181,7 +206,7 @@ export const LocationListSearch = memo(
                         return (
                           <DropdownMenuItem
                             key={category.id}
-                            className="cursor-pointer border hover:bg-primary/30! transition duration-300"
+                            className="cursor-pointer group border hover:bg-primary/30! transition duration-300 flex items-center justify-between"
                             onMouseEnter={() => {
                               setHoveredCategory(category.id);
                             }}
@@ -199,7 +224,7 @@ export const LocationListSearch = memo(
                                     "size-4",
                                     active
                                       ? "text-primary"
-                                      : "text-muted-foreground"
+                                      : "text-muted-foreground",
                                   )}
                                 />
                               )}
@@ -209,12 +234,22 @@ export const LocationListSearch = memo(
                                   "text-sm font-medium",
                                   active
                                     ? "text-primary"
-                                    : "text-muted-foreground"
+                                    : "text-muted-foreground",
                                 )}
                               >
                                 {category.name}
                               </span>
                             </div>
+
+                            <DropdownMenuShortcut className="text-xs bg-muted/50 group-hover:bg-muted/80 group-hover:border-primary rounded-full border p-0.5 transition-all duration-300">
+                              <span className="text-xs  text-card-foreground rounded-full p-0.5 w-fit h-fit group-hover:text-primary">
+                                {
+                                  countCategories[
+                                    category.id as keyof typeof countCategories
+                                  ]
+                                }
+                              </span>
+                            </DropdownMenuShortcut>
                           </DropdownMenuItem>
                         );
                       })}
@@ -283,30 +318,35 @@ export const LocationListSearch = memo(
             )}
 
             {/* Location cards */}
-            {filteredLocations.map((location: Location, index: number) => (
-              <BlurFade key={location.id} inView delay={delays[location.id]}>
-                <LocationCard
-                  // key={location.id}
-                  icon={MapPinIcon}
-                  onClick={() => handleGetCoordinates(location.coordinates)}
-                  location={location}
-                  handleGetCoordinates={handleGetCoordinates}
-                  handleRouteToLocation={() => {
-                    handleRouteToLocation(location.coordinates);
-                  }}
-                  isLoadingRoute={
-                    isLoadingRoute &&
-                    selectedCoordinates?.lat === location.coordinates.lat &&
-                    selectedCoordinates?.lng === location.coordinates.lng
-                  }
-                />
-              </BlurFade>
-            ))}
+            {filteredLocations.map((location: Location, index: number) => {
+              const isSelected =
+                selectedCoordinates?.lat === location.coordinates.lat &&
+                selectedCoordinates?.lng === location.coordinates.lng;
+              return (
+                <BlurFade key={location.id} inView delay={delays[location.id]}>
+                  <LocationCard
+                    icon={MapPinIcon}
+                    onClick={() => handleGetCoordinates(location.coordinates)}
+                    location={location}
+                    handleGetCoordinates={handleGetCoordinates}
+                    handleRouteToLocation={() => {
+                      handleRouteToLocation(location.coordinates);
+                    }}
+                    isLoadingRoute={
+                      isLoadingRoute &&
+                      selectedCoordinates?.lat === location.coordinates.lat &&
+                      selectedCoordinates?.lng === location.coordinates.lng
+                    }
+                    isSelected={isSelected}
+                  />
+                </BlurFade>
+              );
+            })}
           </div>
         </ScrollArea>
       </div>
     );
-  }
+  },
 );
 
 LocationListSearch.displayName = "LocationListSearch";

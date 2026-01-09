@@ -5,6 +5,11 @@ import { useInView } from "react-intersection-observer";
 import { useGeolocation } from "react-use";
 import { toast } from "sonner";
 
+import {
+  locationFetchRoute,
+  RouteCoordinates,
+} from "@/lib/location-fetch-route";
+
 import { Location, locations } from "@/mocks/location-mock";
 import { universityLocations } from "@/mocks/univerity-mock";
 
@@ -12,10 +17,6 @@ import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
 import { LocationListSearch } from "@/components/segments/locations/components/location-list-search";
 import { LocationsMap } from "@/components/segments/locations/components/location-map";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  locationFetchRoute,
-  RouteCoordinates,
-} from "@/lib/location-fetch-route";
 
 import { LocationsSidebar } from "./components/location-sidebar";
 
@@ -27,7 +28,7 @@ const LocationsClient = () => {
 
   const locationList = useMemo<Location[]>(
     () => [...locations, ...universityLocations],
-    []
+    [],
   );
 
   const myLocation = useGeolocation({
@@ -39,7 +40,7 @@ const LocationsClient = () => {
   >(null);
 
   const [routeCoordinates, setRouteCoordinates] = useState<RouteCoordinates>(
-    []
+    [],
   );
   const [isLoadingRoute, setIsLoadingRoute] = useState(false);
 
@@ -49,7 +50,7 @@ const LocationsClient = () => {
       // Clear route when just viewing a location
       setRouteCoordinates([]);
     },
-    []
+    [],
   );
 
   const handleRouteToLocation = useCallback(
@@ -76,7 +77,7 @@ const LocationsClient = () => {
       setRouteCoordinates(route);
       setIsLoadingRoute(false);
     },
-    [myLocation.latitude, myLocation.longitude]
+    [myLocation.latitude, myLocation.longitude],
   );
 
   const handleLocate = useCallback(
@@ -86,7 +87,7 @@ const LocationsClient = () => {
         lng: coords.longitude,
       });
     },
-    []
+    [],
   );
 
   return (

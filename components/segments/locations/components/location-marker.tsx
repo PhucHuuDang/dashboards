@@ -1,22 +1,25 @@
 "use client";
 import dynamic from "next/dynamic";
+
 import { MapPinIcon } from "lucide-react";
-import { BlurFade } from "@/components/common/blur-fade";
-import { Location } from "@/mocks/location-mock";
-import { LocationCard } from "@/components/segments/locations/components/location-card";
 import { useInView } from "react-intersection-observer";
+
+import type { Location } from "@/mocks/location-mock";
+
+import { BlurFade } from "@/components/common/blur-fade";
+import { LocationCard } from "@/components/segments/locations/components/location-card";
 
 const MapMarker = dynamic(
   () => import("@/components/ui/map").then((m) => m.MapMarker),
-  { ssr: false }
+  { ssr: false },
 );
 const MarkerContent = dynamic(
   () => import("@/components/ui/map").then((m) => m.MarkerContent),
-  { ssr: false }
+  { ssr: false },
 );
 const MarkerPopup = dynamic(
   () => import("@/components/ui/map").then((m) => m.MarkerPopup),
-  { ssr: false }
+  { ssr: false },
 );
 
 type Props = {
@@ -40,7 +43,7 @@ export function LocationMarkers({
   return (
     <div ref={ref}>
       {inView &&
-        locations.map((location, index) => {
+        locations.map((location: Location, index: number) => {
           const isSelected =
             selectedCoordinates?.lat === location.coordinates.lat &&
             selectedCoordinates?.lng === location.coordinates.lng;
@@ -64,6 +67,7 @@ export function LocationMarkers({
                     icon={MapPinIcon}
                     location={location}
                     className="w-96"
+                    isSelected={isSelected}
                     handleGetCoordinates={() => {}}
                     handleRouteToLocation={() => onRoute(location.coordinates)}
                     isLoadingRoute={isLoadingRoute && isSelected}

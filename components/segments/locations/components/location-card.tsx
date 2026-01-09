@@ -12,10 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import { categories } from "@/mocks/category-location-mock";
-import { Location } from "@/mocks/location-mock";
-
-import ChartBarIcon from "@/components/ui/chart-bar-icon";
-import { IconComponent, Prettify } from "@/types";
+import type { Location } from "@/mocks/location-mock";
 
 import { Badge } from "../../../ui/badge";
 import { Button } from "../../../ui/button";
@@ -28,14 +25,19 @@ import {
   CardTitle,
 } from "../../../ui/card";
 
-interface LocationCardProps
-  extends Prettify<React.ComponentProps<typeof Card>> {
+import type { IconComponent, Prettify } from "@/types";
+
+interface LocationCardProps extends Prettify<
+  React.ComponentProps<typeof Card>
+> {
   icon: LucideIcon;
 
   location: Location;
   handleGetCoordinates: (coordinates: Location["coordinates"]) => void;
   handleRouteToLocation: () => void;
   isLoadingRoute?: boolean;
+
+  isSelected: boolean;
 }
 
 export const LocationCard = ({
@@ -45,6 +47,7 @@ export const LocationCard = ({
   handleGetCoordinates,
   handleRouteToLocation,
   isLoadingRoute = false,
+  isSelected,
   ...props
 }: LocationCardProps) => {
   const refCard = useRef<HTMLDivElement>(null);
@@ -68,7 +71,7 @@ export const LocationCard = ({
   };
 
   const category = categories.find(
-    (category) => category.id === location.categoryId
+    (category) => category.id === location.categoryId,
   );
 
   // const categoryColor = category?.color;
@@ -80,8 +83,10 @@ export const LocationCard = ({
     <Card
       {...props}
       className={cn(
-        `w-full group  cursor-pointer relative border hover:border-primary/70 transition-all duration-300 bg-blur-md`,
-        className
+        `w-full group  cursor-pointer relative border ${
+          isSelected ? "border-primary" : "hover:border-primary/70"
+        } transition-all duration-300 bg-blur-md`,
+        className,
       )}
       ref={refCard}
       onMouseMove={handleMouseEnter}
@@ -112,7 +117,9 @@ export const LocationCard = ({
             {CategoryIcon && (
               <CategoryIcon
                 className={cn(
-                  `size-5 md:size-8 text-foreground group-hover:text-primary transition-colors duration-300`
+                  `size-5 md:size-8 text-foreground ${
+                    isSelected ? "text-primary" : "group-hover:text-primary"
+                  } transition-colors duration-300`,
                 )}
               />
             )}
@@ -121,13 +128,17 @@ export const LocationCard = ({
               <CardTitle
                 className={cn(
                   "flex items-center justify-between gap-2 transition-all duration-300 ",
-                  `group-hover:text-primary`
+                  `${isSelected ? "text-primary" : "group-hover:text-primary"}`,
                 )}
               >
                 {location.name}
               </CardTitle>
 
-              <CardDescription className="group-hover:text-accent-foreground/90 ">
+              <CardDescription
+                className={`${
+                  isSelected ? "text-accent-foreground/90" : ""
+                } group-hover:text-accent-foreground/90`}
+              >
                 {location.description}
               </CardDescription>
             </div>
