@@ -1,6 +1,15 @@
 "use client";
 
 import * as React from "react";
+
+import type {
+  getEstimatedHoursRange,
+  getTaskPriorityCounts,
+  getTaskStatusCounts,
+  getTasks,
+} from "@/lib/queries";
+import type { Task } from "@/lib/tasks-seeds";
+
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableAdvancedToolbar } from "@/components/data-table/data-table-advanced-toolbar";
 import { DataTableFilterList } from "@/components/data-table/data-table-filter-list";
@@ -9,19 +18,14 @@ import { DataTableSortList } from "@/components/data-table/data-table-sort-list"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 // import type { Task } from "@/db/schema";
 import { useDataTable } from "@/hooks/use-data-table";
-import type { DataTableRowAction, QueryKeys } from "@/types/data-table";
-import type {
-  getEstimatedHoursRange,
-  getTaskPriorityCounts,
-  getTaskStatusCounts,
-  getTasks,
-} from "@/lib/queries";
+
 import { DeleteTasksDialog } from "./delete-tasks-dialog";
 import { useFeatureFlags } from "./feature-flags-provider";
 import { TasksTableActionBar } from "./tasks-table-action-bar";
 import { getTasksTableColumns } from "./tasks-table-columns";
 import { UpdateTaskSheet } from "./update-task-sheet";
-import type { Task } from "@/lib/tasks-seeds";
+
+import type { DataTableRowAction, QueryKeys } from "@/types/data-table";
 
 interface TasksTableProps {
   promises: Promise<

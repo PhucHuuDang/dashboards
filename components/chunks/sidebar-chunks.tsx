@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import {
   BadgeCheckIcon,
   BellIcon,
@@ -13,6 +16,9 @@ import {
   SparklesIcon,
   UserIcon,
 } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
 import {
   SidebarInset,
   SidebarTrigger,
@@ -44,14 +50,12 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/animate-ui/primitives/radix/dropdown-menu";
-
-import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
-import { DynamicBreadcrumbs } from "./dynamic-breadcrumbs";
-import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { usePathname } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
+
 import { CinematicThemeSwitcher } from "../ui/cinematic-theme-switcher";
+
+import { DynamicBreadcrumbs } from "./dynamic-breadcrumbs";
 
 export interface UserProps {
   name: string;
@@ -383,7 +387,7 @@ export const SidebarInsetContent = ({
         <SidebarInsetHeader>
           <div
             className={cn(
-              "flex items-center justify-between",
+              "flex items-center justify-between w-full px-1 ",
               classNameContainer
             )}
           >
@@ -444,7 +448,7 @@ export const SidebarFooterChunk = ({
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-red-500"
+              className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg "
               side={isMobile ? "bottom" : "right"}
               align="end"
               sideOffset={4}

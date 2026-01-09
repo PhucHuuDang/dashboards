@@ -9,11 +9,12 @@ import {
   UsersIcon,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 import { categories } from "@/mocks/category-location-mock";
 import { Location } from "@/mocks/location-mock";
 
 import ChartBarIcon from "@/components/ui/chart-bar-icon";
-import { cn } from "@/lib/utils";
 import { IconComponent, Prettify } from "@/types";
 
 import { Badge } from "../../../ui/badge";

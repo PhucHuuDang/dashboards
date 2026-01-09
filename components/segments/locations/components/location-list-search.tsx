@@ -19,6 +19,8 @@ import {
   SearchX,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 import { categories } from "@/mocks/category-location-mock";
 import { Location } from "@/mocks/location-mock";
 
@@ -42,7 +44,6 @@ import { InputGroup } from "@/components/ui/input-group";
 import MagnifierIcon from "@/components/ui/magnifier-icon";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { IconComponent } from "@/types";
 
 const LocationCard = dynamic(

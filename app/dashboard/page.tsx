@@ -1,9 +1,6 @@
 import { Metadata } from "next";
-import { Prettify, SearchParams } from "@/types";
 
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
-import { DashboardKanban } from "@/components/segments/dashboard/dashboard-kanban";
-
 import { DataGridDemo } from "@/components/data-grid/data-grid-demo";
 import DataGridRenderPage from "@/components/data-grid/data-grid-render/data-grid-render-page";
 import {
@@ -11,6 +8,8 @@ import {
   DataGridSkeletonGrid,
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
+import { DashboardKanban } from "@/components/segments/dashboard/dashboard-kanban";
+import { Prettify, SearchParams } from "@/types";
 
 export const metadata: Metadata = {
   title: "Statistics",

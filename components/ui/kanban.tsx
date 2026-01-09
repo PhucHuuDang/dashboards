@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+
 import {
   defaultDropAnimation,
   defaultDropAnimationSideEffects,
@@ -29,8 +29,10 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Slot } from "@radix-ui/react-slot";
-import { toast } from "sonner";
 import { ReplaceIcon } from "lucide-react";
+import { toast } from "sonner";
+
+import { cn } from "@/lib/utils";
 
 interface KanbanContextProps<T> {
   columns: Record<string, T[]>;
@@ -483,7 +485,7 @@ function KanbanColumnHandle({
       {...attributes}
       {...listeners}
       className={cn(
-        "opacity-0 transition-opacity group-hover/kanban-column:opacity-100",
+        "opacity-0 transition-opacity group-hover/kanban-column:opacity-100 group-hover/kanban-column:shadow-none!",
         cursor && (isDragging ? "!cursor-grabbing" : "!cursor-grab"),
         className
       )}

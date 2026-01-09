@@ -44,21 +44,26 @@ const eslintConfig = defineConfig([
             },
 
             {
-              pattern: "@/types/**",
+              pattern: "@/lib/**",
               group: "internal",
               position: "before",
             },
 
+            {
+              pattern: "@/types/**",
+              group: "type",
+              position: "before",
+            },
             {
               pattern: "@/mocks/**",
               group: "internal",
               position: "before",
             },
 
-            {
-              pattern: "@/**",
-              group: "internal",
-            },
+            // {
+            //   pattern: "@/**",
+            //   group: "internal",
+            // },
           ],
           pathGroupsExcludedImportTypes: ["react"],
           "newlines-between": "always",
