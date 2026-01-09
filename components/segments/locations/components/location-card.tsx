@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+
 import {
   HeartIcon,
   Loader2,
@@ -6,6 +8,16 @@ import {
   Route,
   UsersIcon,
 } from "lucide-react";
+
+import { categories } from "@/mocks/category-location-mock";
+import { Location } from "@/mocks/location-mock";
+
+import ChartBarIcon from "@/components/ui/chart-bar-icon";
+import { cn } from "@/lib/utils";
+import { IconComponent, Prettify } from "@/types";
+
+import { Badge } from "../../../ui/badge";
+import { Button } from "../../../ui/button";
 import {
   Card,
   CardContent,
@@ -14,12 +26,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../ui/card";
-import { Badge } from "../../../ui/badge";
-import { Prettify } from "@/types";
-import { Location } from "@/mocks/location-mock";
-import { Button } from "../../../ui/button";
-import { cn } from "@/lib/utils";
-import { useRef, useState } from "react";
 
 interface LocationCardProps
   extends Prettify<React.ComponentProps<typeof Card>> {
@@ -60,15 +66,25 @@ export const LocationCard = ({
     }
   };
 
+  const category = categories.find(
+    (category) => category.id === location.categoryId
+  );
+
+  // const categoryColor = category?.color;
+  // console.log(categoryColor);
+
+  const CategoryIcon: IconComponent = category?.icon as IconComponent;
+
   return (
     <Card
       {...props}
       className={cn(
-        "w-full group/card  cursor-pointer relative border hover:border-primary/30 transition-all duration-300",
+        `w-full group  cursor-pointer relative border hover:border-primary/70 transition-all duration-300 bg-blur-md`,
         className
       )}
       ref={refCard}
       onMouseMove={handleMouseEnter}
+      // onMouseOver={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {mouse && (
@@ -92,16 +108,27 @@ export const LocationCard = ({
       <CardHeader className="">
         <div className="flex items-center justify-between gap-2 ">
           <div className="flex  gap-2">
-            <Icon className="size-5 md:size-8 text-primary" />
+            {CategoryIcon && (
+              <CategoryIcon
+                className={cn(
+                  `size-5 md:size-8 text-foreground group-hover:text-primary transition-colors duration-300`
+                )}
+              />
+            )}
 
             <div className="flex flex-col gap-1">
-              <CardTitle className="flex items-center justify-between gap-2">
+              <CardTitle
+                className={cn(
+                  "flex items-center justify-between gap-2 transition-all duration-300 ",
+                  `group-hover:text-primary`
+                )}
+              >
                 {location.name}
-
-                {/* <span>{location.rating}*</span> */}
               </CardTitle>
 
-              <CardDescription>{location.description}</CardDescription>
+              <CardDescription className="group-hover:text-accent-foreground/90 ">
+                {location.description}
+              </CardDescription>
             </div>
           </div>
 

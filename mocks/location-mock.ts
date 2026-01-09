@@ -1,9 +1,12 @@
+import { AnimatedIconProps } from "@/components/ui/types";
+import { IconComponent } from "@/types";
 import {
   BedIcon,
   CoffeeIcon,
   DumbbellIcon,
   LandmarkIcon,
   LucideIcon,
+  LucideProps,
   ShoppingBagIcon,
   TreesIcon,
   UtensilsIcon,
@@ -13,7 +16,7 @@ import {
 export type LocationCategory = {
   id: string;
   name: string;
-  icon: LucideIcon;
+  icon: IconComponent;
   color: string;
 };
 

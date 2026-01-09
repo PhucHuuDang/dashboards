@@ -1,14 +1,5 @@
 "use client";
 
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { LocationCard } from "@/components/segments/locations/components/location-card";
-import { Loader2Icon, MapPinIcon, SearchX } from "lucide-react";
-import { Location } from "@/mocks/location-mock";
-
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import MagnifierIcon from "@/components/ui/magnifier-icon";
-import { InputGroup } from "@/components/ui/input-group";
 import {
   memo,
   useCallback,
@@ -18,7 +9,49 @@ import {
   useState,
   useTransition,
 } from "react";
+
+import dynamic from "next/dynamic";
+
+import {
+  EllipsisVerticalIcon,
+  Loader2Icon,
+  MapPinIcon,
+  SearchX,
+} from "lucide-react";
+
+import { categories } from "@/mocks/category-location-mock";
+import { Location } from "@/mocks/location-mock";
+
+import { SidebarTrigger } from "@/components/animate-ui/components/radix/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/animate-ui/primitives/radix/dropdown-menu";
 import { BlurFade } from "@/components/common/blur-fade";
+import { Button } from "@/components/ui/button";
+import { CardHeader, CardTitle } from "@/components/ui/card";
+import GlobeIcon from "@/components/ui/globe-icon";
+import { Input } from "@/components/ui/input";
+import { InputGroup } from "@/components/ui/input-group";
+import MagnifierIcon from "@/components/ui/magnifier-icon";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { IconComponent } from "@/types";
+
+const LocationCard = dynamic(
+  () =>
+    import("@/components/segments/locations/components/location-card").then(
+      (m) => m.LocationCard
+    ),
+  { ssr: false }
+);
 
 interface LocationListSearchProps {
   locationList: Location[];
@@ -28,14 +61,21 @@ interface LocationListSearchProps {
   selectedCoordinates: Location["coordinates"] | null;
 }
 
-function searchLocations(locations: Location[], query: string): Location[] {
-  if (!query.trim()) return locations;
-
-  const searchTerms = query.toLowerCase().trim().split(/\s+/);
-
+function filterLocations(
+  locations: Location[],
+  query: string,
+  categoryId: string | null
+): Location[] {
   return locations.filter((location) => {
+    if (categoryId && location.categoryId !== categoryId) return false;
+
+    if (!query.trim()) {
+      return true;
+    }
+
     const searchableText = [
       location.name,
+      categories.find((category) => category.id === location.categoryId)?.name,
       // location.description,
       location.address,
       ...location.tags,
@@ -43,7 +83,11 @@ function searchLocations(locations: Location[], query: string): Location[] {
       .join(" ")
       .toLowerCase();
 
-    return searchTerms.every((term) => searchableText.includes(term));
+    return query
+      .toLowerCase()
+      .trim()
+      .split(/\s+/)
+      .every((term) => searchableText.includes(term));
   });
 }
 
@@ -57,13 +101,20 @@ export const LocationListSearch = memo(
   }: LocationListSearchProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(
+      null
+    );
+
     const [isPending, startTransition] = useTransition();
 
     const deferredQuery = useDeferredValue(searchQuery);
 
     const filteredLocations = useMemo(() => {
-      return searchLocations(locationList, deferredQuery);
-    }, [locationList, deferredQuery]);
+      const categoryId = selectedCategory || hoveredCategory;
+
+      return filterLocations(locationList, deferredQuery, categoryId);
+    }, [locationList, deferredQuery, selectedCategory, hoveredCategory]);
 
     const handleSearch = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +128,8 @@ export const LocationListSearch = memo(
 
     const handleClearSearch = useCallback(() => {
       setSearchQuery("");
+      setSelectedCategory(null);
+      setHoveredCategory(null);
       inputRef.current?.focus();
     }, []);
 
@@ -84,9 +137,95 @@ export const LocationListSearch = memo(
     const hasNoResults =
       filteredLocations.length === 0 && deferredQuery.trim() !== "";
 
+    const delays = useMemo(() => {
+      return Object.fromEntries(
+        filteredLocations.map((l, i) => [l.id, i * 0.03])
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filteredLocations.map((l) => l.id).join()]);
+
     return (
       <div className="flex flex-col h-full">
-        <div className="p-2 sticky top-0 bg-background z-10">
+        <div className="p-2 sticky top-0  z-10 bg-sidebar">
+          <CardHeader className="flex items-center justify-between my-4 ">
+            <div className="flex items-center gap-2  w-full">
+              <GlobeIcon className="size-6 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Locations
+              </CardTitle>
+            </div>
+
+            <div className="w-fit py-1 px-2 group hover:border-foreground/20 rounded-full flex items-center gap-2  transition-colors duration-300 cursor-pointer border border-border">
+              <SidebarTrigger />
+              <div className="bg-muted hover:bg-muted/80 transition-colors duration-300 rounded-full p-1 cursor-pointer">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <EllipsisVerticalIcon className="size-6 text-muted-foreground focus:border-none focus:ring-0 hover:scale-105 transition duration-300" />
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent
+                    side="right"
+                    sideOffset={40}
+                    align="start"
+                    alignOffset={-10}
+                    className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-blur-md"
+                  >
+                    <DropdownMenuGroup>
+                      {categories.map((category) => {
+                        const Icon: IconComponent = category.icon;
+
+                        const active =
+                          hoveredCategory === category.id ||
+                          selectedCategory === category.id;
+                        return (
+                          <DropdownMenuItem
+                            key={category.id}
+                            className="cursor-pointer border hover:bg-primary/30! transition duration-300"
+                            onMouseEnter={() => {
+                              setHoveredCategory(category.id);
+                            }}
+                            onMouseLeave={() => {
+                              setHoveredCategory(null);
+                            }}
+                            onSelect={() => {
+                              setSelectedCategory(category.id);
+                            }}
+                          >
+                            <div className="flex items-center gap-2">
+                              {Icon && (
+                                <Icon
+                                  className={cn(
+                                    "size-4",
+                                    active
+                                      ? "text-primary"
+                                      : "text-muted-foreground"
+                                  )}
+                                />
+                              )}
+
+                              <span
+                                className={cn(
+                                  "text-sm font-medium",
+                                  active
+                                    ? "text-primary"
+                                    : "text-muted-foreground"
+                                )}
+                              >
+                                {category.name}
+                              </span>
+                            </div>
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+          </CardHeader>
+
+          <Separator className="my-4" />
+
           <InputGroup>
             <Input
               placeholder="Search by name, address, or tags..."
@@ -112,7 +251,7 @@ export const LocationListSearch = memo(
           </InputGroup>
         </div>
 
-        <ScrollArea className="h-dvh rounded-lg">
+        <ScrollArea className="h-dvh rounded-lg mt-2">
           {/* Search results count */}
           {deferredQuery.trim() && (
             <p className="text-xs text-muted-foreground my-1.5 px-1">
@@ -144,7 +283,7 @@ export const LocationListSearch = memo(
 
             {/* Location cards */}
             {filteredLocations.map((location: Location, index: number) => (
-              <BlurFade key={location.id} inView delay={0.03 * index}>
+              <BlurFade key={location.id} inView delay={delays[location.id]}>
                 <LocationCard
                   // key={location.id}
                   icon={MapPinIcon}

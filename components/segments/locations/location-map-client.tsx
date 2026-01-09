@@ -1,20 +1,23 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
-import { useGeolocation } from "react-use";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
+import { useInView } from "react-intersection-observer";
+import { useGeolocation } from "react-use";
+import { toast } from "sonner";
 
 import { Location, locations } from "@/mocks/location-mock";
 import { universityLocations } from "@/mocks/univerity-mock";
+
+import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
 import { LocationListSearch } from "@/components/segments/locations/components/location-list-search";
-import { toast } from "sonner";
 import { LocationsMap } from "@/components/segments/locations/components/location-map";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   locationFetchRoute,
   RouteCoordinates,
 } from "@/lib/location-fetch-route";
-import { useInView } from "react-intersection-observer";
+
+import { LocationsSidebar } from "./components/location-sidebar";
 
 const LocationsClient = () => {
   const { ref, inView } = useInView({
@@ -89,7 +92,7 @@ const LocationsClient = () => {
   return (
     <SidebarInsetContent isShowSidebarInsetHeader={false} className="p-0">
       <div className="relative overflow-hidden">
-        <Card className="min-w-1/3 absolute h-full top-0 left-0 my-2 z-10 p-0">
+        {/* <Card className="min-w-1/3 absolute h-full top-0 left-0 my-2 z-10 p-0">
           <CardContent className="p-0">
             <LocationListSearch
               locationList={locationList}
@@ -99,7 +102,14 @@ const LocationsClient = () => {
               selectedCoordinates={selectedCoordinates}
             />
           </CardContent>
-        </Card>
+        </Card> */}
+        <LocationsSidebar
+          locationList={locationList}
+          selectedCoordinates={selectedCoordinates}
+          isLoadingRoute={isLoadingRoute}
+          onSelect={handleGetCoordinates}
+          onRoute={handleRouteToLocation}
+        />
 
         <Card className="h-dvh p-0 overflow-hidden" ref={ref}>
           {/* <MapComponent center={initialCenter} zoom={11} showToggleTheme>

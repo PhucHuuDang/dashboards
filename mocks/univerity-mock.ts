@@ -7,7 +7,7 @@ export const universityLocations: Location[] = [
     "Đại học Quốc gia Hà Nội",
     "Vietnam National University, Hanoi",
     "144 Xuân Thủy, Cầu Giấy, Hà Nội",
-    "museums",
+    "university",
     21.0373,
     105.7829,
     4.7,
@@ -18,7 +18,7 @@ export const universityLocations: Location[] = [
     "Đại học Bách Khoa Hà Nội",
     "Top engineering university in Vietnam",
     "1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội",
-    "museums",
+    "university",
     21.0049,
     105.8431,
     4.6
@@ -28,7 +28,7 @@ export const universityLocations: Location[] = [
     "Đại học Kinh tế Quốc dân",
     "National Economics University",
     "207 Giải Phóng, Hai Bà Trưng, Hà Nội",
-    "museums",
+    "university",
     20.9995,
     105.8467,
     4.5
@@ -38,7 +38,7 @@ export const universityLocations: Location[] = [
     "Học viện Ngoại giao",
     "Diplomatic Academy of Vietnam",
     "69 Chùa Láng, Đống Đa, Hà Nội",
-    "museums",
+    "university",
     21.0217,
     105.8056,
     4.4
@@ -48,7 +48,7 @@ export const universityLocations: Location[] = [
     "Đại học Sư phạm Hà Nội",
     "Hanoi National University of Education",
     "136 Xuân Thủy, Cầu Giấy, Hà Nội",
-    "museums",
+    "university",
     21.0379,
     105.7836,
     4.5
@@ -60,7 +60,7 @@ export const universityLocations: Location[] = [
     "Đại học Quốc gia TP.HCM",
     "Vietnam National University, HCM",
     "Khu phố 6, Thủ Đức, TP.HCM",
-    "museums",
+    "university",
     10.87,
     106.8034,
     4.7,
@@ -71,7 +71,7 @@ export const universityLocations: Location[] = [
     "Đại học Bách Khoa TP.HCM",
     "Ho Chi Minh City University of Technology",
     "268 Lý Thường Kiệt, Quận 10, TP.HCM",
-    "museums",
+    "university",
     10.772,
     106.6596,
     4.6
@@ -81,7 +81,7 @@ export const universityLocations: Location[] = [
     "Đại học Kinh tế TP.HCM",
     "University of Economics Ho Chi Minh City",
     "59C Nguyễn Đình Chiểu, Quận 3, TP.HCM",
-    "museums",
+    "university",
     10.7845,
     106.6914,
     4.5
@@ -91,7 +91,7 @@ export const universityLocations: Location[] = [
     "Đại học Khoa học Tự nhiên",
     "University of Science - VNUHCM",
     "227 Nguyễn Văn Cừ, Quận 5, TP.HCM",
-    "museums",
+    "university",
     10.7628,
     106.6822,
     4.4
@@ -101,7 +101,7 @@ export const universityLocations: Location[] = [
     "Đại học Công nghệ Thông tin",
     "University of Information Technology",
     "KP6, Thủ Đức, TP.HCM",
-    "museums",
+    "university",
     10.8707,
     106.803,
     4.6
@@ -113,7 +113,7 @@ export const universityLocations: Location[] = [
     "Đại học Đà Nẵng",
     "University of Danang",
     "41 Lê Duẩn, Hải Châu, Đà Nẵng",
-    "museums",
+    "university",
     16.0678,
     108.2208,
     4.4
@@ -123,7 +123,7 @@ export const universityLocations: Location[] = [
     "Đại học Bách Khoa Đà Nẵng",
     "Danang University of Science and Technology",
     "54 Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng",
-    "museums",
+    "university",
     16.0757,
     108.1522,
     4.5
@@ -135,7 +135,7 @@ export const universityLocations: Location[] = [
     "Đại học Huế",
     "Hue University",
     "3 Lê Lợi, TP Huế",
-    "museums",
+    "university",
     16.4637,
     107.5954,
     4.4
@@ -145,7 +145,7 @@ export const universityLocations: Location[] = [
     "Đại học Y Dược Huế",
     "Hue University of Medicine and Pharmacy",
     "6 Ngô Quyền, TP Huế",
-    "museums",
+    "university",
     16.465,
     107.5919,
     4.5
@@ -157,7 +157,7 @@ export const universityLocations: Location[] = [
     "Đại học Cần Thơ",
     "Can Tho University",
     "Khu II, Ninh Kiều, Cần Thơ",
-    "museums",
+    "university",
     10.0308,
     105.7707,
     4.6,
@@ -170,7 +170,7 @@ export const universityLocations: Location[] = [
     "Đại học Đà Lạt",
     "Dalat University",
     "1 Phù Đổng Thiên Vương, Đà Lạt",
-    "museums",
+    "university",
     11.9566,
     108.4446,
     4.4
@@ -182,7 +182,7 @@ export const universityLocations: Location[] = [
     "Đại học Hàng Hải Việt Nam",
     "Vietnam Maritime University",
     "484 Lạch Tray, Hải Phòng",
-    "museums",
+    "university",
     20.8449,
     106.6881,
     4.5
@@ -194,7 +194,7 @@ export const universityLocations: Location[] = [
     "Đại học Thái Nguyên",
     "Thai Nguyen University",
     "Tân Thịnh, Thái Nguyên",
-    "museums",
+    "university",
     21.587,
     105.8445,
     4.3
@@ -206,7 +206,7 @@ export const universityLocations: Location[] = [
     "VinUniversity",
     "Private international university",
     "Vinhomes Ocean Park, Gia Lâm, Hà Nội",
-    "museums",
+    "university",
     21.0031,
     105.9556,
     4.8,
@@ -217,7 +217,7 @@ export const universityLocations: Location[] = [
     "FPT University Hanoi",
     "Technology-focused private university",
     "Khu CNC Hòa Lạc, Hà Nội",
-    "museums",
+    "university",
     21.0133,
     105.5258,
     4.6
@@ -227,7 +227,7 @@ export const universityLocations: Location[] = [
     "FPT University HCM",
     "FPT University Ho Chi Minh City",
     "Khu CNC Quận 9, TP.HCM",
-    "museums",
+    "university",
     10.8412,
     106.8095,
     4.5

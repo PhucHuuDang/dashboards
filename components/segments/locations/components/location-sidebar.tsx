@@ -1,7 +1,8 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
-import { LocationListSearch } from "@/components/segments/locations/components/location-list-search";
 import { Location } from "@/mocks/location-mock";
+
+import { LocationListSearch } from "@/components/segments/locations/components/location-list-search";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Props = {
   locationList: Location[];
@@ -19,8 +20,8 @@ export function LocationsSidebar({
   onRoute,
 }: Props) {
   return (
-    <Card className="min-w-1/3 absolute h-full top-0 left-0 my-2 z-10 p-0">
-      <CardContent className="p-0">
+    <Card className="min-w-1/3 absolute h-full top-0 left-0 my-2 z-10 p-0 border-none bg-transparent outline-none ring-0">
+      <CardContent className="p-0 bg-transparent border-none">
         <LocationListSearch
           locationList={locationList}
           handleGetCoordinates={onSelect}

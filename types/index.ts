@@ -1,6 +1,13 @@
+import { AnimatedIconProps } from "@/components/ui/types";
+import { LucideIcon, LucideProps } from "lucide-react";
+
 export type Prettify<T> = {
   [K in keyof T]: T[K];
 } & {};
+
+export type IconComponent =
+  | React.ComponentType<LucideProps>
+  | React.ComponentType<AnimatedIconProps>;
 
 export type EmptyProps<T extends React.ElementType> = Omit<
   React.ComponentProps<T>,

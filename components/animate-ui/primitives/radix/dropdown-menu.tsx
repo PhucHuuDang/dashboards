@@ -359,6 +359,7 @@ function DropdownMenuItem({
     undefined,
     (value) => {
       if (value === true) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         const el = highlightedRef.current;
         const v = el?.dataset.value || el?.id || null;
         if (v) setHighlightedValue(v);
