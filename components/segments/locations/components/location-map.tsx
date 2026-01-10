@@ -1,11 +1,18 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import dynamic from "next/dynamic";
 
 import { GeoLocationSensorState } from "react-use/lib/useGeolocation";
 
 import type { Location } from "@/mocks/location-mock";
+
+import {
+  Map3DBuildings,
+  MapLanguage,
+  MapLanguageSwitcher,
+  MapLanguageType,
+} from "@/components/ui/map";
 
 import { LocationMarkers } from "./location-marker";
 import { MapFlyTo } from "./map-fly-to";
@@ -51,7 +58,14 @@ export function LocationsMap({
   );
 
   return (
-    <Map center={initialCenter} zoom={11} showToggleTheme>
+    <Map
+      showToggleTheme
+      center={initialCenter}
+      zoom={15.5}
+      pitch={45}
+      bearing={-17.6}
+    >
+      <Map3DBuildings />
       <MapFlyTo
         coordinates={selectedCoordinates}
         disabled={routeCoordinates.length > 0}

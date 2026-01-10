@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
       "@dnd-kit/modifiers",
       "@floating-ui/react",
     ],
+
+    viewTransition: true,
   },
 };
 

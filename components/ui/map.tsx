@@ -12,13 +12,21 @@ import {
   type ReactNode,
 } from "react";
 
-import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
+import { X, Minus, Plus, Locate, Maximize, Loader2, Globe } from "lucide-react";
 import MapLibreGL, { type PopupOptions, type MarkerOptions } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/animate-ui/primitives/radix/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 import { CinematicThemeSwitcher } from "./cinematic-theme-switcher";
 
@@ -38,8 +46,12 @@ function useMap() {
 }
 
 const defaultStyles = {
-  dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-  light: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+  // dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+  dark: "https://tiles.openfreemap.org/styles/dark",
+  // light: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+  light: "https://tiles.openfreemap.org/styles/bright",
+  // light: "https://demotiles.maplibre.org/style.json",
+  richColor: "https://demotiles.maplibre.org/style.json",
 };
 
 type MapStyleOption = string | MapLibreGL.StyleSpecification;
@@ -52,6 +64,7 @@ type MapProps = {
     dark?: MapStyleOption;
   };
   showToggleTheme?: boolean;
+  showLanguageSwitcher?: boolean;
 } & Omit<MapLibreGL.MapOptions, "container" | "style">;
 
 const DefaultLoader = () => (
@@ -68,6 +81,7 @@ function Map({
   children,
   styles,
   showToggleTheme = false,
+  showLanguageSwitcher = false,
   ...props
 }: MapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -75,6 +89,7 @@ function Map({
   const [isMounted, setIsMounted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
+  const [language, setLanguage] = useState<MapLanguageType>("local");
   const { resolvedTheme } = useTheme();
 
   const mapStyles = useMemo(
@@ -146,6 +161,11 @@ function Map({
         {showToggleTheme && (
           <div className="transition-colors z-20 duration-700 ease-in-out absolute top-2 right-2 ">
             <CinematicThemeSwitcher size="sm" className="cursor-pointer" />
+          </div>
+        )}
+        {showLanguageSwitcher && (
+          <div className="   absolute top-2 right-20 ">
+            <MapLanguageSwitcher value={language} onChange={setLanguage} />
           </div>
         )}
         {/* guard against hydration error */}
@@ -923,6 +943,182 @@ function MapRoute({
   return null;
 }
 
+function Map3DBuildings() {
+  const { map, isLoaded } = useMap();
+
+  useEffect(() => {
+    if (!map || !isLoaded) return;
+
+    // tránh add trùng khi đổi theme
+    if (map.getLayer("3d-buildings")) return;
+
+    const layers = map.getStyle().layers;
+    let labelLayerId: string | undefined;
+
+    for (const layer of layers) {
+      if (layer.type === "symbol" && layer.layout?.["text-field"]) {
+        labelLayerId = layer.id;
+        break;
+      }
+    }
+
+    // add source nếu chưa có
+    if (!map.getSource("openfreemap")) {
+      map.addSource("openfreemap", {
+        type: "vector",
+        url: "https://tiles.openfreemap.org/planet",
+      });
+    }
+
+    map.addLayer(
+      {
+        id: "3d-buildings",
+        source: "openfreemap",
+        "source-layer": "building",
+        type: "fill-extrusion",
+        minzoom: 15,
+        filter: ["!=", ["get", "hide_3d"], true],
+        paint: {
+          "fill-extrusion-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "render_height"],
+            0,
+            "#d1d5db",
+            200,
+            "#2563eb",
+            400,
+            "#7dd3fc",
+          ],
+          // "fill-extrusion-height": [
+          //   "interpolate",
+          //   ["linear"],
+          //   ["zoom"],
+          //   15,
+          //   0,
+          //   16,
+          //   ["get", "render_height"],
+          // ],
+          "fill-extrusion-height": [
+            "interpolate",
+            ["cubic-bezier", 0.4, 0, 0.2, 1],
+            ["zoom"],
+            15,
+            0,
+            16,
+            ["get", "render_height"],
+          ],
+          "fill-extrusion-base": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            15,
+            0,
+            16,
+            ["get", "render_min_height"],
+          ],
+          "fill-extrusion-opacity": 0.95,
+        },
+      },
+      labelLayerId,
+    );
+  }, [map, isLoaded]);
+
+  return null;
+}
+
+export type MapLanguageType = "local" | "en" | "vi" | "ja" | "zh";
+
+const LANGUAGE_FIELD: Record<MapLanguageType, string> = {
+  local: "name",
+  en: "name:en",
+  vi: "name:vi",
+  ja: "name:ja",
+  zh: "name:zh",
+};
+
+function MapLanguage({ language }: { language: MapLanguageType }) {
+  const { map, isLoaded } = useMap();
+
+  useEffect(() => {
+    if (!map || !isLoaded) return;
+
+    const field = LANGUAGE_FIELD[language];
+
+    const style = map.getStyle();
+    if (!style?.layers) return;
+
+    for (const layer of style.layers) {
+      if (
+        layer.type !== "symbol" ||
+        !layer.layout ||
+        !("text-field" in layer.layout)
+      )
+        continue;
+
+      try {
+        map.setLayoutProperty(layer.id, "text-field", [
+          "coalesce",
+          ["get", field],
+          ["get", "name"],
+        ]);
+      } catch {
+        // ignore layers that don't support text-field
+      }
+    }
+  }, [map, isLoaded, language]);
+
+  return null;
+}
+
+function MapLanguageSwitcher({
+  value,
+  onChange,
+}: {
+  value: MapLanguageType;
+  onChange: (v: MapLanguageType) => void;
+}) {
+  const languages = [
+    { value: "local", label: "Local", flag: "📍" },
+    { value: "en", label: "English", flag: "🇺🇸" },
+    { value: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
+    { value: "ja", label: "日本語", flag: "🇯🇵" },
+    { value: "zh", label: "中文", flag: "🇨🇳" },
+  ];
+
+  const currentLanguage = languages.find((l) => l.value === value);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2 px-3 py-2 h-auto bg-transparent"
+        >
+          <Globe className="h-4 w-4" />
+          <span className="text-sm font-medium">{currentLanguage?.label}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48 z-50">
+        {languages.map((language) => (
+          <DropdownMenuItem
+            key={language.value}
+            onClick={() => onChange(language.value as MapLanguageType)}
+            className={`cursor-pointer ${value === language.value ? "bg-primary/10" : ""}`}
+          >
+            <span className="mr-2 text-base">{language.flag}</span>
+            <span className="flex-1">{language.label}</span>
+            {value === language.value && (
+              <span className="ml-2 text-xs font-semibold">✓</span>
+            )}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export {
   Map,
   useMap,
@@ -934,4 +1130,7 @@ export {
   MapPopup,
   MapControls,
   MapRoute,
+  MapLanguage,
+  Map3DBuildings,
+  MapLanguageSwitcher,
 };
