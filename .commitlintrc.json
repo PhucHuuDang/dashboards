@@ -14,7 +14,9 @@
         "perf",
         "refactor",
         "revert",
-        "style"
+        "style",
+        "update",
+        "test"
       ]
     ],
     "type-case": [2, "always", "lowerCase"],

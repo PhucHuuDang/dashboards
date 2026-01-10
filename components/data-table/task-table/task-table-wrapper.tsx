@@ -1,10 +1,7 @@
 import { Suspense } from "react";
-import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
+
 // import { Shell } from "@/components/shell";
 import { getValidFilters } from "@/lib/data-table";
-import type { SearchParams } from "@/types";
-import { FeatureFlagsProvider } from "./components/feature-flags-provider";
-import { TasksTable } from "./components/tasks-table";
 import {
   getEstimatedHoursRange,
   getTaskPriorityCounts,
@@ -12,8 +9,15 @@ import {
   getTasks,
 } from "@/lib/queries";
 import { searchParamsCache } from "@/lib/validations";
-import { Shell } from "@/components/ui/shell";
+
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton";
 import { KanbanColumnHandle } from "@/components/ui/kanban";
+import { Shell } from "@/components/ui/shell";
+
+import { FeatureFlagsProvider } from "./components/feature-flags-provider";
+import { TasksTable } from "./components/tasks-table";
+
+import type { SearchParams } from "@/types";
 
 interface TaskTableWrapperProps {
   searchParams?: Promise<SearchParams>;

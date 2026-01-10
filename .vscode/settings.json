@@ -2,7 +2,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     "source.fixAll.eslint": true
-    // "source.organizeImports": true // import unused will be removed
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

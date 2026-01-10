@@ -1,8 +1,5 @@
 "use client";
 
-import MapLibreGL, { type PopupOptions, type MarkerOptions } from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { useTheme } from "next-themes";
 import {
   createContext,
   useCallback,
@@ -14,10 +11,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { createPortal } from "react-dom";
+
 import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
+import MapLibreGL, { type PopupOptions, type MarkerOptions } from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { useTheme } from "next-themes";
+import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
+
 import { CinematicThemeSwitcher } from "./cinematic-theme-switcher";
 
 type MapContextValue = {
@@ -80,7 +82,7 @@ function Map({
       dark: styles?.dark ?? defaultStyles.dark,
       light: styles?.light ?? defaultStyles.light,
     }),
-    [styles]
+    [styles],
   );
 
   useEffect(() => {
@@ -123,7 +125,7 @@ function Map({
       setIsStyleLoaded(false);
       mapRef.current.setStyle(
         resolvedTheme === "dark" ? mapStyles.dark : mapStyles.light,
-        { diff: true }
+        { diff: true },
       );
     }
   }, [resolvedTheme]);
@@ -133,7 +135,7 @@ function Map({
   return (
     <MapContext.Provider
       value={{
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
         map: mapRef.current,
         isLoaded: isMounted && isLoaded && isStyleLoaded,
       }}
@@ -242,7 +244,7 @@ function MapMarker({
     marker.on("drag", handleDrag);
     marker.on("dragend", handleDragEnd);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
     setIsReady(true);
 
     return () => {
@@ -281,12 +283,12 @@ function MapMarker({
     }
     if (prev.rotationAlignment !== markerOptions.rotationAlignment) {
       markerRef.current.setRotationAlignment(
-        markerOptions.rotationAlignment ?? "auto"
+        markerOptions.rotationAlignment ?? "auto",
       );
     }
     if (prev.pitchAlignment !== markerOptions.pitchAlignment) {
       markerRef.current.setPitchAlignment(
-        markerOptions.pitchAlignment ?? "auto"
+        markerOptions.pitchAlignment ?? "auto",
       );
     }
 
@@ -310,14 +312,15 @@ type MarkerContentProps = {
 function MarkerContent({ children, className }: MarkerContentProps) {
   const { markerElementRef, isReady } = useMarkerContext();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line
   if (!isReady || !markerElementRef.current) return null;
 
   return createPortal(
     <div className={cn("relative cursor-pointer", className)}>
       {children || <DefaultMarkerIcon />}
     </div>,
-    markerElementRef.current
+    // eslint-disable-next-line
+    markerElementRef.current,
   );
 }
 
@@ -387,13 +390,14 @@ function MarkerPopup({
 
   const handleClose = () => popupRef.current?.remove();
 
+  // eslint-disable-next-line
   if (!mounted || !containerRef.current) return null;
 
   return createPortal(
     <div
       className={cn(
         "relative rounded-md border bg-popover p-3 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
-        className
+        className,
       )}
     >
       {closeButton && (
@@ -409,8 +413,9 @@ function MarkerPopup({
       )}
       {children}
     </div>,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    containerRef.current
+
+    // eslint-disable-next-line
+    containerRef.current,
   );
 }
 
@@ -483,20 +488,21 @@ function MarkerTooltip({
 
     popupOptionsRef.current = popupOptions;
   }, [popupOptions]);
-
+  // eslint-disable-next-line
   if (!mounted || !containerRef.current) return null;
 
   return createPortal(
     <div
       className={cn(
         "rounded-md bg-foreground px-2 py-1 text-xs text-background shadow-md animate-in fade-in-0 zoom-in-95",
-        className
+        className,
       )}
     >
       {children}
     </div>,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    containerRef.current
+
+    // eslint-disable-next-line
+    containerRef.current,
   );
 }
 
@@ -522,7 +528,7 @@ function MarkerLabel({
         "absolute left-1/2 -translate-x-1/2 whitespace-nowrap",
         "text-[10px] font-medium text-foreground",
         positionClasses[position],
-        className
+        className,
       )}
     >
       {children}
@@ -573,7 +579,7 @@ function ControlButton({
       type="button"
       className={cn(
         "flex items-center justify-center size-8 hover:bg-accent dark:hover:bg-accent/40 transition-colors",
-        disabled && "opacity-50 pointer-events-none cursor-not-allowed"
+        disabled && "opacity-50 pointer-events-none cursor-not-allowed",
       )}
       disabled={disabled}
     >
@@ -626,7 +632,7 @@ function MapControls({
         (error) => {
           console.error("Error getting location:", error);
           setWaitingForLocation(false);
-        }
+        },
       );
     }
   }, [map, onLocate]);
@@ -648,7 +654,7 @@ function MapControls({
       className={cn(
         "absolute z-10 flex flex-col gap-1.5",
         positionClasses[position],
-        className
+        className,
       )}
     >
       {showZoom && (
@@ -813,7 +819,7 @@ function MapPopup({
     <div
       className={cn(
         "relative rounded-md border bg-popover p-3 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
-        className
+        className,
       )}
     >
       {closeButton && (
@@ -829,7 +835,7 @@ function MapPopup({
       )}
       {children}
     </div>,
-    container
+    container,
   );
 }
 
