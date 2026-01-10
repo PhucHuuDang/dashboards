@@ -9,6 +9,10 @@ export const metadataConfig: Metadata = {
     "A minimal yet powerful dashboard UI focused on simplicity, usability, and visual balance.",
   icons: {
     icon: "/favicon.ico",
+    apple: [
+      { url: "/icons/icon-152x152.png", sizes: "152x152", type: "image/png" },
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+    ],
   },
   openGraph: {
     title: "Dashboard",
@@ -32,7 +36,13 @@ export const metadataConfig: Metadata = {
   appleWebApp: {
     title: "Dashboard",
     statusBarStyle: "black-translucent",
+    capable: true,
+    startupImage: "/icons/icon-512x512.png",
   },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0b" },
+  ],
   formatDetection: {
     telephone: false,
   },
@@ -67,10 +77,10 @@ export const metadataConfig: Metadata = {
     "radix-ui-react-native-web-web",
     "radix-ui-react-native-web-web-web",
   ],
-  metadataBase: new URL("https://dashboard.harrydang.com"),
+  metadataBase: new URL("https://dashboards-three-drab.vercel.app/dashboard"),
   alternates: {
-    canonical: "https://dashboard.harrydang.com",
+    canonical: "https://dashboards-three-drab.vercel.app/dashboard",
   },
 
-  bookmarks: "https://dashboard.harrydang.com",
+  bookmarks: "https://dashboards-three-drab.vercel.app/dashboard",
 };
