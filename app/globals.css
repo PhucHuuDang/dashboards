@@ -131,6 +131,10 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
   body {
     @apply bg-background text-foreground;
@@ -140,5 +144,24 @@
   }
   .maplibregl-popup-tip {
     @apply hidden!;
+  }
+
+  /* WebKit (Chrome / Arc / Edge / Safari) */
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 100vh;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
   }
 }

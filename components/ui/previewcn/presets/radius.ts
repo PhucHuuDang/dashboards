@@ -16,6 +16,7 @@ export const radiusPresets: RadiusPreset[] = [
   { name: "5xl", label: "5XL", value: "2.5rem" },
   { name: "6xl", label: "6XL", value: "3rem" },
   { name: "7xl", label: "7XL", value: "3.5rem" },
+  { name: "8xl", label: "8XL", value: "4rem" },
 ];
 
 export function getRadiusPreset(name: string): RadiusPreset | undefined {
