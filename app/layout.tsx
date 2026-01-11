@@ -1,11 +1,17 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono, Figtree } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/providers/theme-provider";
-import { metadataConfig } from "@/config/metadata";
 import Script from "next/script";
-import { siteConfig } from "@/config/site";
+
 import { Toaster } from "sonner";
+
+import { PreviewcnDevtools } from "@/components/ui/previewcn";
+// import { Button } from "@/components/ui/button";
+// import { ThemeSheet } from "@/components/ui/previewcn";
+import { metadataConfig } from "@/config/metadata";
+import { siteConfig } from "@/config/site";
+import { ThemeProvider } from "@/providers/theme-provider";
+
+import type { Metadata } from "next";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -32,6 +38,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* {process.env.NODE_ENV === "development" && <PreviewcnDevtools />} */}
+
+        <PreviewcnDevtools />
+
+        {/* {process.env.NODE_ENV === "development" && (
+          <ThemeSheet trigger={<Button>Theme</Button>} />
+        )} */}
+
         {/* <Script
           defer
           data-site-id={siteConfig.url}
