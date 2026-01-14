@@ -1,9 +1,6 @@
 "use client";
 import React from "react";
 
-import { SIDEBAR_CONSTANT } from "@/constant/sidebar-constant";
-import { useIsMobile } from "@/hooks/use-mobile";
-
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +13,8 @@ import {
   SidebarHeaderChunk,
   TeamProps,
 } from "@/components/chunks/sidebar-chunks";
+import { SIDEBAR_CONSTANT } from "@/constant/sidebar-constant";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const SidebarContainer = ({
   children,
@@ -24,7 +23,7 @@ export const SidebarContainer = ({
 }) => {
   const isMobile = useIsMobile();
   const [activeTeam, setActiveTeam] = React.useState<TeamProps | undefined>(
-    SIDEBAR_CONSTANT.teams?.items?.[0] ?? ({} as TeamProps)
+    SIDEBAR_CONSTANT.teams?.items?.[0] ?? ({} as TeamProps),
   );
 
   if (!activeTeam) return null;
@@ -48,13 +47,13 @@ export const SidebarContainer = ({
             }}
           />
 
-          <SidebarGroupProjectChunk
+          {/* <SidebarGroupProjectChunk
             isMobile={isMobile}
             projects={{
               label: "Platform",
               items: SIDEBAR_CONSTANT.projects?.items ?? [],
             }}
-          />
+          /> */}
         </SidebarContent>
 
         <SidebarFooterChunk user={SIDEBAR_CONSTANT.user} isMobile={isMobile} />

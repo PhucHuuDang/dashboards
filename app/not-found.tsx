@@ -1,3 +1,15 @@
+import Image from "next/image";
+import Link, { LinkProps } from "next/link";
+
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowUpRightIcon,
+  FolderIcon,
+} from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -8,24 +20,16 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { HandWrittenTitle } from "@/components/ui/hand-writing-text";
-import { cn } from "@/lib/utils";
 import { Prettify } from "@/types";
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-  FolderIcon,
-} from "lucide-react";
-import Image from "next/image";
-import Link, { LinkProps } from "next/link";
 
 enum EmptyStateType {
   NOT_FOUND = "not-found",
   NO_PROJECTS = "no-projects",
 }
 
-interface NotfoundProps
-  extends Prettify<React.ComponentProps<"div"> & Omit<LinkProps, "href">> {
+interface NotfoundProps extends Prettify<
+  React.ComponentProps<"div"> & Omit<LinkProps, "href">
+> {
   src: string;
   alt: string;
   width: number;
@@ -137,7 +141,8 @@ const EmptyState = ({
   width,
   height,
   title = "No Projects Yet",
-  href = "/dashboard",
+  // href = "/dashboard",
+  href = "#",
   description = "The page you are looking for does not exist.",
   ...props
 }: Omit<NotfoundProps, "type">) => {

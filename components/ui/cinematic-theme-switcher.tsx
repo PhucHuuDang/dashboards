@@ -1,9 +1,11 @@
 "use client";
 
-import { Sun, Moon } from "lucide-react";
 import { useState, useEffect, useRef, useMemo } from "react";
+
 import { motion } from "framer-motion";
+import { Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
+
 import { cn } from "@/lib/utils";
 
 interface Particle {
@@ -79,8 +81,9 @@ export function CinematicThemeSwitcher({
 
   // Handle hydration - prevent mismatch
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    setMounted(true);
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
   }, []);
 
   // Generate particles with different timing
