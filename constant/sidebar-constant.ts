@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 
 import { DataProps } from "@/components/chunks/sidebar-chunks";
+import { ROUTES } from "@/constant/routes";
 
 export const SIDEBAR_CONSTANT: DataProps = {
   user: {
@@ -147,7 +148,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
     items: [
       {
         name: "General",
-        url: "/dashboard",
+        url: ROUTES.DASHBOARD,
         icon: MonitorCogIcon,
         dropdownItems: [
           {
@@ -169,7 +170,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "Locations",
-        url: "/dashboard/locations",
+        url: ROUTES.LOCATIONS,
         icon: Globe2Icon,
         dropdownItems: [
           {
@@ -191,7 +192,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "Activities",
-        url: "/dashboard/activities",
+        url: "#",
         icon: ActivityIcon,
         dropdownItems: [
           {
@@ -213,7 +214,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "Profile",
-        url: "/dashboard",
+        url: "#",
         icon: FileUserIcon,
         dropdownItems: [
           {
@@ -235,7 +236,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "My Cooking",
-        url: "/dashboard/my-cooking",
+        url: "#",
         icon: ChefHatIcon,
         dropdownItems: [
           {

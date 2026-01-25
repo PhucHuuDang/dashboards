@@ -1,0 +1,15 @@
+export const ROUTES = {
+  HOME: "/",
+  DASHBOARD: "/dashboard",
+  LOCATIONS: "/dashboard/locations",
+  ACTIVITIES: "/dashboard/activities",
+  PROFILE: "/dashboard/profile",
+  SETTINGS: "/dashboard/settings",
+  PROJECTS: "/dashboard/projects",
+  TEAMS: "/dashboard/teams",
+  USERS: "/dashboard/users",
+  ORDERS: "/dashboard/orders",
+  PRODUCTS: "/dashboard/products",
+  CATEGORIES: "/dashboard/categories",
+  TAGS: "/dashboard/tags",
+};

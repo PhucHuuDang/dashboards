@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
 
     viewTransition: true,
   },
+
+  skipMiddlewareUrlNormalize: true,
 };
 
 export default nextConfig;

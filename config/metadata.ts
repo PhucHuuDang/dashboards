@@ -52,7 +52,7 @@ export const metadataConfig: Metadata = {
   authors: [
     {
       name: "Harry Dang",
-      url: "https://harrydang.com",
+      url: "https://github.com/PhucHuuDang",
     },
   ],
   creator: "Harry Dang",
