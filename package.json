@@ -2,10 +2,12 @@
   "name": "dashboards-ui",
   "version": "0.1.0",
   "author": "Harry Dang",
+  "description": "A minimal, powerful dashboard UI for modern web apps. Built with Next.js, React, Tailwind CSS, and Shadcn UI.",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/harrydang/dashboards-ui.git"
+    "url": "https://github.com/harrydang/dashboards-ui.git",
+    "directory": "packages/dashboards-ui"
   },
   "private": true,
   "lint-staged": {
