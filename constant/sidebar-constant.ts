@@ -192,7 +192,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
       {
         name: "Activities",
-        url: "#",
+        url: ROUTES.ACTIVITIES,
         icon: ActivityIcon,
         dropdownItems: [
           {
