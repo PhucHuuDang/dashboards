@@ -99,7 +99,7 @@ export function ActivityDetailSheet({
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent
         side="right"
-        className="flex w-full flex-col gap-0 p-0 sm:max-w-md  mr-4 rounded-2xl"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-md border  mr-4 rounded-2xl overflow-hidden"
       >
         {activeActivity ? (
           <>
@@ -123,7 +123,10 @@ export function ActivityDetailSheet({
               </SheetDescription>
             </SheetHeader>
 
-            <ScrollArea className="flex-1 px-6 py-6" id="activity-sheet-scroll">
+            <ScrollArea
+              className="flex-1 px-6 py-6 "
+              id="activity-sheet-scroll"
+            >
               <motion.div
                 variants={staggerContainer}
                 initial="hidden"
@@ -351,7 +354,7 @@ export function ActivityDetailSheet({
             </ScrollArea>
 
             {/* Comment Input Footer */}
-            <div className="border-t bg-card p-4">
+            <div className="border-t bg-card p-4 w-full ">
               <form onSubmit={handleSubmit} className="flex items-center gap-2">
                 <Avatar className="size-8 shrink-0">
                   <AvatarImage src="" alt="Admin" />

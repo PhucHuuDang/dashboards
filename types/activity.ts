@@ -7,6 +7,8 @@ export interface ActivityUser {
   name: string;
   avatarUrl: string;
   email: string;
+  gender?: "male" | "female" | "other";
+  position?: string;
 }
 
 export interface ActivityEntity {
