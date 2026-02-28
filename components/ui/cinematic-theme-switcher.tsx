@@ -8,6 +8,8 @@ import { useTheme } from "next-themes";
 
 import { cn } from "@/lib/utils";
 
+import { useHotkeys } from "@/hooks/use-hot-key";
+
 interface Particle {
   id: number;
   delay: number;
@@ -114,6 +116,8 @@ export function CinematicThemeSwitcher({
     generateParticles();
     setTheme(isDark ? "light" : "dark");
   };
+
+  useHotkeys([["d", () => handleToggle()]]);
 
   // Prevent hydration mismatch - show placeholder during SSR
   if (!mounted) {

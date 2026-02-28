@@ -85,7 +85,7 @@ interface ActivityItemProps {
   activity: Activity;
   isLast?: boolean;
   index?: number;
-  onClick?: () => void;
+  onClick?: (id: string) => void;
 }
 
 function ActivityItem({
@@ -102,6 +102,7 @@ function ActivityItem({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04, duration: 0.3, ease: "easeOut" }}
+      style={{ contentVisibility: "auto" }}
       className="group relative flex gap-4"
       role="article"
       aria-label={`${activity.user.name} ${activity.action} ${activity.entity.name}`}
@@ -126,11 +127,11 @@ function ActivityItem({
       <div
         role="button"
         tabIndex={0}
-        onClick={onClick}
+        onClick={() => onClick?.(activity.id)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            onClick?.();
+            onClick?.(activity.id);
           }
         }}
         className={cn(

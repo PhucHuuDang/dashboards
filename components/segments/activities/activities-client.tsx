@@ -37,8 +37,12 @@ export default function ActivitiesClient() {
     null,
   );
 
-  // Local state for activities to allow updating comments
-  const [activities, setActivities] = useState<Activity[]>(MOCK_ACTIVITIES);
+  // Local state for activities to allow updating comments.
+  // Using lazy initialization `() => MOCK_ACTIVITIES` per Vercel best practices
+  // to avoid re-evaluating the mock array on every re-render.
+  const [activities, setActivities] = useState<Activity[]>(
+    () => MOCK_ACTIVITIES,
+  );
 
   /* Simulate initial load */
   React.useEffect(() => {
@@ -189,7 +193,7 @@ export default function ActivitiesClient() {
               activity={activity}
               index={idx}
               isLast={idx === visibleActivities.length - 1 && !hasMore}
-              onClick={() => handleOpenSheet(activity.id)}
+              onClick={handleOpenSheet}
             />
           ))}
         </div>

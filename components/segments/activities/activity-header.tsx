@@ -24,6 +24,13 @@ function ActivityHeader({
   onToggleFilter,
   className,
 }: ActivityHeaderProps) {
+  const handleChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onSearchChange(e.target.value);
+    },
+    [onSearchChange],
+  );
+
   return (
     <div
       data-slot="activity-header"
@@ -51,7 +58,7 @@ function ActivityHeader({
             type="search"
             placeholder="Search activities…"
             value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={handleChange}
             className="h-8 w-full pl-8 sm:w-56"
             aria-label="Search activities"
           />
