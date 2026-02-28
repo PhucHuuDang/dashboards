@@ -1,89 +1,87 @@
 import { useCallback, useMemo, useState, useTransition } from "react";
 
-import type { Activity, ActivityType as TActivityType } from "@/types/activity";
+import type { Activity } from "@/types/activity";
+
+import type { ActivityFilterParams } from "@/hooks/use-activity-filters";
 
 const PAGE_SIZE = 8;
 
-export function useActivityFeed(initialActivities: () => Activity[]) {
+interface UseActivityFeedOptions {
+  /**
+   * All filter/sort values — driven externally by `useActivityFilters`
+   * (URL-backed). Keeping them as props here means the hook is purely
+   * responsible for data logic, not for owning filter state.
+   */
+  filters: ActivityFilterParams;
+}
+
+export function useActivityFeed(
+  initialActivities: () => Activity[],
+  { filters }: UseActivityFeedOptions,
+) {
   const [activities, setActivities] = useState<Activity[]>(initialActivities);
 
-  // Filter & Sort State
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(true);
-  const [activeType, setActiveType] = useState<TActivityType | "all">("all");
-  const [genderFilter, setGenderFilter] = useState<string>("all");
-  const [positionFilter, setPositionFilter] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"desc" | "asc" | "performance">("desc");
-
-  // Pagination State
+  // Pagination — ephemeral (doesn't need to survive a refresh / share)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isPending, startTransition] = useTransition();
 
-  // Detail Sheet State
+  // Detail sheet — ephemeral
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(
     null,
   );
 
-  // Derived State
+  // Filter panel open state — ephemeral UI preference
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(true);
+
+  // ─── Derived: filtering + sorting ──────────────────────────────────────────
+
   const filtered = useMemo(() => {
+    const { type, gender, position, q, sort } = filters;
     let result = activities;
 
     // 1. Filter by activity type
-    if (activeType !== "all") {
-      result = result.filter((a) => a.type === activeType);
+    if (type !== "all") {
+      result = result.filter((a) => a.type === type);
     }
 
     // 2. Filter by gender
-    if (genderFilter !== "all") {
-      result = result.filter(
-        (a) => (a.user.gender || "other") === genderFilter,
-      );
+    if (gender !== "all") {
+      result = result.filter((a) => (a.user.gender || "other") === gender);
     }
 
     // 3. Filter by position
-    if (positionFilter !== "all") {
+    if (position !== "all") {
       result = result.filter(
-        (a) => (a.user.position || "Unknown") === positionFilter,
+        (a) => (a.user.position || "Unknown") === position,
       );
     }
 
-    // 4. Filter by text search
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
+    // 4. Full-text search
+    if (q.trim()) {
+      const lq = q.toLowerCase();
       result = result.filter(
         (a) =>
-          a.user.name.toLowerCase().includes(q) ||
-          a.action.toLowerCase().includes(q) ||
-          a.entity.name.toLowerCase().includes(q) ||
-          a.description?.toLowerCase().includes(q),
+          a.user.name.toLowerCase().includes(lq) ||
+          a.action.toLowerCase().includes(lq) ||
+          a.entity.name.toLowerCase().includes(lq) ||
+          a.description?.toLowerCase().includes(lq),
       );
     }
 
-    // 5. Sort the results
+    // 5. Sort
     result = [...result].sort((a, b) => {
-      if (sortBy === "desc") {
-        return b.timestamp.getTime() - a.timestamp.getTime();
-      }
-      if (sortBy === "asc") {
-        return a.timestamp.getTime() - b.timestamp.getTime();
-      }
-      if (sortBy === "performance") {
-        const scoreA = a.performance?.impactScore || 0;
-        const scoreB = b.performance?.impactScore || 0;
-        return scoreB - scoreA;
+      if (sort === "desc") return b.timestamp.getTime() - a.timestamp.getTime();
+      if (sort === "asc") return a.timestamp.getTime() - b.timestamp.getTime();
+      if (sort === "performance") {
+        return (
+          (b.performance?.impactScore ?? 0) - (a.performance?.impactScore ?? 0)
+        );
       }
       return 0;
     });
 
     return result;
-  }, [
-    activeType,
-    genderFilter,
-    positionFilter,
-    searchQuery,
-    sortBy,
-    activities,
-  ]);
+  }, [filters, activities]);
 
   const visibleActivities = useMemo(
     () => filtered.slice(0, visibleCount),
@@ -93,37 +91,19 @@ export function useActivityFeed(initialActivities: () => Activity[]) {
   const hasMore = visibleCount < filtered.length;
 
   const selectedActivity = useMemo(
-    () => activities.find((a) => a.id === selectedActivityId) || null,
+    () => activities.find((a) => a.id === selectedActivityId) ?? null,
     [activities, selectedActivityId],
   );
 
-  // Handlers
+  // ─── Handlers ──────────────────────────────────────────────────────────────
+
   const handleToggleFilter = useCallback(
     () => setIsFilterOpen((prev) => !prev),
     [],
   );
 
-  const handleTypeChange = useCallback((type: TActivityType | "all") => {
-    setActiveType(type);
-    setVisibleCount(PAGE_SIZE);
-  }, []);
-
-  const handleClearFilters = useCallback(() => {
-    setActiveType("all");
-    setGenderFilter("all");
-    setPositionFilter("all");
-    setSearchQuery("");
-    setVisibleCount(PAGE_SIZE);
-  }, []);
-
-  const handleSearchChange = useCallback((value: string) => {
-    setSearchQuery(value);
-    setVisibleCount(PAGE_SIZE);
-  }, []);
-
-  const handleSortChange = useCallback((val: string) => {
-    setSortBy(val as "desc" | "asc" | "performance");
-  }, []);
+  /** Reset pagination when filters change */
+  const resetPagination = useCallback(() => setVisibleCount(PAGE_SIZE), []);
 
   const handleLoadMore = useCallback(() => {
     startTransition(() => {
@@ -143,7 +123,6 @@ export function useActivityFeed(initialActivities: () => Activity[]) {
     setActivities((prev) =>
       prev.map((act) => {
         if (act.id !== activityId) return act;
-
         return {
           ...act,
           comments: [
@@ -173,22 +152,10 @@ export function useActivityFeed(initialActivities: () => Activity[]) {
     isPending,
     selectedActivity,
     selectedActivityId,
-    filters: {
-      searchQuery,
-      activeType,
-      genderFilter,
-      positionFilter,
-      sortBy,
-      isFilterOpen,
-    },
+    isFilterOpen,
     actions: {
-      handleSearchChange,
-      handleTypeChange,
-      setGenderFilter,
-      setPositionFilter,
-      handleSortChange,
-      handleClearFilters,
       handleToggleFilter,
+      resetPagination,
       handleLoadMore,
       handleOpenSheet,
       handleCloseSheet,

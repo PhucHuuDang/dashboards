@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { MOCK_ACTIVITIES } from "@/mocks/activity-mock";
 
 import { Button } from "@/components/ui/button";
+import { useActivityFilters } from "@/hooks/use-activity-filters";
 
 import { ActivityDetailSheet } from "./activity-detail-sheet";
 import ActivityEmptyState from "./activity-empty-state";
@@ -18,9 +19,27 @@ import ActivityItem from "./activity-item";
 import ActivitySkeleton from "./activity-skeleton";
 import { useActivityFeed } from "./use-activity-feed";
 
-export default function ActivitiesClient() {
+import type { ActivityFilterParams } from "@/hooks/use-activity-filters";
+
+interface ActivitiesClientProps {
+  /**
+   * Server-parsed initial filter values (from `activitySearchParamsCache`).
+   * Passed down from the RSC page so nuqs can hydrate in-sync with the
+   * server-rendered HTML — no flash of unfiltered content.
+   */
+  initialFilters: ActivityFilterParams;
+}
+
+export default function ActivitiesClient({
+  initialFilters: _initialFilters,
+}: ActivitiesClientProps) {
   const [isLoading, setIsLoading] = React.useState(true);
 
+  // ── URL-backed filter state (generic hook) ───────────────────────────────
+  const { params, setParams, clearParams, hasActiveParams } =
+    useActivityFilters();
+
+  // ── Data + derived state (receives filters as props) ─────────────────────
   const {
     filtered,
     visibleActivities,
@@ -28,35 +47,82 @@ export default function ActivitiesClient() {
     isPending,
     selectedActivity,
     selectedActivityId,
-    filters,
+    isFilterOpen,
     actions,
-  } = useActivityFeed(() => MOCK_ACTIVITIES);
+  } = useActivityFeed(() => MOCK_ACTIVITIES, { filters: params });
 
-  /* Simulate initial load */
+  /* Simulate initial data load */
   React.useEffect(() => {
     const id = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(id);
   }, []);
+
+  // Convenience wrappers: update URL param + reset pagination together
+  const handleSearchChange = React.useCallback(
+    (value: string) => {
+      setParams({ q: value });
+      actions.resetPagination();
+    },
+    [setParams, actions],
+  );
+
+  const handleTypeChange = React.useCallback(
+    (type: string) => {
+      setParams({ type: type as ActivityFilterParams["type"] });
+      actions.resetPagination();
+    },
+    [setParams, actions],
+  );
+
+  const handleGenderChange = React.useCallback(
+    (gender: string) => {
+      setParams({ gender });
+      actions.resetPagination();
+    },
+    [setParams, actions],
+  );
+
+  const handlePositionChange = React.useCallback(
+    (position: string) => {
+      setParams({ position });
+      actions.resetPagination();
+    },
+    [setParams, actions],
+  );
+
+  const handleSortChange = React.useCallback(
+    (sort: string) => {
+      setParams({ sort: sort as ActivityFilterParams["sort"] });
+    },
+    [setParams],
+  );
+
+  const handleClearFilters = React.useCallback(() => {
+    clearParams();
+    actions.resetPagination();
+  }, [clearParams, actions]);
+
   return (
     <div className="mx-auto flex w-full flex-col gap-6">
       <ActivityHeader
-        searchQuery={filters.searchQuery}
-        onSearchChange={actions.handleSearchChange}
-        isFilterOpen={filters.isFilterOpen}
+        searchQuery={params.q}
+        onSearchChange={handleSearchChange}
+        isFilterOpen={isFilterOpen}
         onToggleFilter={actions.handleToggleFilter}
       />
 
       <ActivityFilter
-        isOpen={filters.isFilterOpen}
-        activeType={filters.activeType}
-        onTypeChange={actions.handleTypeChange}
-        genderFilter={filters.genderFilter}
-        onGenderChange={actions.setGenderFilter}
-        positionFilter={filters.positionFilter}
-        onPositionChange={actions.setPositionFilter}
-        sortBy={filters.sortBy}
-        onSortChange={actions.handleSortChange}
-        onClear={actions.handleClearFilters}
+        isOpen={isFilterOpen}
+        activeType={params.type}
+        onTypeChange={handleTypeChange}
+        genderFilter={params.gender}
+        onGenderChange={handleGenderChange}
+        positionFilter={params.position}
+        onPositionChange={handlePositionChange}
+        sortBy={params.sort}
+        onSortChange={handleSortChange}
+        hasActiveFilters={hasActiveParams}
+        onClear={handleClearFilters}
       />
 
       {/* Feed */}
@@ -65,12 +131,12 @@ export default function ActivitiesClient() {
       ) : visibleActivities.length === 0 ? (
         <ActivityEmptyState
           title={
-            filters.searchQuery || filters.activeType !== "all"
+            params.q || params.type !== "all"
               ? "No matching activities"
               : "No activities yet"
           }
           description={
-            filters.searchQuery || filters.activeType !== "all"
+            params.q || params.type !== "all"
               ? "Try adjusting your filters or search query."
               : undefined
           }

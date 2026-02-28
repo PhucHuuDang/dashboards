@@ -31,14 +31,16 @@ const ACTIVITY_TYPE_OPTIONS: { label: string; value: ActivityType | "all" }[] =
 
 interface ActivityFilterProps {
   isOpen: boolean;
-  activeType: ActivityType | "all";
-  onTypeChange: (type: ActivityType | "all") => void;
+  activeType: string;
+  onTypeChange: (type: string) => void;
   genderFilter: string;
   onGenderChange: (val: string) => void;
   positionFilter: string;
   onPositionChange: (val: string) => void;
   sortBy: string;
   onSortChange: (val: string) => void;
+  /** Computed by the parent from URL state — true when any filter is non-default */
+  hasActiveFilters: boolean;
   onClear: () => void;
   className?: string;
 }
@@ -53,15 +55,10 @@ function ActivityFilter({
   onPositionChange,
   sortBy,
   onSortChange,
+  hasActiveFilters,
   onClear,
   className,
 }: ActivityFilterProps) {
-  const hasActiveFilter =
-    activeType !== "all" ||
-    genderFilter !== "all" ||
-    positionFilter !== "all" ||
-    sortBy !== "desc";
-
   return (
     <AnimatePresence initial={false}>
       {isOpen && (
@@ -148,7 +145,7 @@ function ActivityFilter({
                 </SelectContent>
               </Select>
 
-              {hasActiveFilter && (
+              {hasActiveFilters && (
                 <Button
                   variant="ghost"
                   size="xs"

@@ -1,7 +1,11 @@
 import { Metadata } from "next";
 
+import { activitySearchParamsCache } from "@/lib/activity-parsers";
+
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
 import ActivitiesClient from "@/components/segments/activities/activities-client";
+
+import type { SearchParams } from "nuqs/server";
 
 export const metadata: Metadata = {
   title: "Activities Dashboard | Track Workspace Progress",
@@ -58,7 +62,38 @@ const jsonLd = {
   },
 };
 
-const ActivitiesPage = () => {
+interface ActivitiesPageProps {
+  searchParams: Promise<SearchParams>;
+}
+
+/**
+ * Server Component page — reads URL search params via nuqs cache and passes
+ * the parsed initial filter values to `ActivitiesClient`.
+ *
+ * This enables:
+ * - SSR: server renders the page with the correct filters applied on first load
+ * - SEO: crawlers see the right content when following a filtered URL
+ * - Shareability: ?type=task&sort=performance renders correctly server-side
+ */
+const ActivitiesPage = async ({ searchParams }: ActivitiesPageProps) => {
+  // Parse & cache search params on the server (type-safe, validated against parsers)
+  const parsed = await activitySearchParamsCache.parse(searchParams);
+
+  // Cast through string parsers to our stricter ActivityFilterParams type
+  const initialFilters = {
+    q: parsed.q,
+    type: parsed.type as
+      | "all"
+      | "task"
+      | "project"
+      | "comment"
+      | "system"
+      | "status",
+    gender: parsed.gender,
+    position: parsed.position,
+    sort: parsed.sort as "desc" | "asc" | "performance",
+  };
+
   return (
     <>
       <script
@@ -66,7 +101,7 @@ const ActivitiesPage = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <SidebarInsetContent>
-        <ActivitiesClient />
+        <ActivitiesClient initialFilters={initialFilters} />
       </SidebarInsetContent>
     </>
   );
