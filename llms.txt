@@ -1,0 +1,62 @@
+# ReUI
+
+> ReUI is a first-class shadcn registry offering a collection of enterprise-grade components and patterns 
+built for shadcn and compatible with Base UI, Radix UI, and Tailwind CSS v4. Designed for developers and AI-driven workflows.
+
+## Overview
+
+- [Introduction](https:/reui.io/docs): Core principles—Components, Patterns, and Blocks for flexible abstraction.
+- [Get Started](https:/reui.io/docs/get-started): Quick guide to adding ReUI components to your application.
+- [Styling](https:/reui.io/docs/styling): Design token system using CSS variables for precise state management.
+- [Registry](https:/reui.io/docs/registry): Information about the ReUI registry and distribution.
+- [MCP Server](https:/reui.io/docs/mcp): Model Context Protocol server for AI integrations.
+- [Roadmap](https:/reui.io/docs/roadmap): Future plans and upcoming features.
+- [Changelog](https:/reui.io/docs/changelog): Latest updates and version history.
+
+## Base UI Components
+Components built with [Base UI](https:/base-ui.com) primitives.
+
+- [Alert](https:/reui.io/docs/base/alert): Callout for user attention (success, info, warning, error).
+- [Autocomplete](https:/reui.io/docs/base/autocomplete): Searchable select with autocomplete.
+- [Badge](https:/reui.io/docs/base/badge): Status indicators and labels.
+- [Data Grid](https:/reui.io/docs/base/data-grid): Advanced data table with sorting and filtering.
+- [Date Selector](https:/reui.io/docs/base/date-selector): Multi-mode date and range selection.
+- [File Upload](https:/reui.io/docs/base/file-upload): Drag and drop file uploading.
+- [Filters](https:/reui.io/docs/base/filters): Multi-facet filtering interface.
+- [Frame](https:/reui.io/docs/base/frame): Container with title and actions.
+- [Kanban](https:/reui.io/docs/base/kanban): Drag and drop board for task management.
+- [Number Field](https:/reui.io/docs/base/number-field): Specialized input for numeric data.
+- [Phone Input](https:/reui.io/docs/base/phone-input): International phone number input.
+- [Rating](https:/reui.io/docs/base/rating): Interactive star rating component.
+- [Scroll Area](https:/reui.io/docs/base/scroll-area): Custom scrollbars for overflow content.
+- [Scrollspy](https:/reui.io/docs/base/scrollspy): Navigation that tracks scroll position.
+- [Sortable](https:/reui.io/docs/base/sortable): Drag and drop list sorting.
+- [Stepper](https:/reui.io/docs/base/stepper): Multi-step process indicator.
+- [Timeline](https:/reui.io/docs/base/timeline): Chronological list of events.
+- [Tree](https:/reui.io/docs/base/tree): Hierarchical data structure view.
+
+## Radix UI Components
+Components built with [Radix UI](https:/www.radix-ui.com) primitives.
+
+- [Alert](https:/reui.io/docs/radix/alert): Callout for user attention.
+- [Autocomplete](https:/reui.io/docs/radix/autocomplete): Searchable select with autocomplete.
+- [Badge](https:/reui.io/docs/radix/badge): Status indicators and labels.
+- [Data Grid](https:/reui.io/docs/radix/data-grid): Advanced data table with sorting and filtering.
+- [Date Selector](https:/reui.io/docs/radix/date-selector): Multi-mode date and range selection.
+- [File Upload](https:/reui.io/docs/radix/file-upload): Drag and drop file uploading.
+- [Filters](https:/reui.io/docs/radix/filters): Multi-facet filtering interface.
+- [Frame](https:/reui.io/docs/radix/frame): Container with title and actions.
+- [Kanban](https:/reui.io/docs/radix/kanban): Drag and drop board for task management.
+- [Number Field](https:/reui.io/docs/radix/number-field): Specialized input for numeric data.
+- [Phone Input](https:/reui.io/docs/radix/phone-input): International phone number input.
+- [Rating](https:/reui.io/docs/radix/rating): Interactive star rating component.
+- [Scroll Area](https:/reui.io/docs/radix/scroll-area): Custom scrollbars for overflow content.
+- [Scrollspy](https:/reui.io/docs/radix/scrollspy): Navigation that tracks scroll position.
+- [Sortable](https:/reui.io/docs/radix/sortable): Drag and drop list sorting.
+- [Stepper](https:/reui.io/docs/radix/stepper): Multi-step process indicator.
+- [Timeline](https:/reui.io/docs/radix/timeline): Chronological list of events.
+- [Tree](https:/reui.io/docs/radix/tree): Hierarchical data structure view.
+Beta
+0 / 10
+used queries
+1
