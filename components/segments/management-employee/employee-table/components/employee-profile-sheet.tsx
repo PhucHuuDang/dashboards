@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from "react";
+
 import {
   Briefcase,
   Building2,
@@ -24,6 +26,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import {
   EMPLOYEE_STATUS_COLOR,
   getPerformanceBgColor,
@@ -44,46 +47,51 @@ export function EmployeeProfileSheet({
   onOpenChange,
   employee,
 }: EmployeeProfileSheetProps) {
-  if (!employee) return null;
+  const displayEmployee = useEntityCache(employee, open);
 
-  const statusColor = EMPLOYEE_STATUS_COLOR[employee.status];
-  const perfColor = getPerformanceColor(employee.performanceScore);
-  const perfBg = getPerformanceBgColor(employee.performanceScore);
-  const perfLevel = getPerformanceLevel(employee.performanceScore);
+  if (!displayEmployee) return null;
+
+  const statusColor = EMPLOYEE_STATUS_COLOR[displayEmployee.status];
+  const perfColor = getPerformanceColor(displayEmployee.performanceScore);
+  const perfBg = getPerformanceBgColor(displayEmployee.performanceScore);
+  const perfLevel = getPerformanceLevel(displayEmployee.performanceScore);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-lg overflow-y-auto">
-        <SheetHeader className="pb-0">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-lg overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
+        <SheetHeader className="border-b border-border bg-muted/30 px-6 py-5">
           <div className="flex items-start gap-4">
             <Avatar size="lg">
               <AvatarImage
-                src={employee.avatarUrl}
-                alt={`${employee.firstName} ${employee.lastName}`}
+                src={displayEmployee.avatarUrl}
+                alt={`${displayEmployee.firstName} ${displayEmployee.lastName}`}
               />
               <AvatarFallback>
-                {employee.firstName[0]}
-                {employee.lastName[0]}
+                {displayEmployee.firstName[0]}
+                {displayEmployee.lastName[0]}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 space-y-1">
               <SheetTitle className="text-lg">
-                {employee.firstName} {employee.lastName}
+                {displayEmployee.firstName} {displayEmployee.lastName}
               </SheetTitle>
               <SheetDescription className="flex items-center gap-2">
-                <span>{employee.role}</span>
+                <span>{displayEmployee.role}</span>
                 <span className="text-muted-foreground/50">·</span>
-                <span>{employee.department}</span>
+                <span>{displayEmployee.department}</span>
               </SheetDescription>
               <div className="flex items-center gap-2 pt-1">
                 <Badge
                   variant="outline"
                   className={`text-xs capitalize ${statusColor}`}
                 >
-                  {employee.status.replace("-", " ")}
+                  {displayEmployee.status.replace("-", " ")}
                 </Badge>
                 <Badge variant="secondary" className="text-xs capitalize">
-                  {employee.employmentType}
+                  {displayEmployee.employmentType}
                 </Badge>
               </div>
             </div>
@@ -108,28 +116,40 @@ export function EmployeeProfileSheet({
                 Contact Information
               </h4>
               <div className="space-y-2">
-                <InfoRow icon={Mail} label="Email" value={employee.email} />
-                <InfoRow icon={Phone} label="Phone" value={employee.phone} />
+                <InfoRow
+                  icon={Mail}
+                  label="Email"
+                  value={displayEmployee.email}
+                />
+                <InfoRow
+                  icon={Phone}
+                  label="Phone"
+                  value={displayEmployee.phone}
+                />
                 <InfoRow
                   icon={Building2}
                   label="Department"
-                  value={employee.department}
+                  value={displayEmployee.department}
                 />
-                <InfoRow icon={Briefcase} label="Role" value={employee.role} />
+                <InfoRow
+                  icon={Briefcase}
+                  label="Role"
+                  value={displayEmployee.role}
+                />
                 <InfoRow
                   icon={User}
                   label="Reporting To"
-                  value={employee.reportingManager}
+                  value={displayEmployee.reportingManager}
                 />
                 <InfoRow
                   icon={CalendarDays}
                   label="Join Date"
-                  value={formatDate(employee.joinDate)}
+                  value={formatDate(displayEmployee.joinDate)}
                 />
                 <InfoRow
                   icon={FileText}
                   label="Contract"
-                  value={employee.contractType}
+                  value={displayEmployee.contractType}
                 />
               </div>
             </section>
@@ -141,20 +161,20 @@ export function EmployeeProfileSheet({
               </h4>
               <div className="flex items-center gap-3">
                 <Progress
-                  value={employee.performanceScore}
+                  value={displayEmployee.performanceScore}
                   className="h-2 flex-1"
                 >
                   <div
                     className={`size-full flex-1 transition-all rounded-full ${perfBg}`}
                     style={{
-                      transform: `translateX(-${100 - employee.performanceScore}%)`,
+                      transform: `translateX(-${100 - displayEmployee.performanceScore}%)`,
                     }}
                   />
                 </Progress>
                 <span
                   className={`text-sm font-semibold tabular-nums ${perfColor}`}
                 >
-                  {employee.performanceScore}%
+                  {displayEmployee.performanceScore}%
                 </span>
                 <Badge variant="outline" className="text-xs">
                   {perfLevel}
@@ -168,7 +188,7 @@ export function EmployeeProfileSheet({
                 Skills
               </h4>
               <div className="flex flex-wrap gap-1.5">
-                {employee.skills.map((skill) => (
+                {displayEmployee.skills.map((skill) => (
                   <Badge key={skill} variant="secondary" className="text-xs">
                     {skill}
                   </Badge>
@@ -184,16 +204,23 @@ export function EmployeeProfileSheet({
               <div className="grid grid-cols-2 gap-3">
                 <StatBlock
                   label="Active Tasks"
-                  value={String(employee.currentTasks)}
+                  value={String(displayEmployee.currentTasks)}
                 />
                 <StatBlock
                   label="Last Active"
-                  value={formatDate(employee.lastActivity, { month: "short" })}
+                  value={formatDate(displayEmployee.lastActivity, {
+                    month: "short",
+                  })}
                 />
-                <StatBlock label="Employee ID" value={employee.employeeCode} />
+                <StatBlock
+                  label="Employee ID"
+                  value={displayEmployee.employeeCode}
+                />
                 <StatBlock
                   label="Joined"
-                  value={formatDate(employee.joinDate, { month: "short" })}
+                  value={formatDate(displayEmployee.joinDate, {
+                    month: "short",
+                  })}
                 />
               </div>
             </section>

@@ -31,6 +31,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import {
   formatCurrency,
   generateSalaryHistory,
@@ -55,12 +56,14 @@ export function SalaryHistorySheet({
   employee,
 }: SalaryHistorySheetProps) {
   const [masked, setMasked] = React.useState(false);
+  const displayEmployee = useEntityCache(employee, open);
+
   const records = React.useMemo(
-    () => (employee ? generateSalaryHistory(employee) : []),
-    [employee],
+    () => (displayEmployee ? generateSalaryHistory(displayEmployee) : []),
+    [displayEmployee],
   );
 
-  if (!employee) return null;
+  if (!displayEmployee) return null;
 
   const latest = records[records.length - 1];
   const previous = records.length > 1 ? records[records.length - 2] : null;
@@ -81,14 +84,17 @@ export function SalaryHistorySheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-2xl overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-xl overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <div className="flex items-center justify-between pr-8">
             <div>
               <SheetTitle>Salary History</SheetTitle>
               <SheetDescription>
-                {employee.firstName} {employee.lastName} —{" "}
-                {employee.employeeCode}
+                {displayEmployee.firstName} {displayEmployee.lastName} —{" "}
+                {displayEmployee.employeeCode}
               </SheetDescription>
             </div>
             <div className="flex gap-2">

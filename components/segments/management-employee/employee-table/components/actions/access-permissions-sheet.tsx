@@ -15,8 +15,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import {
   generatePermissions,
+  PermissionGroup,
   RISK_LEVEL_COLORS,
 } from "@/segment-features/employee/employee-action-data";
 
@@ -33,17 +35,19 @@ export function AccessPermissionsSheet({
   onOpenChange,
   employee,
 }: AccessPermissionsSheetProps) {
+  const displayEmployee = useEntityCache(employee, open);
+
   const groups = React.useMemo(
-    () => (employee ? generatePermissions(employee) : []),
-    [employee],
+    () => (displayEmployee ? generatePermissions(displayEmployee) : []),
+    [displayEmployee],
   );
 
-  if (!employee) return null;
+  if (!displayEmployee) return null;
 
   const highRiskCount = groups.filter(
     (g) => g.riskLevel === "high" || g.riskLevel === "critical",
   ).length;
-  const expiringCount = groups.filter((g) => {
+  const expiringCount = groups.filter((g: PermissionGroup) => {
     if (!g.expiresAt) return false;
     const daysLeft = Math.ceil(
       (g.expiresAt.getTime() - new Date().getTime()) / 86400000,
@@ -53,12 +57,15 @@ export function AccessPermissionsSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-lg overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-md overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <SheetTitle>Access Permissions</SheetTitle>
           <SheetDescription>
-            {employee.firstName} {employee.lastName} — {groups.length}{" "}
-            permission groups
+            {displayEmployee.firstName} {displayEmployee.lastName} —{" "}
+            {groups.length} permission groups
           </SheetDescription>
         </SheetHeader>
 

@@ -29,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import { generateAttendance } from "@/segment-features/employee/employee-action-data";
 
 import type { Employee } from "@/types/employee";
@@ -60,9 +61,11 @@ export function AttendanceSheet({
   onOpenChange,
   employee,
 }: AttendanceSheetProps) {
+  const displayEmployee = useEntityCache(employee, open);
+
   const data = React.useMemo(
-    () => (employee ? generateAttendance(employee) : null),
-    [employee],
+    () => (displayEmployee ? generateAttendance(displayEmployee) : null),
+    [displayEmployee],
   );
 
   const weeklyData = React.useMemo(() => {
@@ -93,7 +96,7 @@ export function AttendanceSheet({
       .map(([week, counts]) => ({ week, ...counts }));
   }, [data]);
 
-  if (!employee || !data) return null;
+  if (!displayEmployee || !data) return null;
 
   // const weeklyData = React.useMemo(() => {
   //   const weeks: Record<string, Record<string, number>> = {};
@@ -120,13 +123,17 @@ export function AttendanceSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-2xl overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-lg overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <div className="flex items-center justify-between pr-8">
             <div>
               <SheetTitle>Attendance Records</SheetTitle>
               <SheetDescription>
-                {employee.firstName} {employee.lastName} — Jan–Feb 2026
+                {displayEmployee.firstName} {displayEmployee.lastName} — Jan–Feb
+                2026
               </SheetDescription>
             </div>
             <Button variant="outline" size="sm">

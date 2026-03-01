@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 
 import type { Employee } from "@/types/employee";
 
@@ -58,6 +59,8 @@ export function TerminateEmploymentDialog({
   const [checklist, setChecklist] = React.useState<Record<string, boolean>>({});
   const [confirmText, setConfirmText] = React.useState("");
 
+  const displayEmployee = useEntityCache(employee, open);
+
   React.useEffect(() => {
     if (!open) {
       setStep(1);
@@ -69,24 +72,24 @@ export function TerminateEmploymentDialog({
     }
   }, [open]);
 
-  if (!employee) return null;
+  if (!displayEmployee) return null;
 
   const completedChecks = Object.values(checklist).filter(Boolean).length;
   const allChecked = completedChecks === CHECKLIST_ITEMS.length;
   const confirmMatch =
     confirmText.toLowerCase() ===
-    `${employee.firstName} ${employee.lastName}`.toLowerCase();
+    `${displayEmployee.firstName} ${displayEmployee.lastName}`.toLowerCase();
 
   function handleTerminate() {
     toast.success(
-      `Termination processed for ${employee!.firstName} ${employee!.lastName}`,
+      `Termination processed for ${displayEmployee!.firstName} ${displayEmployee!.lastName}`,
     );
     onOpenChange(false);
   }
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="sm:max-w-lg">
+      <AlertDialogContent className="sm:min-w-lg">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2 text-destructive">
             <Skull className="size-5" />
@@ -128,13 +131,13 @@ export function TerminateEmploymentDialog({
               <div className="flex items-center gap-2">
                 <AlertTriangle className="size-4 text-destructive shrink-0" />
                 <p className="text-sm font-medium">
-                  {employee.firstName} {employee.lastName} —{" "}
-                  {employee.employeeCode}
+                  {displayEmployee.firstName} {displayEmployee.lastName} —{" "}
+                  {displayEmployee.employeeCode}
                 </p>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                {employee.role} · {employee.department} · Since{" "}
-                {employee.joinDate.toLocaleDateString("en-US", {
+                {displayEmployee.role} · {displayEmployee.department} · Since{" "}
+                {displayEmployee.joinDate.toLocaleDateString("en-US", {
                   month: "short",
                   year: "numeric",
                 })}
@@ -263,7 +266,7 @@ export function TerminateEmploymentDialog({
                 <Label className="text-xs">
                   Type{" "}
                   <span className="font-bold">
-                    {employee.firstName} {employee.lastName}
+                    {displayEmployee.firstName} {displayEmployee.lastName}
                   </span>{" "}
                   to confirm
                 </Label>

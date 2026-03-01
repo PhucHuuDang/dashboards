@@ -15,6 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import {
   formatCurrency,
   generatePromotionHistory,
@@ -33,20 +34,26 @@ export function PromotionHistorySheet({
   onOpenChange,
   employee,
 }: PromotionHistorySheetProps) {
+  const displayEmployee = useEntityCache(employee, open);
+
   const records = React.useMemo(
-    () => (employee ? generatePromotionHistory(employee) : []),
-    [employee],
+    () => (displayEmployee ? generatePromotionHistory(displayEmployee) : []),
+    [displayEmployee],
   );
 
-  if (!employee) return null;
+  if (!displayEmployee) return null;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-lg overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-md overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <SheetTitle>Promotion History</SheetTitle>
           <SheetDescription>
-            {employee.firstName} {employee.lastName} — Career progression
+            {displayEmployee.firstName} {displayEmployee.lastName} — Career
+            progression
           </SheetDescription>
         </SheetHeader>
 
@@ -70,7 +77,7 @@ export function PromotionHistorySheet({
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm font-medium">{employee.role}</p>
+                <p className="text-sm font-medium">{displayEmployee.role}</p>
               </CardContent>
             </Card>
           </div>
@@ -162,8 +169,8 @@ export function PromotionHistorySheet({
                   </div>
                   <div className="py-2">
                     <p className="text-xs text-muted-foreground">
-                      {formatDate(employee.joinDate, { month: "short" })} —
-                      Hired as {records[0]?.fromRole ?? employee.role}
+                      {formatDate(displayEmployee.joinDate, { month: "short" })}{" "}
+                      — Hired as {records[0]?.fromRole ?? displayEmployee.role}
                     </p>
                   </div>
                 </div>

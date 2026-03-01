@@ -22,6 +22,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import {
   formatCurrency,
   generateEquipment,
@@ -58,23 +59,28 @@ export function EquipmentSheet({
   onOpenChange,
   employee,
 }: EquipmentSheetProps) {
+  const displayEmployee = useEntityCache(employee, open);
+
   const items = React.useMemo(
-    () => (employee ? generateEquipment(employee) : []),
-    [employee],
+    () => (displayEmployee ? generateEquipment(displayEmployee) : []),
+    [displayEmployee],
   );
 
-  if (!employee) return null;
+  if (!displayEmployee) return null;
 
   const totalValue = items.reduce((sum, item) => sum + item.value, 0);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-lg overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-lg overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <SheetTitle>Equipment Assigned</SheetTitle>
           <SheetDescription>
-            {employee.firstName} {employee.lastName} — {items.length} items (
-            {formatCurrency(totalValue)} total value)
+            {displayEmployee.firstName} {displayEmployee.lastName} —{" "}
+            {items.length} items ({formatCurrency(totalValue)} total value)
           </SheetDescription>
         </SheetHeader>
 

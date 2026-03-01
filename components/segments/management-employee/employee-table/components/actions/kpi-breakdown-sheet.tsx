@@ -31,6 +31,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import { generateKPIData } from "@/segment-features/employee/employee-action-data";
 import {
   getPerformanceColor,
@@ -60,12 +61,14 @@ export function KPIBreakdownSheet({
   onOpenChange,
   employee,
 }: KPIBreakdownSheetProps) {
+  const displayEmployee = useEntityCache(employee, open);
+
   const kpiData = React.useMemo(
-    () => (employee ? generateKPIData(employee) : []),
-    [employee],
+    () => (displayEmployee ? generateKPIData(displayEmployee) : []),
+    [displayEmployee],
   );
 
-  if (!employee || kpiData.length === 0) return null;
+  if (!displayEmployee || kpiData.length === 0) return null;
 
   const latestQuarter = kpiData[kpiData.length - 1]!;
   const previousQuarter =
@@ -92,11 +95,15 @@ export function KPIBreakdownSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-2xl overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-lg overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <SheetTitle>KPI Breakdown</SheetTitle>
           <SheetDescription>
-            {employee.firstName} {employee.lastName} — Performance Analytics
+            {displayEmployee.firstName} {displayEmployee.lastName} — Performance
+            Analytics
           </SheetDescription>
         </SheetHeader>
 

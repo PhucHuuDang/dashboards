@@ -20,9 +20,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import {
   generateSkillMatrix,
   SKILL_LEVEL_LABELS,
+  SkillEntry,
 } from "@/segment-features/employee/employee-action-data";
 
 import type { Employee } from "@/types/employee";
@@ -51,39 +53,48 @@ export function SkillMatrixSheet({
   onOpenChange,
   employee,
 }: SkillMatrixSheetProps) {
+  const displayEmployee = useEntityCache(employee, open);
+
   const skills = React.useMemo(
-    () => (employee ? generateSkillMatrix(employee) : []),
-    [employee],
+    () => (displayEmployee ? generateSkillMatrix(displayEmployee) : []),
+    [displayEmployee],
   );
 
   const categories = React.useMemo(() => {
     const map = new Map<string, typeof skills>();
-    skills.forEach((s) => {
+    skills.forEach((s: SkillEntry) => {
       if (!map.has(s.category)) map.set(s.category, []);
       map.get(s.category)!.push(s);
     });
     return Array.from(map.entries());
   }, [skills]);
 
-  if (!employee) return null;
+  if (!displayEmployee) return null;
 
-  const radarData = skills.slice(0, 8).map((s) => ({
+  const radarData = skills.slice(0, 8).map((s: SkillEntry) => ({
     skill: s.name.length > 12 ? s.name.slice(0, 12) + "..." : s.name,
     current: s.level,
     target: s.targetLevel,
   }));
 
-  const gapCount = skills.filter((s) => s.level < s.targetLevel).length;
-  const certifiedCount = skills.filter((s) => s.certified).length;
+  const gapCount = skills.filter(
+    (s: SkillEntry): boolean => s.level < s.targetLevel,
+  ).length;
+  const certifiedCount = skills.filter(
+    (s: SkillEntry): boolean => s.certified,
+  ).length;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-2xl overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-xl overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <SheetTitle>Skill Matrix</SheetTitle>
           <SheetDescription>
-            {employee.firstName} {employee.lastName} — {skills.length} skills
-            tracked
+            {displayEmployee.firstName} {displayEmployee.lastName} —{" "}
+            {skills.length} skills tracked
           </SheetDescription>
         </SheetHeader>
 

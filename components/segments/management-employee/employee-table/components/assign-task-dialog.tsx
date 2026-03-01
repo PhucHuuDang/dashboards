@@ -82,7 +82,7 @@ export function AssignTaskDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:min-w-lg">
         <DialogHeader>
           <DialogTitle>Assign Task</DialogTitle>
           <DialogDescription>

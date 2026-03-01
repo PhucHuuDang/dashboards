@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import { ROLES_BY_DEPARTMENT } from "@/segment-features/employee/employee-constants";
 
 import { DEPARTMENTS, type Department, type Employee } from "@/types/employee";
@@ -40,6 +41,7 @@ export function TransferDepartmentDialog({
   onOpenChange,
   employee,
 }: TransferDepartmentDialogProps) {
+  const displayEmployee = useEntityCache(employee, open);
   const [toDept, setToDept] = React.useState<string>("");
   const [toRole, setToRole] = React.useState<string>("");
   const [reason, setReason] = React.useState("");
@@ -52,12 +54,12 @@ export function TransferDepartmentDialog({
     }
   }, [open]);
 
-  if (!employee) return null;
+  if (!displayEmployee) return null;
 
   const availableRoles = toDept
     ? (ROLES_BY_DEPARTMENT[toDept as Department] ?? [])
     : [];
-  const isSameDept = toDept === employee.department;
+  const isSameDept = toDept === displayEmployee.department;
 
   function handleSubmit() {
     if (!toDept || !toRole) {
@@ -65,22 +67,22 @@ export function TransferDepartmentDialog({
       return;
     }
     toast.success(
-      `Transfer request submitted: ${employee!.firstName} ${employee!.lastName} → ${toDept} (${toRole})`,
+      `Transfer request submitted: ${displayEmployee!.firstName} ${displayEmployee!.lastName} → ${toDept} (${toRole})`,
     );
     onOpenChange(false);
   }
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="sm:max-w-lg">
+      <AlertDialogContent className="sm:min-w-lg">
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <Building2 className="size-5" />
             Transfer Department
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Transfer {employee.firstName} {employee.lastName} to a different
-            department. This requires HR approval.
+            Transfer {displayEmployee.firstName} {displayEmployee.lastName} to a
+            different department. This requires HR approval.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -89,8 +91,12 @@ export function TransferDepartmentDialog({
           <div className="flex items-center gap-3 rounded-lg border p-3 bg-muted/50">
             <div className="flex-1 text-center">
               <p className="text-xs text-muted-foreground">Current</p>
-              <p className="text-sm font-medium">{employee.department}</p>
-              <p className="text-xs text-muted-foreground">{employee.role}</p>
+              <p className="text-sm font-medium">
+                {displayEmployee.department}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {displayEmployee.role}
+              </p>
             </div>
             <ArrowRight className="size-4 text-muted-foreground shrink-0" />
             <div className="flex-1 text-center">

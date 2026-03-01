@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useEntityCache } from "@/hooks/use-entity-cache";
 import { generateLeaveData } from "@/segment-features/employee/employee-action-data";
 
 import type { Employee } from "@/types/employee";
@@ -49,12 +50,14 @@ export function LeaveRequestsSheet({
   onOpenChange,
   employee,
 }: LeaveRequestsSheetProps) {
+  const displayEmployee = useEntityCache(employee, open);
+
   const data = React.useMemo(
-    () => (employee ? generateLeaveData(employee) : null),
-    [employee],
+    () => (displayEmployee ? generateLeaveData(displayEmployee) : null),
+    [displayEmployee],
   );
 
-  if (!employee || !data) return null;
+  if (!displayEmployee || !data) return null;
 
   const balanceItems = [
     { label: "Annual Leave", ...data.balance.annual, color: "bg-blue-500" },
@@ -68,11 +71,14 @@ export function LeaveRequestsSheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="sm:max-w-lg overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col gap-0 p-0 sm:min-w-lg overflow-y-auto border mr-4 rounded-2xl overflow-hidden"
+      >
         <SheetHeader>
           <SheetTitle>Leave Requests</SheetTitle>
           <SheetDescription>
-            {employee.firstName} {employee.lastName} — 2026
+            {displayEmployee.firstName} {displayEmployee.lastName} — 2026
           </SheetDescription>
         </SheetHeader>
 
