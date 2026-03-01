@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
-import EmployeeTableWrapper from "@/components/data-table/employee-table/employee-table-wrapper";
+import EmployeeTableWrapper from "@/components/segments/management-employee/employee-table/employee-table-wrapper";
 
 import type { SearchParams } from "nuqs/server";
 
