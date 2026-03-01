@@ -1,9 +1,12 @@
 "use client";
 
-import type { Row } from "@tanstack/react-table";
-import { Loader, Trash } from "lucide-react";
 import * as React from "react";
+
+import { Loader, Trash } from "lucide-react";
 import { toast } from "sonner";
+
+import type { Task } from "@/lib/tasks-seeds";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -25,13 +28,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import type { Task } from "@/lib/tasks-seeds";
 import { useMediaQuery } from "@/hooks/use-media-query";
+
+import type { Row } from "@tanstack/react-table";
 
 // import { deleteTasks } from "../lib/actions";
 
-interface DeleteTasksDialogProps
-  extends React.ComponentPropsWithoutRef<typeof Dialog> {
+interface DeleteTasksDialogProps extends React.ComponentPropsWithoutRef<
+  typeof Dialog
+> {
   tasks: Row<Task>["original"][];
   showTrigger?: boolean;
   onSuccess?: () => void;

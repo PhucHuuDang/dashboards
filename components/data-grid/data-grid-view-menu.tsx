@@ -1,9 +1,12 @@
 "use client";
 
-import { useDirection } from "@radix-ui/react-direction";
-import type { Table } from "@tanstack/react-table";
-import { Check, Settings2 } from "lucide-react";
 import * as React from "react";
+
+import { useDirection } from "@radix-ui/react-direction";
+import { Check, Settings2 } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,10 +21,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 
-interface DataGridViewMenuProps<TData>
-  extends React.ComponentProps<typeof PopoverContent> {
+import type { Table } from "@tanstack/react-table";
+
+interface DataGridViewMenuProps<TData> extends React.ComponentProps<
+  typeof PopoverContent
+> {
   table: Table<TData>;
   disabled?: boolean;
 }
@@ -40,9 +45,9 @@ export function DataGridViewMenu<TData>({
         .getAllColumns()
         .filter(
           (column) =>
-            typeof column.accessorFn !== "undefined" && column.getCanHide()
+            typeof column.accessorFn !== "undefined" && column.getCanHide(),
         ),
-    [table]
+    [table],
   );
 
   return (
@@ -84,7 +89,7 @@ export function DataGridViewMenu<TData>({
                   <Check
                     className={cn(
                       "ms-auto size-4 shrink-0",
-                      column.getIsVisible() ? "opacity-100" : "opacity-0"
+                      column.getIsVisible() ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>

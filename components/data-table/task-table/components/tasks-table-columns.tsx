@@ -1,6 +1,7 @@
 "use client";
 
-import type { ColumnDef } from "@tanstack/react-table";
+import * as React from "react";
+
 import {
   ArrowUpDown,
   CalendarIcon,
@@ -9,8 +10,18 @@ import {
   Ellipsis,
   Text,
 } from "lucide-react";
-import * as React from "react";
 import { toast } from "sonner";
+
+import { formatDate } from "@/lib/format";
+import { getErrorMessage } from "@/lib/handle-error";
+import {
+  TASK_LABELS,
+  TASK_PRIORITIES,
+  TASK_STATUSES,
+} from "@/lib/task-constants";
+import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
+
+import { getPriorityIcon, getStatusIcon } from "@/app/lib/utils";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,16 +38,10 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
-import { formatDate } from "@/lib/format";
-import { getErrorMessage } from "@/lib/handle-error";
+
 import type { DataTableRowAction } from "@/types/data-table";
-import { getPriorityIcon, getStatusIcon } from "@/app/lib/utils";
-import {
-  TASK_LABELS,
-  TASK_PRIORITIES,
-  TASK_STATUSES,
-} from "@/lib/task-constants";
+
+import type { ColumnDef } from "@tanstack/react-table";
 
 // import { updateTask } from "../lib/actions";
 
@@ -129,7 +134,7 @@ export function getTasksTableColumns({
         // );
 
         const status = TASK_STATUSES.find(
-          (status) => status === cell.getValue<Task["status"]>()
+          (status) => status === cell.getValue<Task["status"]>(),
         );
 
         if (!status) return null;
@@ -164,7 +169,7 @@ export function getTasksTableColumns({
       ),
       cell: ({ cell }) => {
         const priority = TASK_PRIORITIES.find(
-          (priority) => priority === cell.getValue<Task["priority"]>()
+          (priority) => priority === cell.getValue<Task["priority"]>(),
         );
 
         if (!priority) return null;

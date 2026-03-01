@@ -6,14 +6,17 @@ import {
   parseAsStringEnum,
 } from "nuqs/server";
 import * as z from "zod";
-import { flagConfig } from "@/config/flag";
-import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
+
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
+import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
+
+import { flagConfig } from "@/config/flag";
+
 import { TASK_LABELS, TASK_PRIORITIES, TASK_STATUSES } from "./task-constants";
 
 export const searchParamsCache = createSearchParamsCache({
   filterFlag: parseAsStringEnum(
-    flagConfig.featureFlags.map((flag) => flag.value)
+    flagConfig.featureFlags.map((flag) => flag.value),
   ),
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),

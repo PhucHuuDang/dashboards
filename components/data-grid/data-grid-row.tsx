@@ -1,14 +1,7 @@
 "use client";
 
-import type {
-  ColumnPinningState,
-  Row,
-  TableMeta,
-  VisibilityState,
-} from "@tanstack/react-table";
-import type { VirtualItem } from "@tanstack/react-virtual";
 import * as React from "react";
-import { DataGridCell } from "@/components/data-grid/data-grid-cell";
+
 import { useComposedRefs } from "@/lib/compose-refs";
 import {
   flexRender,
@@ -18,11 +11,22 @@ import {
   getRowHeightValue,
 } from "@/lib/data-grid";
 import { cn } from "@/lib/utils";
+
+import { DataGridCell } from "@/components/data-grid/data-grid-cell";
+
 import type {
   CellPosition,
   Direction,
   RowHeightValue,
 } from "@/types/data-grid";
+
+import type {
+  ColumnPinningState,
+  Row,
+  TableMeta,
+  VisibilityState,
+} from "@tanstack/react-table";
+import type { VirtualItem } from "@tanstack/react-virtual";
 
 interface DataGridRowProps<TData> extends React.ComponentProps<"div"> {
   row: Row<TData>;
@@ -184,7 +188,7 @@ function DataGridRowImpl<TData>({
         rowMapRef.current?.delete(virtualRowIndex);
       }
     },
-    [virtualRowIndex, measureElement, rowMapRef]
+    [virtualRowIndex, measureElement, rowMapRef],
   );
 
   const rowRef = useComposedRefs(ref, onRowChange);
@@ -196,7 +200,7 @@ function DataGridRowImpl<TData>({
   // biome-ignore lint/correctness/useExhaustiveDependencies: columnVisibility and columnPinning are used for calculating the visible cells
   const visibleCells = React.useMemo(
     () => row.getVisibleCells(),
-    [row, columnVisibility, columnPinning]
+    [row, columnVisibility, columnPinning],
   );
 
   return (
@@ -213,7 +217,7 @@ function DataGridRowImpl<TData>({
       className={cn(
         "absolute flex w-full border-b",
         !adjustLayout && "will-change-transform",
-        className
+        className,
       )}
       style={{
         height: `${getRowHeightValue(rowHeight)}px`,

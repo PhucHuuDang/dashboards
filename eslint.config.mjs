@@ -77,6 +77,18 @@ const eslintConfig = defineConfig([
     },
   },
 
+  // Disable React Compiler strictness for data-grid files — these use intentional
+  // patterns (prev-value refs during render, manual memoization) that pre-date
+  // the React Compiler rules and are safe as-is.
+  {
+    files: ["components/data-grid/**/*.{ts,tsx}"],
+    rules: {
+      "react-hooks/refs": "off",
+      "react-hooks/preserve-manual-memoization": "off",
+      "react-hooks/incompatible-library": "off",
+    },
+  },
+
   prettier,
 
   // Override default ignores of eslint-config-next.

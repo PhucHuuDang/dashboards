@@ -1,9 +1,12 @@
 "use client";
 
-import type { ColumnDef, TableMeta } from "@tanstack/react-table";
-import { CopyIcon, EraserIcon, ScissorsIcon, Trash2Icon } from "lucide-react";
 import * as React from "react";
+
+import { CopyIcon, EraserIcon, ScissorsIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
+
+import { parseCellKey } from "@/lib/data-grid";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,8 +15,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAsRef } from "@/hooks/use-as-ref";
-import { parseCellKey } from "@/lib/data-grid";
+
 import type { ContextMenuState, UpdateCell } from "@/types/data-grid";
+
+import type { ColumnDef, TableMeta } from "@tanstack/react-table";
 
 interface DataGridContextMenuProps<TData> {
   tableMeta: TableMeta<TData>;
@@ -53,7 +58,8 @@ export function DataGridContextMenu<TData>({
 }
 
 interface ContextMenuProps<TData>
-  extends Pick<
+  extends
+    Pick<
       TableMeta<TData>,
       | "dataGridRef"
       | "onContextMenuOpenChange"
@@ -118,7 +124,7 @@ function ContextMenuImpl<TData>({
       pointerEvents: "none",
       opacity: 0,
     }),
-    [contextMenu.x, contextMenu.y]
+    [contextMenu.x, contextMenu.y],
   );
 
   const onCloseAutoFocus: NonNullable<
@@ -128,7 +134,7 @@ function ContextMenuImpl<TData>({
       event.preventDefault();
       propsRef.current.dataGridRef?.current?.focus();
     },
-    [propsRef]
+    [propsRef],
   );
 
   const onCopy = React.useCallback(() => {
@@ -176,7 +182,7 @@ function ContextMenuImpl<TData>({
     onDataUpdate?.(updates);
 
     toast.success(
-      `${updates.length} cell${updates.length !== 1 ? "s" : ""} cleared`
+      `${updates.length} cell${updates.length !== 1 ? "s" : ""} cleared`,
     );
   }, [propsRef]);
 

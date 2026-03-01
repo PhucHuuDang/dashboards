@@ -1,6 +1,7 @@
 "use client";
 
-import type { Column, Table } from "@tanstack/react-table";
+import * as React from "react";
+
 import {
   BadgeCheck,
   CalendarIcon,
@@ -10,7 +11,12 @@ import {
   X,
 } from "lucide-react";
 import { useQueryState } from "nuqs";
-import * as React from "react";
+
+import { getDefaultFilterOperator, getFilterOperators } from "@/lib/data-table";
+import { formatDate } from "@/lib/format";
+import { generateId } from "@/lib/id";
+import { getFiltersStateParser } from "@/lib/parsers";
+import { cn } from "@/lib/utils";
 
 import { DataTableRangeFilter } from "@/components/data-table/data-table-range-filter";
 import { Button } from "@/components/ui/button";
@@ -37,20 +43,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import { getDefaultFilterOperator, getFilterOperators } from "@/lib/data-table";
-import { formatDate } from "@/lib/format";
-import { generateId } from "@/lib/id";
-import { getFiltersStateParser } from "@/lib/parsers";
-import { cn } from "@/lib/utils";
+
 import type { ExtendedColumnFilter, FilterOperator } from "@/types/data-table";
+
+import type { Column, Table } from "@tanstack/react-table";
 
 const DEBOUNCE_MS = 300;
 const THROTTLE_MS = 50;
 const FILTER_SHORTCUT_KEY = "f";
 const REMOVE_FILTER_SHORTCUTS = ["backspace", "delete"];
 
-interface DataTableFilterMenuProps<TData>
-  extends React.ComponentProps<typeof PopoverContent> {
+interface DataTableFilterMenuProps<TData> extends React.ComponentProps<
+  typeof PopoverContent
+> {
   table: Table<TData>;
   debounceMs?: number;
   throttleMs?: number;

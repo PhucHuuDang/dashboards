@@ -1,14 +1,16 @@
 "use client";
 
+import * as React from "react";
+
 import { useDirection } from "@radix-ui/react-direction";
-import type { ColumnSort, SortDirection, Table } from "@tanstack/react-table";
 import {
   ArrowDownUp,
   ChevronsUpDown,
   GripVertical,
   Trash2,
 } from "lucide-react";
-import * as React from "react";
+
+import { cn } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,7 +41,8 @@ import {
   SortableItemHandle,
   SortableOverlay,
 } from "@/components/ui/sortable";
-import { cn } from "@/lib/utils";
+
+import type { ColumnSort, SortDirection, Table } from "@tanstack/react-table";
 
 const SORT_SHORTCUT_KEY = "s";
 const REMOVE_SORT_SHORTCUTS = ["backspace", "delete"];
@@ -49,8 +52,9 @@ const SORT_ORDERS = [
   { label: "Desc", value: "desc" },
 ];
 
-interface DataGridSortMenuProps<TData>
-  extends React.ComponentProps<typeof PopoverContent> {
+interface DataGridSortMenuProps<TData> extends React.ComponentProps<
+  typeof PopoverContent
+> {
   table: Table<TData>;
   disabled?: boolean;
 }
@@ -107,25 +111,25 @@ export function DataGridSortMenu<TData>({
       onSortingChange((prevSorting) => {
         if (!prevSorting) return prevSorting;
         return prevSorting.map((sort) =>
-          sort.id === sortId ? { ...sort, ...updates } : sort
+          sort.id === sortId ? { ...sort, ...updates } : sort,
         );
       });
     },
-    [onSortingChange]
+    [onSortingChange],
   );
 
   const onSortRemove = React.useCallback(
     (sortId: string) => {
       onSortingChange((prevSorting) =>
-        prevSorting.filter((item) => item.id !== sortId)
+        prevSorting.filter((item) => item.id !== sortId),
       );
     },
-    [onSortingChange]
+    [onSortingChange],
   );
 
   const onSortingReset = React.useCallback(
     () => onSortingChange(table.initialState.sorting),
-    [onSortingChange, table.initialState.sorting]
+    [onSortingChange, table.initialState.sorting],
   );
 
   React.useEffect(() => {
@@ -163,7 +167,7 @@ export function DataGridSortMenu<TData>({
         onSortingReset();
       }
     },
-    [sorting.length, onSortingReset]
+    [sorting.length, onSortingReset],
   );
 
   return (
@@ -209,7 +213,7 @@ export function DataGridSortMenu<TData>({
               id={descriptionId}
               className={cn(
                 "text-muted-foreground text-sm",
-                sorting.length > 0 && "sr-only"
+                sorting.length > 0 && "sr-only",
               )}
             >
               {sorting.length > 0
@@ -318,7 +322,7 @@ function DataTableSortItem({
         onSortRemove(sort.id);
       }
     },
-    [sort.id, showFieldSelector, showDirectionSelector, onSortRemove]
+    [sort.id, showFieldSelector, showDirectionSelector, onSortRemove],
   );
 
   return (

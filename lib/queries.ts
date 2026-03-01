@@ -1,8 +1,10 @@
 // ./lib/queries.ts (mock version)
-import type { GetTasksSchema } from "./validations";
-import { MOCK_TASKS, Task } from "@/lib/tasks-seeds";
 import { paginate, sortData } from "@/lib/mock-utils";
+import { MOCK_TASKS, Task } from "@/lib/tasks-seeds";
+
 import { applyColumnFilters } from "./mock-filter-colums";
+
+import type { GetTasksSchema } from "./validations";
 
 // export async function getTasks(input: GetTasksSchema) {
 //   try {
@@ -88,7 +90,7 @@ export async function getTasks(input: GetTasksSchema) {
       // simple filters (giữ nguyên)
       if (input.title) {
         data = data.filter((t) =>
-          t.title?.toLowerCase().includes(input.title.toLowerCase())
+          t.title?.toLowerCase().includes(input.title.toLowerCase()),
         );
       }
 
@@ -104,7 +106,7 @@ export async function getTasks(input: GetTasksSchema) {
     // sort + paginate (giữ nguyên)
     data = sortData(
       data,
-      input.sort.map((s) => ({ id: s.id as keyof Task, desc: s.desc }))
+      input.sort.map((s) => ({ id: s.id as keyof Task, desc: s.desc })),
     );
 
     const total = data.length;
@@ -132,7 +134,7 @@ export async function getTaskStatusCounts(): Promise<
       "in-progress": 0,
       done: 0,
       canceled: 0,
-    }
+    },
   );
 }
 
@@ -146,7 +148,7 @@ export async function getTaskPriorityCounts() {
       low: 0,
       medium: 0,
       high: 0,
-    }
+    },
   );
 }
 

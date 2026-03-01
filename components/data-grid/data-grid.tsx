@@ -1,26 +1,32 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import * as React from "react";
-import { DataGridColumnHeader } from "@/components/data-grid/data-grid-column-header";
-import { DataGridContextMenu } from "@/components/data-grid/data-grid-context-menu";
-import { DataGridPasteDialog } from "@/components/data-grid/data-grid-paste-dialog";
-import { DataGridRow } from "@/components/data-grid/data-grid-row";
-import { DataGridSearch } from "@/components/data-grid/data-grid-search";
-import { useAsRef } from "@/hooks/use-as-ref";
-import type { useDataGrid } from "@/hooks/use-data-grid";
+
+import { Plus } from "lucide-react";
+
 import {
   flexRender,
   getColumnBorderVisibility,
   getColumnPinningStyle,
 } from "@/lib/data-grid";
 import { cn } from "@/lib/utils";
+
+import { DataGridColumnHeader } from "@/components/data-grid/data-grid-column-header";
+import { DataGridContextMenu } from "@/components/data-grid/data-grid-context-menu";
+import { DataGridPasteDialog } from "@/components/data-grid/data-grid-paste-dialog";
+import { DataGridRow } from "@/components/data-grid/data-grid-row";
+import { DataGridSearch } from "@/components/data-grid/data-grid-search";
+import { useAsRef } from "@/hooks/use-as-ref";
+
 import type { Direction } from "@/types/data-grid";
+
+import type { useDataGrid } from "@/hooks/use-data-grid";
 
 const EMPTY_CELL_SELECTION_SET = new Set<string>();
 
 interface DataGridProps<TData>
-  extends Omit<ReturnType<typeof useDataGrid<TData>>, "dir">,
+  extends
+    Omit<ReturnType<typeof useDataGrid<TData>>, "dir">,
     Omit<React.ComponentProps<"div">, "contextMenu"> {
   dir?: Direction;
   height?: number;
@@ -67,14 +73,14 @@ export function DataGrid<TData>({
     (event: React.MouseEvent<HTMLDivElement>) => {
       onRowAddRef.current?.(event);
     },
-    [onRowAddRef]
+    [onRowAddRef],
   );
 
   const onDataGridContextMenu = React.useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
     },
-    []
+    [],
   );
 
   const onFooterCellKeyDown = React.useCallback(
@@ -86,7 +92,7 @@ export function DataGrid<TData>({
         onRowAddRef.current();
       }
     },
-    [onRowAddRef]
+    [onRowAddRef],
   );
 
   return (
@@ -136,7 +142,7 @@ export function DataGrid<TData>({
               {headerGroup.headers.map((header, colIndex) => {
                 const sorting = table.getState().sorting;
                 const currentSort = sorting.find(
-                  (sort) => sort.id === header.column.id
+                  (sort) => sort.id === header.column.id,
                 );
                 const isSortable = header.column.getCanSort();
 
@@ -160,10 +166,10 @@ export function DataGrid<TData>({
                       currentSort?.desc === false
                         ? "ascending"
                         : currentSort?.desc === true
-                        ? "descending"
-                        : isSortable
-                        ? "none"
-                        : undefined
+                          ? "descending"
+                          : isSortable
+                            ? "none"
+                            : undefined
                     }
                     data-slot="grid-header-cell"
                     tabIndex={-1}
@@ -184,7 +190,7 @@ export function DataGrid<TData>({
                       <div className="size-full px-3 py-1.5">
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                       </div>
                     ) : (
@@ -242,7 +248,7 @@ export function DataGrid<TData>({
             );
           })}
         </div>
-        {/* eslint-disable-next-line */}
+        {}
         {!readOnly && onRowAdd && (
           <div
             role="rowgroup"

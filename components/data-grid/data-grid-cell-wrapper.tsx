@@ -1,14 +1,15 @@
 "use client";
 
 import * as React from "react";
+
 import { useComposedRefs } from "@/lib/compose-refs";
 import { getCellKey } from "@/lib/data-grid";
 import { cn } from "@/lib/utils";
+
 import type { DataGridCellProps } from "@/types/data-grid";
 
 interface DataGridCellWrapperProps<TData>
-  extends DataGridCellProps<TData>,
-    React.ComponentProps<"div"> {}
+  extends DataGridCellProps<TData>, React.ComponentProps<"div"> {}
 
 export function DataGridCellWrapper<TData>({
   tableMeta,
@@ -41,7 +42,7 @@ export function DataGridCellWrapper<TData>({
         cellMapRef.current.delete(cellKey);
       }
     },
-    [rowIndex, columnId, cellMapRef]
+    [rowIndex, columnId, cellMapRef],
   );
 
   const composedRef = useComposedRefs(ref, onCellChange);
@@ -58,7 +59,15 @@ export function DataGridCellWrapper<TData>({
         }
       }
     },
-    [tableMeta, rowIndex, columnId, isEditing, isFocused, readOnly, onClickProp]
+    [
+      tableMeta,
+      rowIndex,
+      columnId,
+      isEditing,
+      isFocused,
+      readOnly,
+      onClickProp,
+    ],
   );
 
   const onContextMenu = React.useCallback(
@@ -67,7 +76,7 @@ export function DataGridCellWrapper<TData>({
         tableMeta?.onCellContextMenu?.(rowIndex, columnId, event);
       }
     },
-    [tableMeta, rowIndex, columnId, isEditing]
+    [tableMeta, rowIndex, columnId, isEditing],
   );
 
   const onDoubleClick = React.useCallback(
@@ -77,7 +86,7 @@ export function DataGridCellWrapper<TData>({
         tableMeta?.onCellDoubleClick?.(rowIndex, columnId);
       }
     },
-    [tableMeta, rowIndex, columnId, isEditing]
+    [tableMeta, rowIndex, columnId, isEditing],
   );
 
   const onKeyDown = React.useCallback(
@@ -130,7 +139,7 @@ export function DataGridCellWrapper<TData>({
       tableMeta,
       rowIndex,
       columnId,
-    ]
+    ],
   );
 
   const onMouseDown = React.useCallback(
@@ -139,7 +148,7 @@ export function DataGridCellWrapper<TData>({
         tableMeta?.onCellMouseDown?.(rowIndex, columnId, event);
       }
     },
-    [tableMeta, rowIndex, columnId, isEditing]
+    [tableMeta, rowIndex, columnId, isEditing],
   );
 
   const onMouseEnter = React.useCallback(
@@ -148,7 +157,7 @@ export function DataGridCellWrapper<TData>({
         tableMeta?.onCellMouseEnter?.(rowIndex, columnId, event);
       }
     },
-    [tableMeta, rowIndex, columnId, isEditing]
+    [tableMeta, rowIndex, columnId, isEditing],
   );
 
   const onMouseUp = React.useCallback(() => {
@@ -185,7 +194,7 @@ export function DataGridCellWrapper<TData>({
           "**:data-[slot=grid-cell-content]:line-clamp-4":
             !isEditing && rowHeight === "extra-tall",
         },
-        className
+        className,
       )}
       onClick={onClick}
       onContextMenu={onContextMenu}

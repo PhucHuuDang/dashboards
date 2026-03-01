@@ -1,8 +1,22 @@
 "use client";
 
-import { Check, Upload, X } from "lucide-react";
 import * as React from "react";
+
+import { Check, Upload, X } from "lucide-react";
 import { toast } from "sonner";
+
+import {
+  formatDateForDisplay,
+  formatDateToString,
+  formatFileSize,
+  getCellKey,
+  getFileIcon,
+  getLineCount,
+  getUrlHref,
+  parseLocalDate,
+} from "@/lib/data-grid";
+import { cn } from "@/lib/utils";
+
 import { DataGridCellWrapper } from "@/components/data-grid/data-grid-cell-wrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,17 +47,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useBadgeOverflow } from "@/hooks/use-badge-overflow";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import {
-  formatDateForDisplay,
-  formatDateToString,
-  formatFileSize,
-  getCellKey,
-  getFileIcon,
-  getLineCount,
-  getUrlHref,
-  parseLocalDate,
-} from "@/lib/data-grid";
-import { cn } from "@/lib/utils";
+
 import type { DataGridCellProps, FileCellData } from "@/types/data-grid";
 
 export function ShortTextCell<TData>({
@@ -87,7 +91,7 @@ export function ShortTextCell<TData>({
       const currentValue = event.currentTarget.textContent ?? "";
       setValue(currentValue);
     },
-    []
+    [],
   );
 
   const onWrapperKeyDown = React.useCallback(
@@ -144,7 +148,7 @@ export function ShortTextCell<TData>({
         });
       }
     },
-    [isEditing, isFocused, initialValue, tableMeta, rowIndex, columnId]
+    [isEditing, isFocused, initialValue, tableMeta, rowIndex, columnId],
   );
 
   React.useEffect(() => {
@@ -166,7 +170,7 @@ export function ShortTextCell<TData>({
     }
   }, [isEditing, value]);
 
-  const displayValue = !isEditing ? value ?? "" : "";
+  const displayValue = !isEditing ? (value ?? "") : "";
 
   return (
     <DataGridCellWrapper<TData>
@@ -264,7 +268,7 @@ export function LongTextCell<TData>({
         tableMeta?.onCellEditingStop?.();
       }
     },
-    [tableMeta, value, initialValue, rowIndex, columnId, readOnly]
+    [tableMeta, value, initialValue, rowIndex, columnId, readOnly],
   );
 
   const onOpenAutoFocus: NonNullable<
@@ -292,7 +296,7 @@ export function LongTextCell<TData>({
       setValue(newValue);
       debouncedSave(newValue);
     },
-    [debouncedSave]
+    [debouncedSave],
   );
 
   const onKeyDown = React.useCallback(
@@ -317,7 +321,7 @@ export function LongTextCell<TData>({
       // Stop propagation to prevent grid navigation
       event.stopPropagation();
     },
-    [onSave, onCancel, value, initialValue, tableMeta, rowIndex, columnId]
+    [onSave, onCancel, value, initialValue, tableMeta, rowIndex, columnId],
   );
 
   return (
@@ -406,7 +410,7 @@ export function NumberCell<TData>({
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);
     },
-    []
+    [],
   );
 
   const onWrapperKeyDown = React.useCallback(
@@ -443,7 +447,7 @@ export function NumberCell<TData>({
         }
       }
     },
-    [isEditing, isFocused, initialValue, tableMeta, rowIndex, columnId, value]
+    [isEditing, isFocused, initialValue, tableMeta, rowIndex, columnId, value],
   );
 
   React.useEffect(() => {
@@ -536,7 +540,7 @@ export function UrlCell<TData>({
       const currentValue = event.currentTarget.textContent ?? "";
       setValue(currentValue);
     },
-    []
+    [],
   );
 
   const onWrapperKeyDown = React.useCallback(
@@ -602,7 +606,7 @@ export function UrlCell<TData>({
       rowIndex,
       columnId,
       readOnly,
-    ]
+    ],
   );
 
   const onLinkClick = React.useCallback(
@@ -626,7 +630,7 @@ export function UrlCell<TData>({
       // Stop propagation to prevent grid from interfering with link navigation
       event.stopPropagation();
     },
-    [isEditing, value]
+    [isEditing, value],
   );
 
   React.useEffect(() => {
@@ -648,7 +652,7 @@ export function UrlCell<TData>({
     }
   }, [isEditing, value]);
 
-  const displayValue = !isEditing ? value ?? "" : "";
+  const displayValue = !isEditing ? (value ?? "") : "";
   const urlHref = displayValue ? getUrlHref(displayValue) : "";
   const isDangerousUrl = displayValue && !urlHref;
 
@@ -735,7 +739,7 @@ export function CheckboxCell<TData>({
       setValue(checked);
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: checked });
     },
-    [tableMeta, rowIndex, columnId, readOnly]
+    [tableMeta, rowIndex, columnId, readOnly],
   );
 
   const onWrapperKeyDown = React.useCallback(
@@ -755,7 +759,7 @@ export function CheckboxCell<TData>({
         });
       }
     },
-    [isFocused, value, onCheckedChange, tableMeta, readOnly]
+    [isFocused, value, onCheckedChange, tableMeta, readOnly],
   );
 
   const onWrapperClick = React.useCallback(
@@ -766,7 +770,7 @@ export function CheckboxCell<TData>({
         onCheckedChange(!value);
       }
     },
-    [isFocused, value, onCheckedChange, readOnly]
+    [isFocused, value, onCheckedChange, readOnly],
   );
 
   const onCheckboxClick = React.useCallback((event: React.MouseEvent) => {
@@ -777,14 +781,14 @@ export function CheckboxCell<TData>({
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
     },
-    []
+    [],
   );
 
   const onCheckboxDoubleClick = React.useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
     },
-    []
+    [],
   );
 
   return (
@@ -850,7 +854,7 @@ export function SelectCell<TData>({
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: newValue });
       tableMeta?.onCellEditingStop?.();
     },
-    [tableMeta, rowIndex, columnId, readOnly]
+    [tableMeta, rowIndex, columnId, readOnly],
   );
 
   const onOpenChange = React.useCallback(
@@ -861,7 +865,7 @@ export function SelectCell<TData>({
         tableMeta?.onCellEditingStop?.();
       }
     },
-    [tableMeta, rowIndex, columnId, readOnly]
+    [tableMeta, rowIndex, columnId, readOnly],
   );
 
   const onWrapperKeyDown = React.useCallback(
@@ -877,7 +881,7 @@ export function SelectCell<TData>({
         });
       }
     },
-    [isEditing, isFocused, initialValue, tableMeta]
+    [isEditing, isFocused, initialValue, tableMeta],
   );
 
   const displayLabel =
@@ -1002,7 +1006,7 @@ export function MultiSelectCell<TData>({
       setSearchValue("");
       queueMicrotask(() => inputRef.current?.focus());
     },
-    [selectedValues, tableMeta, rowIndex, columnId, readOnly]
+    [selectedValues, tableMeta, rowIndex, columnId, readOnly],
   );
 
   const removeValue = React.useCallback(
@@ -1016,7 +1020,7 @@ export function MultiSelectCell<TData>({
       // Focus back on input after removing
       setTimeout(() => inputRef.current?.focus(), 0);
     },
-    [selectedValues, tableMeta, rowIndex, columnId, readOnly]
+    [selectedValues, tableMeta, rowIndex, columnId, readOnly],
   );
 
   const clearAll = React.useCallback(() => {
@@ -1035,7 +1039,7 @@ export function MultiSelectCell<TData>({
         tableMeta?.onCellEditingStop?.();
       }
     },
-    [tableMeta, rowIndex, columnId, readOnly]
+    [tableMeta, rowIndex, columnId, readOnly],
   );
 
   const onOpenAutoFocus: NonNullable<
@@ -1060,7 +1064,7 @@ export function MultiSelectCell<TData>({
         });
       }
     },
-    [isEditing, isFocused, cellValue, tableMeta]
+    [isEditing, isFocused, cellValue, tableMeta],
   );
 
   const onInputKeyDown = React.useCallback(
@@ -1083,7 +1087,7 @@ export function MultiSelectCell<TData>({
         event.stopPropagation();
       }
     },
-    [searchValue, selectedValues, removeValue]
+    [searchValue, selectedValues, removeValue],
   );
 
   const displayLabels = selectedValues
@@ -1180,7 +1184,7 @@ export function MultiSelectCell<TData>({
                             "flex size-4 items-center justify-center rounded-sm border border-primary",
                             isSelected
                               ? "bg-primary text-primary-foreground"
-                              : "opacity-50 [&_svg]:invisible"
+                              : "opacity-50 [&_svg]:invisible",
                           )}
                         >
                           <Check className="size-3" />
@@ -1257,7 +1261,7 @@ export function DateCell<TData>({
   }
 
   // Parse date as local time to avoid timezone shifts
-  const selectedDate = value ? parseLocalDate(value) ?? undefined : undefined;
+  const selectedDate = value ? (parseLocalDate(value) ?? undefined) : undefined;
 
   const onDateSelect = React.useCallback(
     (date: Date | undefined) => {
@@ -1269,7 +1273,7 @@ export function DateCell<TData>({
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: formattedDate });
       tableMeta?.onCellEditingStop?.();
     },
-    [tableMeta, rowIndex, columnId, readOnly]
+    [tableMeta, rowIndex, columnId, readOnly],
   );
 
   const onOpenChange = React.useCallback(
@@ -1280,7 +1284,7 @@ export function DateCell<TData>({
         tableMeta?.onCellEditingStop?.();
       }
     },
-    [tableMeta, rowIndex, columnId, readOnly]
+    [tableMeta, rowIndex, columnId, readOnly],
   );
 
   const onWrapperKeyDown = React.useCallback(
@@ -1296,7 +1300,7 @@ export function DateCell<TData>({
         });
       }
     },
-    [isEditing, isFocused, initialValue, tableMeta]
+    [isEditing, isFocused, initialValue, tableMeta],
   );
 
   return (
@@ -1358,7 +1362,7 @@ export function FileCell<TData>({
 }: DataGridCellProps<TData>) {
   const cellValue = React.useMemo(
     () => (cell.getValue() as FileCellData[]) ?? [],
-    [cell]
+    [cell],
   );
 
   const cellKey = getCellKey(rowIndex, columnId);
@@ -1369,10 +1373,10 @@ export function FileCell<TData>({
 
   const [files, setFiles] = React.useState<FileCellData[]>(cellValue);
   const [uploadingFiles, setUploadingFiles] = React.useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [deletingFiles, setDeletingFiles] = React.useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [isDraggingOver, setIsDraggingOver] = React.useState(false);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -1395,7 +1399,7 @@ export function FileCell<TData>({
 
   const acceptedTypes = React.useMemo(
     () => (accept ? accept.split(",").map((t) => t.trim()) : null),
-    [accept]
+    [accept],
   );
 
   const prevCellValueRef = React.useRef(cellValue);
@@ -1438,7 +1442,7 @@ export function FileCell<TData>({
       }
       return null;
     },
-    [maxFileSize, acceptedTypes]
+    [maxFileSize, acceptedTypes],
   );
 
   const addFiles = React.useCallback(
@@ -1526,7 +1530,7 @@ export function FileCell<TData>({
                   ? error.message
                   : `Failed to upload ${filesToValidate.length} file${
                       filesToValidate.length !== 1 ? "s" : ""
-                    }`
+                    }`,
               );
               setFiles((prev) => prev.filter((f) => !uploadingIds.has(f.id)));
               setUploadingFiles(new Set());
@@ -1581,7 +1585,7 @@ export function FileCell<TData>({
       columnId,
       readOnly,
       isPending,
-    ]
+    ],
   );
 
   const removeFile = React.useCallback(
@@ -1605,7 +1609,7 @@ export function FileCell<TData>({
           toast.error(
             error instanceof Error
               ? error.message
-              : `Failed to delete ${fileToRemove.name}`
+              : `Failed to delete ${fileToRemove.name}`,
           );
           setDeletingFiles((prev) => {
             const next = new Set(prev);
@@ -1629,7 +1633,7 @@ export function FileCell<TData>({
       });
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: updatedFiles });
     },
-    [files, tableMeta, rowIndex, columnId, readOnly, isPending]
+    [files, tableMeta, rowIndex, columnId, readOnly, isPending],
   );
 
   const clearAll = React.useCallback(async () => {
@@ -1648,7 +1652,7 @@ export function FileCell<TData>({
         });
       } catch (error) {
         toast.error(
-          error instanceof Error ? error.message : "Failed to delete files"
+          error instanceof Error ? error.message : "Failed to delete files",
         );
         setDeletingFiles(new Set());
         return;
@@ -1706,7 +1710,7 @@ export function FileCell<TData>({
         addFiles(droppedFiles, false);
       }
     },
-    [addFiles]
+    [addFiles],
   );
 
   const onDropzoneDragEnter = React.useCallback((event: React.DragEvent) => {
@@ -1746,7 +1750,7 @@ export function FileCell<TData>({
       const droppedFiles = Array.from(event.dataTransfer.files);
       addFiles(droppedFiles, false);
     },
-    [addFiles]
+    [addFiles],
   );
 
   const onDropzoneClick = React.useCallback(() => {
@@ -1760,7 +1764,7 @@ export function FileCell<TData>({
         onDropzoneClick();
       }
     },
-    [onDropzoneClick]
+    [onDropzoneClick],
   );
 
   const onFileInputChange = React.useCallback(
@@ -1769,7 +1773,7 @@ export function FileCell<TData>({
       addFiles(selectedFiles, false);
       event.target.value = "";
     },
-    [addFiles]
+    [addFiles],
   );
 
   const onOpenChange = React.useCallback(
@@ -1782,7 +1786,7 @@ export function FileCell<TData>({
         tableMeta?.onCellEditingStop?.();
       }
     },
-    [tableMeta, rowIndex, columnId, readOnly]
+    [tableMeta, rowIndex, columnId, readOnly],
   );
 
   const onEscapeKeyDown: NonNullable<
@@ -1832,7 +1836,7 @@ export function FileCell<TData>({
       onDropzoneClick,
       rowIndex,
       columnId,
-    ]
+    ],
   );
 
   React.useEffect(() => {
@@ -1932,8 +1936,8 @@ export function FileCell<TData>({
                         maxFiles ? ` • Max ${maxFiles} files` : ""
                       }`
                     : maxFiles
-                    ? `Max ${maxFiles} files`
-                    : "Select files to upload"}
+                      ? `Max ${maxFiles} files`
+                      : "Select files to upload"}
                 </p>
               </div>
               <input
@@ -1985,8 +1989,8 @@ export function FileCell<TData>({
                               {isFileUploading
                                 ? "Uploading..."
                                 : isFileDeleting
-                                ? "Deleting..."
-                                : formatFileSize(file.size)}
+                                  ? "Deleting..."
+                                  : formatFileSize(file.size)}
                             </p>
                           </div>
                           <Button

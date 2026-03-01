@@ -12,4 +12,5 @@ export const ROUTES = {
   PRODUCTS: "/dashboard/products",
   CATEGORIES: "/dashboard/categories",
   TAGS: "/dashboard/tags",
+  MANAGE_EMPLOYEES: "/dashboard/management-employee",
 };

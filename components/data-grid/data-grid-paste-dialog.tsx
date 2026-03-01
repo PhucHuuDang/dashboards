@@ -1,7 +1,9 @@
 "use client";
 
-import type { TableMeta } from "@tanstack/react-table";
 import * as React from "react";
+
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,8 +14,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAsRef } from "@/hooks/use-as-ref";
-import { cn } from "@/lib/utils";
+
 import type { PasteDialogState } from "@/types/data-grid";
+
+import type { TableMeta } from "@tanstack/react-table";
 
 interface DataGridPasteDialogProps<TData> {
   tableMeta: TableMeta<TData>;
@@ -39,7 +43,8 @@ export function DataGridPasteDialog<TData>({
 }
 
 interface PasteDialogProps
-  extends Pick<TableMeta<unknown>, "onPasteDialogOpenChange" | "onCellsPaste">,
+  extends
+    Pick<TableMeta<unknown>, "onPasteDialogOpenChange" | "onCellsPaste">,
     Required<Pick<TableMeta<unknown>, "pasteDialog">> {}
 
 const PasteDialog = React.memo(PasteDialogImpl, (prev, next) => {
@@ -66,7 +71,7 @@ function PasteDialogImpl({
     (open: boolean) => {
       propsRef.current.onPasteDialogOpenChange?.(open);
     },
-    [propsRef]
+    [propsRef],
   );
 
   const onCancel = React.useCallback(() => {
@@ -140,7 +145,7 @@ function RadioItem({ className, ...props }: React.ComponentProps<"input">) {
         "disabled:cursor-not-allowed disabled:opacity-50",
         "checked:before:absolute checked:before:start-1/2 checked:before:top-1/2 checked:before:size-2 checked:before:-translate-x-1/2 checked:before:-translate-y-1/2 checked:before:rounded-full checked:before:bg-primary checked:before:content-['']",
         "dark:bg-input/30",
-        className
+        className,
       )}
       {...props}
     />

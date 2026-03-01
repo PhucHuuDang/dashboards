@@ -258,6 +258,18 @@ export const SIDEBAR_CONSTANT: DataProps = {
       },
 
       {
+        name: "Employees",
+        url: ROUTES.MANAGE_EMPLOYEES,
+        icon: FileUserIcon,
+        dropdownItems: [
+          {
+            title: "View All",
+            icon: Folder,
+            url: ROUTES.MANAGE_EMPLOYEES,
+          },
+        ],
+      },
+      {
         name: "Password & Authentication",
         url: "/dashboard/password",
         icon: ShieldUserIcon,

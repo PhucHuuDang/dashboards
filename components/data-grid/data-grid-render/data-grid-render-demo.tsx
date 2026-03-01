@@ -1,9 +1,12 @@
 "use client";
 
-import { faker } from "@faker-js/faker";
-import type { ColumnDef } from "@tanstack/react-table";
-import { Loader, RocketIcon, SquarePen } from "lucide-react";
 import * as React from "react";
+
+import { faker } from "@faker-js/faker";
+import { Loader, RocketIcon, SquarePen } from "lucide-react";
+
+import { getFilterFn } from "@/lib/data-grid-filters";
+
 import { DataGrid } from "@/components/data-grid/data-grid";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -17,8 +20,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDataGrid } from "@/hooks/use-data-grid";
-import { getFilterFn } from "@/lib/data-grid-filters";
+
 import type { UpdateCell } from "@/types/data-grid";
+
+import type { ColumnDef } from "@tanstack/react-table";
 
 interface Person {
   id: string;
@@ -54,7 +59,7 @@ function generatePerson(): Person {
 }
 
 const initialData: Person[] = Array.from({ length: 100 }, () =>
-  generatePerson()
+  generatePerson(),
 );
 
 export function DataGridRenderDemo() {
@@ -76,7 +81,7 @@ export function DataGridRenderDemo() {
   React.useEffect(() => {
     console.log(
       `%c[DataGridRenderTest] Component render #${componentRenderCount.current}`,
-      "color: #ff6b6b; font-weight: bold;"
+      "color: #ff6b6b; font-weight: bold;",
     );
   });
 
@@ -203,7 +208,7 @@ export function DataGridRenderDemo() {
         },
       },
     ],
-    [filterFn]
+    [filterFn],
   );
 
   const onDataChange = React.useCallback((newData: Person[]) => {
@@ -225,7 +230,7 @@ export function DataGridRenderDemo() {
         const cycle = updateCycleRef.current++;
         console.log(
           `%c\n========== UPDATING ${count} CELLS (cycle ${cycle}) ==========`,
-          "color: #ffd43b; font-size: 14px; font-weight: bold;"
+          "color: #ffd43b; font-size: 14px; font-weight: bold;",
         );
         const startTime = performance.now();
 
@@ -288,7 +293,7 @@ export function DataGridRenderDemo() {
         }
       });
     },
-    [table]
+    [table],
   );
 
   const onRapidCellsUpdate = React.useCallback(
@@ -297,7 +302,7 @@ export function DataGridRenderDemo() {
 
       console.log(
         `%c\n========== RAPID UPDATE: ${count} CELLS ==========`,
-        "color: #845ef7; font-size: 14px; font-weight: bold;"
+        "color: #845ef7; font-size: 14px; font-weight: bold;",
       );
       setIsRapidUpdating(true);
       const overallStartTime = performance.now();
@@ -320,8 +325,8 @@ export function DataGridRenderDemo() {
           endCell: number,
           getValue: (
             row: number,
-            col: (typeof columnsToFill)[number]
-          ) => string | number
+            col: (typeof columnsToFill)[number],
+          ) => string | number,
         ) {
           const updates: UpdateCell[] = [];
           for (let i = startCell; i < endCell; i++) {
@@ -341,12 +346,12 @@ export function DataGridRenderDemo() {
         // Phase 1: Mark all cells as "Searching..."
         console.log(
           `%c[Phase 1] Marking ${count} cells as "Searching..."`,
-          "color: #845ef7;"
+          "color: #845ef7;",
         );
         const searchingUpdates = buildUpdates(
           0,
           count,
-          () => "🔍 Searching..."
+          () => "🔍 Searching...",
         );
         table.options.meta.onDataUpdate(searchingUpdates);
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -354,12 +359,12 @@ export function DataGridRenderDemo() {
         // Phase 2: Mark cells as "Generating..."
         console.log(
           `%c[Phase 2] Marking cells as "Generating..."`,
-          "color: #845ef7;"
+          "color: #845ef7;",
         );
         const generatingUpdates = buildUpdates(
           0,
           count,
-          () => "✨ Generating..."
+          () => "✨ Generating...",
         );
         table.options.meta.onDataUpdate(generatingUpdates);
         await new Promise((resolve) => setTimeout(resolve, 400));
@@ -367,12 +372,12 @@ export function DataGridRenderDemo() {
         // Phase 3: Mark cells as "Processing..."
         console.log(
           `%c[Phase 3] Marking cells as "Processing..."`,
-          "color: #845ef7;"
+          "color: #845ef7;",
         );
         const processingUpdates = buildUpdates(
           0,
           count,
-          () => "⚙️ Processing..."
+          () => "⚙️ Processing...",
         );
         table.options.meta.onDataUpdate(processingUpdates);
         await new Promise((resolve) => setTimeout(resolve, 300));
@@ -416,7 +421,7 @@ export function DataGridRenderDemo() {
           `%c[Rapid Update Complete] Total time: ${(
             overallEndTime - overallStartTime
           ).toFixed(2)}ms`,
-          "color: #845ef7; font-weight: bold;"
+          "color: #845ef7; font-weight: bold;",
         );
 
         setRenderStats({
@@ -428,7 +433,7 @@ export function DataGridRenderDemo() {
         setIsRapidUpdating(false);
       }
     },
-    [table, isRapidUpdating]
+    [table, isRapidUpdating],
   );
 
   return (

@@ -1,6 +1,5 @@
 "use client";
 
-import type { Column } from "@tanstack/react-table";
 import {
   ChevronDown,
   ChevronsUpDown,
@@ -9,6 +8,8 @@ import {
   X,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -16,10 +17,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 
-interface DataTableColumnHeaderProps<TData, TValue>
-  extends React.ComponentProps<typeof DropdownMenuTrigger> {
+import type { Column } from "@tanstack/react-table";
+
+interface DataTableColumnHeaderProps<
+  TData,
+  TValue,
+> extends React.ComponentProps<typeof DropdownMenuTrigger> {
   column: Column<TData, TValue>;
   label: string;
 }

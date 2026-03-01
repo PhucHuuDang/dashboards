@@ -1,9 +1,20 @@
 "use client";
 
-import { DirectionProvider } from "@radix-ui/react-direction";
-import type { ColumnDef } from "@tanstack/react-table";
-import { Languages } from "lucide-react";
 import * as React from "react";
+
+import { DirectionProvider } from "@radix-ui/react-direction";
+import { Languages } from "lucide-react";
+
+import { getFilterFn } from "@/lib/data-grid-filters";
+import { generateId } from "@/lib/id";
+import {
+  departments,
+  initialData,
+  type Person,
+  skills,
+  statuses,
+} from "@/lib/seeds";
+
 import { DataGrid } from "@/components/data-grid/data-grid";
 import { DataGridFilterMenu } from "@/components/data-grid/data-grid-filter-menu";
 import { DataGridKeyboardShortcuts } from "@/components/data-grid/data-grid-keyboard-shortcuts";
@@ -14,16 +25,10 @@ import { DataGridViewMenu } from "@/components/data-grid/data-grid-view-menu";
 import { Toggle } from "@/components/ui/toggle";
 import { type UseDataGridProps, useDataGrid } from "@/hooks/use-data-grid";
 import { useWindowSize } from "@/hooks/use-window-size";
-import { getFilterFn } from "@/lib/data-grid-filters";
-import { generateId } from "@/lib/id";
+
 import type { Direction } from "@/types/data-grid";
-import {
-  departments,
-  initialData,
-  type Person,
-  skills,
-  statuses,
-} from "@/lib/seeds";
+
+import type { ColumnDef } from "@tanstack/react-table";
 
 interface DataGridDemoImplProps extends UseDataGridProps<Person> {
   dir: Direction;
@@ -269,7 +274,7 @@ export function DataGridDemo() {
         },
       },
     ],
-    [filterFn]
+    [filterFn],
   );
 
   const onRowAdd: NonNullable<UseDataGridProps<Person>["onRowAdd"]> =
@@ -360,7 +365,7 @@ export function DataGridDemo() {
           url: URL.createObjectURL(file),
         }));
       },
-      []
+      [],
     );
 
   const onFilesDelete: NonNullable<UseDataGridProps<Person>["onFilesDelete"]> =
@@ -375,7 +380,7 @@ export function DataGridDemo() {
       // For this demo, just log the deletion
       console.log(
         `Deleting ${fileIds.length} file(s) from row ${rowIndex}, column ${columnId}:`,
-        fileIds
+        fileIds,
       );
     }, []);
 

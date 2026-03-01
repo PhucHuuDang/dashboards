@@ -1,7 +1,8 @@
 "use client";
 
+import * as React from "react";
+
 import { useDirection } from "@radix-ui/react-direction";
-import type { Column, ColumnFilter, Table } from "@tanstack/react-table";
 import {
   CalendarIcon,
   Check,
@@ -10,7 +11,13 @@ import {
   ListFilter,
   Trash2,
 } from "lucide-react";
-import * as React from "react";
+
+import {
+  getDefaultOperator,
+  getOperatorsForVariant,
+} from "@/lib/data-grid-filters";
+import { formatDate } from "@/lib/format";
+import { cn } from "@/lib/utils";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -44,21 +51,19 @@ import {
   SortableOverlay,
 } from "@/components/ui/sortable";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import {
-  getDefaultOperator,
-  getOperatorsForVariant,
-} from "@/lib/data-grid-filters";
-import { formatDate } from "@/lib/format";
-import { cn } from "@/lib/utils";
+
 import type { FilterOperator, FilterValue } from "@/types/data-grid";
+
+import type { Column, ColumnFilter, Table } from "@tanstack/react-table";
 
 const FILTER_SHORTCUT_KEY = "f";
 const REMOVE_FILTER_SHORTCUTS = ["backspace", "delete"];
 const FILTER_DEBOUNCE_MS = 300;
 const OPERATORS_WITHOUT_VALUE = ["isEmpty", "isNotEmpty", "isTrue", "isFalse"];
 
-interface DataGridFilterMenuProps<TData>
-  extends React.ComponentProps<typeof PopoverContent> {
+interface DataGridFilterMenuProps<TData> extends React.ComponentProps<
+  typeof PopoverContent
+> {
   table: Table<TData>;
   disabled?: boolean;
 }
@@ -129,20 +134,20 @@ export function DataGridFilterMenu<TData>({
       table.setColumnFilters((prevFilters) => {
         if (!prevFilters) return prevFilters;
         return prevFilters.map((filter) =>
-          filter.id === filterId ? { ...filter, ...updates } : filter
+          filter.id === filterId ? { ...filter, ...updates } : filter,
         );
       });
     },
-    [table]
+    [table],
   );
 
   const onFilterRemove = React.useCallback(
     (filterId: string) => {
       table.setColumnFilters((prevFilters) =>
-        prevFilters.filter((item) => item.id !== filterId)
+        prevFilters.filter((item) => item.id !== filterId),
       );
     },
-    [table]
+    [table],
   );
 
   const onFiltersReset = React.useCallback(() => {
@@ -184,7 +189,7 @@ export function DataGridFilterMenu<TData>({
         onFiltersReset();
       }
     },
-    [columnFilters.length, onFiltersReset]
+    [columnFilters.length, onFiltersReset],
   );
 
   return (
@@ -221,7 +226,7 @@ export function DataGridFilterMenu<TData>({
           dir={dir}
           className={cn(
             "flex w-full max-w-(--radix-popover-content-available-width) flex-col gap-3.5 p-4 sm:min-w-[480px]",
-            className
+            className,
           )}
           {...props}
         >
@@ -233,7 +238,7 @@ export function DataGridFilterMenu<TData>({
               id={descriptionId}
               className={cn(
                 "text-muted-foreground text-sm",
-                columnFilters.length > 0 && "sr-only"
+                columnFilters.length > 0 && "sr-only",
               )}
             >
               {columnFilters.length > 0
@@ -362,7 +367,7 @@ function DataGridFilterItem<TData>({
         onFilterRemove(filter.id);
       }
     },
-    [filter.id, showFieldSelector, showOperatorSelector, onFilterRemove]
+    [filter.id, showFieldSelector, showOperatorSelector, onFilterRemove],
   );
 
   const onOperatorChange = React.useCallback(
@@ -375,10 +380,9 @@ function DataGridFilterItem<TData>({
         },
       });
     },
-    [filter.id, filterValue?.value, filterValue?.endValue, onFilterUpdate]
+    [filter.id, filterValue?.value, filterValue?.endValue, onFilterUpdate],
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onValueChange = React.useCallback(
     (newValue: string | number | string[] | undefined) => {
       onFilterUpdate(filter.id, {
@@ -389,7 +393,7 @@ function DataGridFilterItem<TData>({
         },
       });
     },
-    [filter.id, operator, filterValue?.endValue, onFilterUpdate]
+    [filter.id, operator, filterValue?.endValue, onFilterUpdate],
   );
 
   const onEndValueChange = React.useCallback(
@@ -402,7 +406,7 @@ function DataGridFilterItem<TData>({
         },
       });
     },
-    [filter.id, operator, filterValue?.value, onFilterUpdate]
+    [filter.id, operator, filterValue?.value, onFilterUpdate],
   );
 
   return (
@@ -465,8 +469,8 @@ function DataGridFilterItem<TData>({
                                     value: "",
                                   },
                                 }
-                              : f
-                          )
+                              : f,
+                          ),
                         );
                         setShowFieldSelector(false);
                       }}
@@ -475,7 +479,7 @@ function DataGridFilterItem<TData>({
                       <Check
                         className={cn(
                           "ms-auto",
-                          column.id === filter.id ? "opacity-100" : "opacity-0"
+                          column.id === filter.id ? "opacity-100" : "opacity-0",
                         )}
                       />
                     </CommandItem>
@@ -584,14 +588,14 @@ function DataGridFilterInput<TData>({
     (newValue: string | number | string[] | undefined) => {
       onValueChange(newValue);
     },
-    FILTER_DEBOUNCE_MS
+    FILTER_DEBOUNCE_MS,
   );
 
   const debouncedOnEndValueChange = useDebouncedCallback(
     (newValue: string | number | string[] | undefined) => {
       onEndValueChange?.(newValue);
     },
-    FILTER_DEBOUNCE_MS
+    FILTER_DEBOUNCE_MS,
   );
 
   const cellVariant = column.columnDef.meta?.cell;
@@ -681,11 +685,11 @@ function DataGridFilterInput<TData>({
         startDate && endDate && !isSameDate
           ? `${formatDate(startDate, { month: "short" })} - ${formatDate(
               endDate,
-              { month: "short" }
+              { month: "short" },
             )}`
           : startDate
-          ? formatDate(startDate, { month: "short" })
-          : "Pick a range";
+            ? formatDate(startDate, { month: "short" })
+            : "Pick a range";
 
       return (
         <Popover open={showValueSelector} onOpenChange={setShowValueSelector}>
@@ -698,7 +702,7 @@ function DataGridFilterInput<TData>({
               size="sm"
               className={cn(
                 "h-8 w-full justify-start rounded font-normal",
-                !startDate && "text-muted-foreground"
+                !startDate && "text-muted-foreground",
               )}
             >
               <CalendarIcon />
@@ -719,8 +723,8 @@ function DataGridFilterInput<TData>({
                 startDate && endDate
                   ? { from: startDate, to: endDate }
                   : startDate
-                  ? { from: startDate, to: startDate }
-                  : undefined
+                    ? { from: startDate, to: startDate }
+                    : undefined
               }
               onSelect={(range) => {
                 const fromValue = range?.from
@@ -754,7 +758,7 @@ function DataGridFilterInput<TData>({
             size="sm"
             className={cn(
               "h-8 w-full justify-start rounded font-normal",
-              !dateValue && "text-muted-foreground"
+              !dateValue && "text-muted-foreground",
             )}
           >
             <CalendarIcon />
@@ -798,11 +802,11 @@ function DataGridFilterInput<TData>({
     if (isMultiValueOperator) {
       const selectedValues = Array.isArray(value) ? value : [];
       const selectedOptions = selectOptions.filter((option) =>
-        selectedValues.includes(option.value)
+        selectedValues.includes(option.value),
       );
 
       const selectedOptionsWithIcons = selectedOptions.filter(
-        (selectedOption) => selectedOption.icon
+        (selectedOption) => selectedOption.icon,
       );
 
       return (
@@ -831,7 +835,7 @@ function DataGridFilterInput<TData>({
                             >
                               <selectedOption.icon className="size-3.5" />
                             </div>
-                          )
+                          ),
                       )}
                     </div>
                   )}
@@ -866,7 +870,7 @@ function DataGridFilterInput<TData>({
                             ? selectedValues.filter((v) => v !== option.value)
                             : [...selectedValues, option.value];
                           onValueChange(
-                            newValues.length > 0 ? newValues : undefined
+                            newValues.length > 0 ? newValues : undefined,
                           );
                         }}
                       >
@@ -880,7 +884,7 @@ function DataGridFilterInput<TData>({
                         <Check
                           className={cn(
                             "ms-auto",
-                            isSelected ? "opacity-100" : "opacity-0"
+                            isSelected ? "opacity-100" : "opacity-0",
                           )}
                         />
                       </CommandItem>
@@ -895,7 +899,7 @@ function DataGridFilterInput<TData>({
     }
 
     const selectedOption = selectOptions.find(
-      (opt) => opt.value === (value as string)
+      (opt) => opt.value === (value as string),
     );
 
     return (
@@ -949,7 +953,7 @@ function DataGridFilterInput<TData>({
                     <Check
                       className={cn(
                         "ms-auto",
-                        value === option.value ? "opacity-100" : "opacity-0"
+                        value === option.value ? "opacity-100" : "opacity-0",
                       )}
                     />
                   </CommandItem>

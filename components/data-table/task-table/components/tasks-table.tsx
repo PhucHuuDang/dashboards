@@ -33,7 +33,7 @@ interface TasksTableProps {
       Awaited<ReturnType<typeof getTasks>>,
       Awaited<ReturnType<typeof getTaskStatusCounts>>,
       Awaited<ReturnType<typeof getTaskPriorityCounts>>,
-      Awaited<ReturnType<typeof getEstimatedHoursRange>>
+      Awaited<ReturnType<typeof getEstimatedHoursRange>>,
     ]
   >;
   queryKeys?: Partial<QueryKeys>;
@@ -64,7 +64,7 @@ export function TasksTable({ promises, queryKeys }: TasksTableProps) {
         estimatedHoursRange,
         setRowAction,
       }),
-    [statusCounts, priorityCounts, estimatedHoursRange]
+    [statusCounts, priorityCounts, estimatedHoursRange],
   );
 
   const { table, shallow, debounceMs, throttleMs } = useDataTable({

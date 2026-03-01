@@ -124,7 +124,7 @@ export const SidebarInsetHeader = ({
     <header
       className={cn(
         "flex h-16  shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12",
-        className
+        className,
       )}
     >
       {children}
@@ -237,7 +237,7 @@ export const SidebarGroupCollapseChunk = ({
                     tooltip={item.title}
                     className={cn(
                       isActive &&
-                        "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background"
+                        "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background",
                     )}
                   >
                     {item.icon && <item.icon />}
@@ -256,7 +256,7 @@ export const SidebarGroupCollapseChunk = ({
                             asChild
                             className={cn(
                               isActiveChild &&
-                                "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background"
+                                "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background",
                             )}
                           >
                             <Link prefetch href={subItem.url}>
@@ -303,7 +303,7 @@ export const SidebarGroupProjectChunk = ({
                 tooltip={item.name}
                 className={cn(
                   isActive &&
-                    "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background"
+                    "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background",
                 )}
               >
                 <Link prefetch href={item.url}>
@@ -335,7 +335,7 @@ export const SidebarGroupProjectChunk = ({
                         className={cn(
                           "flex justify-between items-center p-1 hover:bg-primary cursor-pointer",
                           isActiveChild &&
-                            "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background"
+                            "bg-white dark:bg-sidebar-accent text-sidebar-accent-foreground ring-1 ring-offset-1 ring-offset-background",
                         )}
                       >
                         <div className="flex items-center gap-2">
@@ -388,7 +388,7 @@ export const SidebarInsetContent = ({
           <div
             className={cn(
               "flex items-center justify-between w-full px-1 ",
-              classNameContainer
+              classNameContainer,
             )}
           >
             <div className="flex items-center gap-2 px-4">

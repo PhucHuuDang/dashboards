@@ -1,9 +1,14 @@
 "use client";
 
-import type { Table } from "@tanstack/react-table";
-import { ArrowUp, CheckCircle2, Download, Trash2, X } from "lucide-react";
 import * as React from "react";
+
+import { ArrowUp, CheckCircle2, Download, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
+
+import { exportTableToCSV } from "@/lib/export";
+import { TASK_PRIORITIES, TASK_STATUSES } from "@/lib/task-constants";
+import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
+
 import {
   ActionBar,
   ActionBarClose,
@@ -19,10 +24,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 // import { type Task, tasks } from "@/db/schema";
-import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
 // import { deleteTasks, updateTasks } from "../lib/actions";
-import { exportTableToCSV } from "@/lib/export";
-import { TASK_PRIORITIES, TASK_STATUSES } from "@/lib/task-constants";
+
+import type { Table } from "@tanstack/react-table";
 
 interface TasksTableActionBarProps {
   table: Table<Task>;
@@ -37,13 +41,13 @@ export function TasksTableActionBar({ table }: TasksTableActionBarProps) {
         table.toggleAllRowsSelected(false);
       }
     },
-    [table]
+    [table],
   );
 
   const onTaskUpdate = React.useCallback(
     (
       field: "status" | "priority",
-      value: Task["status"] | Task["priority"]
+      value: Task["status"] | Task["priority"],
     ) => {
       async function update() {
         // const { error } = await updateTasks({
@@ -59,7 +63,7 @@ export function TasksTableActionBar({ table }: TasksTableActionBarProps) {
       }
       update();
     },
-    [rows]
+    [rows],
   );
 
   const onTaskExport = React.useCallback(() => {

@@ -1,14 +1,17 @@
 "use client";
 
+import * as React from "react";
+
 import { useDirection } from "@radix-ui/react-direction";
 import { Slot } from "@radix-ui/react-slot";
-import * as React from "react";
 import * as ReactDOM from "react-dom";
+
+import { useComposedRefs } from "@/lib/compose-refs";
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import { useAsRef } from "@/hooks/use-as-ref";
 import { useIsomorphicLayoutEffect } from "@/hooks/use-isomorphic-layout-effect";
-import { useComposedRefs } from "@/lib/compose-refs";
-import { cn } from "@/lib/utils";
 
 const ROOT_NAME = "ActionBar";
 const GROUP_NAME = "ActionBarGroup";
@@ -415,8 +418,10 @@ function ActionBarGroup(props: DivProps) {
   );
 }
 
-interface ActionBarItemProps
-  extends Omit<React.ComponentProps<typeof Button>, "onSelect"> {
+interface ActionBarItemProps extends Omit<
+  React.ComponentProps<typeof Button>,
+  "onSelect"
+> {
   onSelect?: (event: Event) => void;
 }
 

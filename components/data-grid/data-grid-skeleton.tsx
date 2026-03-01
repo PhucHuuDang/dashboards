@@ -1,6 +1,8 @@
 import type * as React from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import { cn } from "@/lib/utils";
+
+import { Skeleton } from "@/components/ui/skeleton";
 
 // eslint-disable-next-line
 interface DivProps extends React.ComponentProps<"div"> {}
@@ -11,7 +13,7 @@ function DataGridSkeleton({ className, ...props }: DivProps) {
       data-slot="grid-skeleton"
       className={cn(
         "flex h-[calc(100dvh-(--spacing(16)))] w-full flex-col gap-4 has-[>[data-slot=grid-skeleton-toolbar]]:h-[calc(100dvh-(--spacing(20)))]",
-        className
+        className,
       )}
       {...props}
     />
@@ -39,7 +41,7 @@ function DataGridSkeletonToolbar({
           "justify-center": align === "center",
           "justify-end": align === "end",
         },
-        className
+        className,
       )}
       {...props}
     >
