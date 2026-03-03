@@ -1,10 +1,22 @@
 "use client";
 
+import { useState } from "react";
+
 import { ChartPieIcon, SettingsIcon, TrendingUp } from "lucide-react";
+import { motion } from "motion/react";
 import { Pie, PieChart, Sector } from "recharts";
 import { type PieSectorDataItem } from "recharts/types/polar/Pie";
-import { motion } from "motion/react";
 
+import { cn } from "@/lib/utils";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/animate-ui/components/radix/dropdown-menu";
 import {
   Card,
   CardContent,
@@ -19,18 +31,9 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/animate-ui/components/radix/dropdown-menu";
+
 // Animated Sector wrapper component with smooth spring animation
-const AnimatedActiveSector = (props: PieSectorDataItem) => {
+export const AnimatedActiveSector = (props: PieSectorDataItem) => {
   const { cx = 0, cy = 0, outerRadius = 0 } = props;
   const expandedRadius = outerRadius + 10;
 
@@ -103,21 +106,6 @@ const chartConfig = {
     color: "var(--chart-5)",
   },
 } satisfies ChartConfig;
-
-interface DataItem {
-  label: string;
-  value: number;
-  color: string;
-}
-
-interface RichPieChartProps {
-  data: DataItem[];
-
-  width?: number;
-  height?: number;
-
-  className?: string;
-}
 
 export function RichPieChart() {
   const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
@@ -238,7 +226,7 @@ export function RichPieChart() {
                   "flex items-center gap-2 cursor-pointer transition-all text-foreground hover:scale-105",
                   isActive
                     ? "text-foreground "
-                    : ` text-muted-foreground/90 hover:text-foreground`
+                    : ` text-muted-foreground/90 hover:text-foreground`,
                 )}
                 onMouseEnter={() => setActiveIndex(index)}
                 onMouseLeave={() => setActiveIndex(undefined)}
@@ -246,7 +234,7 @@ export function RichPieChart() {
                 <div
                   className={cn(
                     "w-3 h-3 rounded-full shrink-0",
-                    isActive && "scale-125"
+                    isActive && "scale-125",
                   )}
                   style={{
                     backgroundColor: `${color}`,

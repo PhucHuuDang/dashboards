@@ -1,24 +1,18 @@
 import {
   ActivityIcon,
   AudioWaveform,
-  BadgeCheck,
-  Bell,
   BookOpen,
   Bot,
   ChefHatIcon,
-  ChevronsUpDown,
   Command,
-  CreditCard,
   FileUserIcon,
   Folder,
   Forward,
   GalleryVerticalEnd,
   Globe2Icon,
-  LogOut,
   MonitorCogIcon,
   Settings2,
   ShieldUserIcon,
-  Sparkles,
   SquareTerminal,
   Trash2,
 } from "lucide-react";
@@ -213,6 +207,18 @@ export const SIDEBAR_CONSTANT: DataProps = {
         ],
       },
       {
+        name: "Employees",
+        url: ROUTES.MANAGE_EMPLOYEES,
+        icon: FileUserIcon,
+        dropdownItems: [
+          {
+            title: "View All",
+            icon: Folder,
+            url: ROUTES.MANAGE_EMPLOYEES,
+          },
+        ],
+      },
+      {
         name: "Profile",
         url: "#",
         icon: FileUserIcon,
@@ -257,18 +263,6 @@ export const SIDEBAR_CONSTANT: DataProps = {
         ],
       },
 
-      {
-        name: "Employees",
-        url: ROUTES.MANAGE_EMPLOYEES,
-        icon: FileUserIcon,
-        dropdownItems: [
-          {
-            title: "View All",
-            icon: Folder,
-            url: ROUTES.MANAGE_EMPLOYEES,
-          },
-        ],
-      },
       {
         name: "Password & Authentication",
         url: "/dashboard/password",

@@ -86,6 +86,8 @@ const eslintConfig = defineConfig([
       "react-hooks/refs": "off",
       "react-hooks/preserve-manual-memoization": "off",
       "react-hooks/incompatible-library": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/set-state-in-effect": "off",
     },
   },
 
