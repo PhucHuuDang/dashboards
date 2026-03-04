@@ -1,30 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 
-import { ChartPieIcon, SettingsIcon, TrendingUp } from "lucide-react";
 import { motion } from "motion/react";
-import { Pie, PieChart, Sector } from "recharts";
-import { type PieSectorDataItem } from "recharts/types/polar/Pie";
+import { Label, Pie, PieChart, Sector } from "recharts";
 
 import { cn } from "@/lib/utils";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/animate-ui/components/radix/dropdown-menu";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
@@ -32,17 +14,18 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
-// Animated Sector wrapper component with smooth spring animation
-export const AnimatedActiveSector = (props: PieSectorDataItem) => {
+import type { PieSectorDataItem } from "recharts/types/polar/Pie";
+
+export const AnimatedActiveSector = React.memo(function AnimatedActiveSector(
+  props: PieSectorDataItem,
+) {
   const { cx = 0, cy = 0, outerRadius = 0 } = props;
-  const expandedRadius = outerRadius + 10;
+  const expandedRadius = outerRadius + 12;
 
   return (
     <motion.g
       initial={{ scale: 1 }}
-      animate={{
-        scale: 1,
-      }}
+      animate={{ scale: 1 }}
       style={{
         transformOrigin: `${cx}px ${cy}px`,
         filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))",
@@ -51,14 +34,8 @@ export const AnimatedActiveSector = (props: PieSectorDataItem) => {
       <motion.g
         initial={{ scale: outerRadius / expandedRadius }}
         animate={{ scale: 1 }}
-        transition={{
-          type: "spring",
-          stiffness: 400,
-          damping: 25,
-        }}
-        style={{
-          transformOrigin: `${cx}px ${cy}px`,
-        }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        style={{ transformOrigin: `${cx}px ${cy}px`, borderRadius: "16px" }}
       >
         <Sector
           {...props}
@@ -68,199 +45,171 @@ export const AnimatedActiveSector = (props: PieSectorDataItem) => {
       </motion.g>
     </motion.g>
   );
-};
+});
 
-export const description = "A donut chart with an active sector";
+interface CenterLabel {
+  value: string | number;
+  label: string;
+}
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
+export interface RichPieChartProps {
+  data: Record<string, unknown>[];
+  config: ChartConfig;
+  dataKey: string;
+  nameKey: string;
+  innerRadius?: number;
+  outerRadius?: number;
+  paddingAngle?: number;
+  centerLabel?: CenterLabel;
+  showLegend?: boolean;
+  className?: string;
+  animationDelay?: number;
+}
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-    color: "var(--color-foreground)",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
-  },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
-  },
-} satisfies ChartConfig;
+export const RichPieChart = React.memo(function RichPieChart({
+  data,
+  config,
+  dataKey,
+  nameKey,
+  innerRadius = 50,
+  outerRadius = 70,
+  paddingAngle = 3,
+  centerLabel,
+  showLegend = true,
+  className,
+  animationDelay = 300,
+}: RichPieChartProps) {
+  const [activeIndex, setActiveIndex] = React.useState<number | undefined>(
+    undefined,
+  );
 
-export function RichPieChart() {
-  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
+  const getColor = React.useCallback(
+    (name: string) => {
+      const entry = Object.entries(config).find(
+        ([, v]) => v.label === name && "color" in v,
+      );
+      return entry?.[1]?.color as string | undefined;
+    },
+    [config],
+  );
 
-  // const [showStatusBar, setShowStatusBar] = React.useState<boolean>(true);
-  // const [showActivityBar, setShowActivityBar] = React.useState<boolean>(false);
-  // const [showPanel, setShowPanel] = React.useState<boolean>(false);
-
-  const [dropdownValue, setDropdownValue] = useState<
-    Record<string, boolean | string>
-  >({
-    showStatusBar: true,
-    showActivityBar: false,
-    showPanel: false,
-  });
+  const handleMouseEnter = React.useCallback(
+    (_: unknown, index: number) => setActiveIndex(index),
+    [],
+  );
+  const handleMouseLeave = React.useCallback(
+    () => setActiveIndex(undefined),
+    [],
+  );
 
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center flex justify-between pb-0">
-        <div>
-          <CardTitle className="flex items-center gap-2">
-            <ChartPieIcon className="h-4 w-4" />
-            Pie Chart - Donut Active
-          </CardTitle>
-          <CardDescription>January - June 2025</CardDescription>
-        </div>
+    <div
+      className={cn(
+        "flex h-full w-full items-center justify-center gap-6",
+        className,
+      )}
+    >
+      <ChartContainer
+        config={config}
+        className="aspect-square h-[200px] w-[200px]"
+      >
+        <PieChart>
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <Pie
+            data={data}
+            dataKey={dataKey}
+            nameKey={nameKey}
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
+            strokeWidth={2}
+            stroke="hsl(var(--card))"
+            paddingAngle={paddingAngle}
+            activeIndex={activeIndex}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            activeShape={(props: PieSectorDataItem) => (
+              <AnimatedActiveSector {...props} />
+            )}
+            animationBegin={animationDelay}
+            animationDuration={600}
+            animationEasing="ease-out"
+          >
+            {centerLabel && (
+              <Label
+                content={({ viewBox }) => {
+                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                    return (
+                      <text
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                      >
+                        <tspan
+                          x={viewBox.cx}
+                          y={viewBox.cy}
+                          className="fill-foreground text-2xl font-bold"
+                        >
+                          {centerLabel.value}
+                        </tspan>
+                        <tspan
+                          x={viewBox.cx}
+                          y={(viewBox.cy ?? 0) + 18}
+                          className="fill-muted-foreground text-[10px]"
+                        >
+                          {centerLabel.label}
+                        </tspan>
+                      </text>
+                    );
+                  }
+                }}
+              />
+            )}
+          </Pie>
+        </PieChart>
+      </ChartContainer>
 
-        <div className="">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="p-2 bg-muted-foreground/10 hover:bg-muted-foreground/20 rounded-full cursor-pointer transition-colors duration-300">
-                <SettingsIcon className="h-4 w-4 text-foreground  " />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-56 bg-background"
-              align="start"
-              alignOffset={10}
-              side="bottom"
-              sideOffset={10}
-            >
-              <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem
-                checked={dropdownValue.showStatusBar as boolean}
-                onCheckedChange={(value) =>
-                  setDropdownValue({ ...dropdownValue, showStatusBar: value })
-                }
-              >
-                Status Bar
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                checked={dropdownValue.showActivityBar as boolean}
-                onCheckedChange={(value) =>
-                  setDropdownValue({ ...dropdownValue, showActivityBar: value })
-                }
-                disabled
-              >
-                Activity Bar
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                checked={dropdownValue.showPanel as boolean}
-                onCheckedChange={(value) =>
-                  setDropdownValue({ ...dropdownValue, showPanel: value })
-                }
-              >
-                Panel
-              </DropdownMenuCheckboxItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </CardHeader>
-
-      <CardContent className="flex-1 pb-0 flex items-center justify-center">
-        {/* <div className="flex flex-col sm:flex-row items-center gap-0"> */}
-        {/* Chart */}
-        <ChartContainer config={chartConfig} className="min-w-64 w-full ">
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={50}
-              outerRadius={70}
-              strokeWidth={5}
-              activeIndex={activeIndex}
-              onMouseEnter={(_, index) => {
-                setActiveIndex(index);
-              }}
-              onMouseLeave={() => {
-                setActiveIndex(undefined);
-              }}
-              activeShape={(props: PieSectorDataItem) => (
-                <AnimatedActiveSector {...props} />
-              )}
-              animationBegin={300}
-            />
-          </PieChart>
-        </ChartContainer>
-
-        {/* Legend */}
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 sm:flex-col sm:gap-1.5">
-          {chartData.map((item, index) => {
-            // console.log({ item });
-
+      {showLegend && (
+        <div className="flex shrink-0 flex-col gap-1.5">
+          {data.map((item, index) => {
+            const name = String(item[nameKey]);
+            const value = Number(item[dataKey]);
             const isActive = index === activeIndex;
+            const color = getColor(name);
 
-            const color =
-              chartConfig[item.browser as keyof typeof chartConfig]?.color;
             return (
               <div
-                key={item.browser}
+                key={name}
                 className={cn(
-                  "flex items-center gap-2 cursor-pointer transition-all text-foreground hover:scale-105",
+                  "flex cursor-pointer items-center gap-2 transition-all hover:scale-105 ",
                   isActive
-                    ? "text-foreground "
-                    : ` text-muted-foreground/90 hover:text-foreground`,
+                    ? "text-foreground"
+                    : "text-muted-foreground/90 hover:text-foreground",
                 )}
                 onMouseEnter={() => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(undefined)}
+                onMouseLeave={handleMouseLeave}
               >
                 <div
                   className={cn(
-                    "w-3 h-3 rounded-full shrink-0",
+                    "size-2.5 shrink-0 rounded-full transition-transform",
                     isActive && "scale-125",
                   )}
-                  style={{
-                    backgroundColor: `${color}`,
-                  }}
+                  style={{ backgroundColor: color }}
                 />
-                <span className="text-sm font-medium capitalize">
-                  {item.browser}
+                <span className="text-xs font-medium whitespace-nowrap">
+                  {name}
                 </span>
-                <span className="text-xs font-semibold tabular-nums ">
-                  {item.visitors.toLocaleString()}
+                <span className="text-[10px] font-semibold tabular-nums">
+                  {value.toLocaleString()}
                 </span>
               </div>
             );
           })}
-          {/* </div> */}
         </div>
-      </CardContent>
-
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
-    </Card>
+      )}
+    </div>
   );
-}
+});
