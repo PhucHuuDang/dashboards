@@ -1,3 +1,5 @@
+import { getDateRangeFromSelector } from "@/lib/analytics-utils";
+
 import { applyColumnFilters } from "../../lib/mock-filter-colums";
 import { paginate, sortData } from "../../lib/mock-utils";
 
@@ -7,9 +9,25 @@ import type { Employee, EmployeeStatus, Department } from "@/types/employee";
 
 import type { GetEmployeesSchema } from "./employee-validations";
 
+/** Apply global filters like Date Range to the mock employee base. */
+function getBaseEmployees(input: GetEmployeesSchema): Employee[] {
+  let data = [...MOCK_EMPLOYEES];
+
+  // Global date filter by joinDate
+  if (input.dateRange) {
+    const { end } = getDateRangeFromSelector(input.dateRange);
+    data = data.filter((e) => {
+      const joinDateMs = new Date(e.joinDate).getTime();
+      return joinDateMs <= end.getTime();
+    });
+  }
+
+  return data;
+}
+
 export async function getEmployees(input: GetEmployeesSchema) {
   try {
-    let data: Employee[] = [...MOCK_EMPLOYEES];
+    let data = getBaseEmployees(input);
 
     const advancedTable =
       input.filterFlag === "advancedFilters" ||
@@ -69,10 +87,11 @@ export async function getEmployees(input: GetEmployeesSchema) {
   }
 }
 
-export async function getEmployeeStatusCounts(): Promise<
-  Record<EmployeeStatus, number>
-> {
-  return MOCK_EMPLOYEES.reduce(
+export async function getEmployeeStatusCounts(
+  input: GetEmployeesSchema,
+): Promise<Record<EmployeeStatus, number>> {
+  const baseData = getBaseEmployees(input);
+  return baseData.reduce(
     (acc: Record<EmployeeStatus, number>, emp: Employee) => {
       acc[emp.status]++;
       return acc;
@@ -86,10 +105,11 @@ export async function getEmployeeStatusCounts(): Promise<
   );
 }
 
-export async function getEmployeeDepartmentCounts(): Promise<
-  Record<Department, number>
-> {
-  return MOCK_EMPLOYEES.reduce(
+export async function getEmployeeDepartmentCounts(
+  input: GetEmployeesSchema,
+): Promise<Record<Department, number>> {
+  const baseData = getBaseEmployees(input);
+  return baseData.reduce(
     (acc: Record<Department, number>, emp: Employee) => {
       acc[emp.department]++;
       return acc;
@@ -107,10 +127,11 @@ export async function getEmployeeDepartmentCounts(): Promise<
   );
 }
 
-export async function getEmploymentTypeCounts(): Promise<
-  Record<Employee["employmentType"], number>
-> {
-  return MOCK_EMPLOYEES.reduce(
+export async function getEmploymentTypeCounts(
+  input: GetEmployeesSchema,
+): Promise<Record<Employee["employmentType"], number>> {
+  const baseData = getBaseEmployees(input);
+  return baseData.reduce(
     (acc, emp) => {
       acc[emp.employmentType]++;
       return acc;
@@ -123,16 +144,19 @@ export async function getEmploymentTypeCounts(): Promise<
   );
 }
 
-export async function getPerformanceScoreRange() {
-  const scores = MOCK_EMPLOYEES.map((e) => e.performanceScore);
+export async function getPerformanceScoreRange(input: GetEmployeesSchema) {
+  const baseData = getBaseEmployees(input);
+  if (baseData.length === 0) return { min: 0, max: 100 };
+  const scores = baseData.map((e) => e.performanceScore);
   return {
     min: Math.min(...scores),
     max: Math.max(...scores),
   };
 }
 
-export async function getPerformanceAtRiskCount() {
-  return MOCK_EMPLOYEES.filter(
+export async function getPerformanceAtRiskCount(input: GetEmployeesSchema) {
+  const baseData = getBaseEmployees(input);
+  return baseData.filter(
     (e) => e.performanceScore < 60 && e.status === "active",
   ).length;
 }

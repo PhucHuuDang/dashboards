@@ -16,7 +16,6 @@ import { universityLocations } from "@/mocks/univerity-mock";
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
 import { LocationsMap } from "@/components/segments/locations/components/location-map";
 import { Card } from "@/components/ui/card";
-import { useEventListener } from "@/hooks/use-event-listener";
 
 import { LocationsSidebar } from "./components/location-sidebar";
 

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+
 import LocationsClient from "@/components/segments/locations/location-map-client";
 
 export const metadata: Metadata = {

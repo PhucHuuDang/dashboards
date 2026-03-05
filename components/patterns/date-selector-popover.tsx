@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import { CalendarIcon } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 import {
   DateSelector,
   formatDateValue,
@@ -17,8 +19,16 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 
-export function Pattern() {
-  const [value, setValue] = useState<DateSelectorValue | undefined>();
+interface DateSelectorPopoverProps {
+  value?: DateSelectorValue;
+  onChange: (value: DateSelectorValue | undefined) => void;
+  className?: string;
+}
+export function DateSelectorPopover({
+  value,
+  onChange,
+  className,
+}: DateSelectorPopoverProps) {
   const [open, setOpen] = useState(false);
   const [internalValue, setInternalValue] = useState<
     DateSelectorValue | undefined
@@ -38,7 +48,7 @@ export function Pattern() {
   }, [open, value]);
 
   const handleApply = () => {
-    setValue(internalValue);
+    onChange(internalValue);
     setOpen(false);
   };
 
@@ -50,7 +60,10 @@ export function Pattern() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="w-56 justify-start">
+        <Button
+          variant="outline"
+          className={cn("w-56 justify-start", className)}
+        >
           <CalendarIcon />
           {displayText}
         </Button>

@@ -132,11 +132,6 @@ export function EmployeesTable({ promises }: EmployeesTableProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <EmployeesStatsCards
-        statusCounts={statusCounts}
-        atRiskCount={atRiskCount}
-      />
-
       <DataTable
         table={table}
         actionBar={

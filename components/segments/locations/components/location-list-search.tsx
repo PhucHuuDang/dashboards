@@ -172,11 +172,11 @@ export const LocationListSearch = memo(
 
     return (
       <div className="flex flex-col h-full">
-        <div className="p-2 sticky top-0 z-10 bg-sidebar rounded-lg ml-2">
+        <div className="p-2 sticky top-0 z-10 bg-transparent border rounded-lg ml-2 ">
           <CardHeader className="flex items-center justify-between my-4 ">
             <div className="flex items-center gap-2 w-full">
-              <GlobeIcon className="size-6 text-muted-foreground" />
-              <CardTitle className="text-sm font-medium text-muted-foreground">
+              <GlobeIcon className="size-6 text-primary" />
+              <CardTitle className="text-sm font-medium text-primary">
                 Locations
               </CardTitle>
             </div>

@@ -24,16 +24,7 @@ interface EmployeeTableWrapperProps {
 
 export default function EmployeeTableWrapper(props: EmployeeTableWrapperProps) {
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
-          Employee Management
-        </h1>
-        <p className="text-muted-foreground text-sm">
-          Manage employee records, onboarding, performance, and task assignment.
-        </p>
-      </div>
-
+    <div>
       <Suspense
         fallback={
           <DataTableSkeleton
@@ -75,11 +66,11 @@ async function EmployeesTableContent(props: EmployeeTableWrapperProps) {
       ...search,
       filters: validFilters,
     }),
-    getEmployeeStatusCounts(),
-    getEmployeeDepartmentCounts(),
-    getEmploymentTypeCounts(),
-    getPerformanceScoreRange(),
-    getPerformanceAtRiskCount(),
+    getEmployeeStatusCounts(search),
+    getEmployeeDepartmentCounts(search),
+    getEmploymentTypeCounts(search),
+    getPerformanceScoreRange(search),
+    getPerformanceAtRiskCount(search),
   ]);
 
   return <EmployeesTable promises={promises} />;

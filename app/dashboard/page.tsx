@@ -12,9 +12,33 @@ import { DashboardKanban } from "@/components/segments/dashboard/dashboard-kanba
 import { Prettify, SearchParams } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Statistics",
+  title: "Performance Statistics & Overview | Dashboard",
   description:
-    "The statistics of the dashboard show the performance of the website.",
+    "Get comprehensive real-time statistics and an overview of your organization's performance, user engagement, and system health metrics.",
+  keywords: [
+    "dashboard statistics",
+    "performance overview",
+    "system health metrics",
+    "user engagement analytics",
+    "live workspace statistics",
+  ],
+  alternates: {
+    canonical: "https://dashboards-three-drab.vercel.app/dashboard",
+  },
+  openGraph: {
+    title: "Performance Statistics & Overview | Dashboard",
+    description:
+      "Get comprehensive real-time statistics and an overview of your organization's performance, user engagement, and system health metrics.",
+    url: "https://dashboards-three-drab.vercel.app/dashboard",
+    siteName: "Dashboards",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Performance Statistics & Overview | Dashboard",
+    description:
+      "Get comprehensive real-time statistics and an overview of your organization's performance.",
+  },
 };
 
 interface DashboardPageProps {

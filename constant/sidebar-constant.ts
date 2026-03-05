@@ -15,6 +15,7 @@ import {
   ShieldUserIcon,
   SquareTerminal,
   Trash2,
+  UsersIcon,
 } from "lucide-react";
 
 import { DataProps } from "@/components/chunks/sidebar-chunks";
@@ -141,7 +142,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
     label: "Settings",
     items: [
       {
-        name: "General",
+        name: "Dashboard",
         url: ROUTES.DASHBOARD,
         icon: MonitorCogIcon,
         dropdownItems: [
@@ -185,6 +186,18 @@ export const SIDEBAR_CONSTANT: DataProps = {
         ],
       },
       {
+        name: "Employees",
+        url: ROUTES.MANAGE_EMPLOYEES,
+        icon: UsersIcon,
+        dropdownItems: [
+          {
+            title: "View All",
+            icon: Folder,
+            url: ROUTES.MANAGE_EMPLOYEES,
+          },
+        ],
+      },
+      {
         name: "Activities",
         url: ROUTES.ACTIVITIES,
         icon: ActivityIcon,
@@ -206,18 +219,7 @@ export const SIDEBAR_CONSTANT: DataProps = {
           },
         ],
       },
-      {
-        name: "Employees",
-        url: ROUTES.MANAGE_EMPLOYEES,
-        icon: FileUserIcon,
-        dropdownItems: [
-          {
-            title: "View All",
-            icon: Folder,
-            url: ROUTES.MANAGE_EMPLOYEES,
-          },
-        ],
-      },
+
       {
         name: "Profile",
         url: "#",

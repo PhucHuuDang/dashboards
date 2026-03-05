@@ -1,13 +1,15 @@
-import { siteConfig } from "@/config/site";
-
-import type { MetadataRoute } from "next";
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: [
+        "/api/",
+        "/dashboard/settings/private", // Add paths you don't want indexed here
+      ],
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: "https://dashboards-three-drab.vercel.app/sitemap.xml",
   };
 }

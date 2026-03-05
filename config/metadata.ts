@@ -2,11 +2,11 @@ import { Metadata } from "next";
 
 export const metadataConfig: Metadata = {
   title: {
-    default: "Dashboard",
-    template: "%s | Dashboard",
+    default: "Enterprise Dashboard | Analytics & Management",
+    template: "%s | Dashboard Workspace",
   },
   description:
-    "A minimal yet powerful dashboard UI focused on simplicity, usability, and visual balance.",
+    "A responsive, minimal, and powerful dashboard workspace for managing employees, tracking activities, and analyzing performance metrics efficiently.",
   icons: {
     icon: "/favicon.ico",
     apple: [
@@ -15,11 +15,11 @@ export const metadataConfig: Metadata = {
     ],
   },
   openGraph: {
-    title: "Dashboard",
+    title: "Enterprise Dashboard | Analytics & Management",
     description:
-      "A minimal yet powerful dashboard UI focused on simplicity, usability, and visual balance.",
-    url: "https://dashboard.com",
-    siteName: "Dashboard",
+      "A responsive, minimal, and powerful dashboard workspace for managing employees, tracking activities, and analyzing performance metrics efficiently.",
+    url: "https://dashboards-three-drab.vercel.app/dashboard",
+    siteName: "Dashboards",
 
     countryName: "Vietnam",
     emails: ["danghuuphuc001@gmail.com", "danghuuphuc002@gmail.com"],
@@ -29,9 +29,15 @@ export const metadataConfig: Metadata = {
     gender: "male",
     writers: ["Harry Dang"],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Enterprise Dashboard | Analytics & Management",
+    description:
+      "A responsive, minimal, and powerful dashboard workspace for managing employees, tracking activities, and analyzing performance metrics efficiently.",
+  },
 
   abstract:
-    "A minimal yet powerful dashboard UI focused on simplicity, usability, and visual balance.",
+    "A responsive, minimal, and powerful dashboard workspace for managing employees, tracking activities, and analyzing performance metrics efficiently.",
   applicationName: "Dashboard",
   appleWebApp: {
     title: "Dashboard",
@@ -47,7 +53,15 @@ export const metadataConfig: Metadata = {
     telephone: false,
   },
   robots: {
-    index: false,
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   authors: [
     {
@@ -59,27 +73,19 @@ export const metadataConfig: Metadata = {
   publisher: "Harry Dang",
   category: "technology",
   keywords: [
-    "dashboard",
-    "ui",
-    "design",
-    "development",
+    "enterprise dashboard",
+    "management workspace",
+    "performance analytics",
+    "employee management",
     "tailwindcss",
     "shadcn",
     "react",
     "nextjs",
     "typescript",
-    "animate-ui",
-    "radix-ui",
-    "radix-nova",
-    "radix-ui-react",
-    "radix-ui-react-native",
-    "radix-ui-react-native-web",
-    "radix-ui-react-native-web-web",
-    "radix-ui-react-native-web-web-web",
   ],
-  metadataBase: new URL("https://dashboards-three-drab.vercel.app/dashboard"),
+  metadataBase: new URL("https://dashboards-three-drab.vercel.app"),
   alternates: {
-    canonical: "https://dashboards-three-drab.vercel.app/dashboard",
+    canonical: "/",
   },
 
   bookmarks: "https://dashboards-three-drab.vercel.app/dashboard",

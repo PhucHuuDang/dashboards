@@ -64,6 +64,8 @@ export interface RichPieChartProps {
   showLegend?: boolean;
   className?: string;
   animationDelay?: number;
+
+  cornerRadius?: number;
 }
 
 export const RichPieChart = React.memo(function RichPieChart({
@@ -71,13 +73,15 @@ export const RichPieChart = React.memo(function RichPieChart({
   config,
   dataKey,
   nameKey,
-  innerRadius = 50,
+  innerRadius = 40,
   outerRadius = 70,
   paddingAngle = 3,
   centerLabel,
   showLegend = true,
   className,
   animationDelay = 300,
+
+  cornerRadius = 8,
 }: RichPieChartProps) {
   const [activeIndex, setActiveIndex] = React.useState<number | undefined>(
     undefined,
@@ -136,6 +140,7 @@ export const RichPieChart = React.memo(function RichPieChart({
             animationBegin={animationDelay}
             animationDuration={600}
             animationEasing="ease-out"
+            cornerRadius={cornerRadius}
           >
             {centerLabel && (
               <Label

@@ -4,6 +4,7 @@ import {
   parseAsInteger,
   parseAsString,
   parseAsStringEnum,
+  createParser,
 } from "nuqs/server";
 import * as z from "zod";
 
@@ -17,6 +18,25 @@ import {
   DEPARTMENTS,
   EMPLOYMENT_TYPES,
 } from "@/types/employee";
+
+import type { DateSelectorValue } from "@/components/reui/date-selector";
+
+// Custom parser to handle Date serialization in DateSelectorValue
+export const dateSelectorValueParser = createParser({
+  parse(queryValue) {
+    try {
+      const parsed = JSON.parse(queryValue);
+      if (parsed.startDate) parsed.startDate = new Date(parsed.startDate);
+      if (parsed.endDate) parsed.endDate = new Date(parsed.endDate);
+      return parsed as DateSelectorValue;
+    } catch {
+      return null;
+    }
+  },
+  serialize(value) {
+    return JSON.stringify(value);
+  },
+});
 
 export const employeeSearchParamsCache = createSearchParamsCache({
   filterFlag: parseAsStringEnum(
@@ -40,6 +60,12 @@ export const employeeSearchParamsCache = createSearchParamsCache({
   ).withDefault([]),
   performanceScore: parseAsArrayOf(parseAsInteger).withDefault([]),
   joinDate: parseAsArrayOf(parseAsInteger).withDefault([]),
+  dateRange: dateSelectorValueParser.withDefault({
+    period: "day",
+    operator: "between",
+    startDate: new Date(new Date().setDate(new Date().getDate() - 30)),
+    endDate: new Date(),
+  } as DateSelectorValue),
   // advanced filter
   filters: getFiltersStateParser().withDefault([]),
   joinOperator: parseAsStringEnum(["and", "or"]).withDefault("and"),
