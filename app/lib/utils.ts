@@ -14,12 +14,6 @@ import {
   Timer,
 } from "lucide-react";
 import { customAlphabet } from "nanoid";
-import {
-  type Skater,
-  type Task,
-  MOCK_SKATERS as skaters,
-  MOCK_TASKS as tasks,
-} from "@/lib/tasks-seeds";
 
 import { generateId } from "@/lib/id";
 import {
@@ -27,8 +21,12 @@ import {
   TASK_PRIORITIES,
   TASK_STATUSES,
 } from "@/lib/task-constants";
+import { type Skater, type Task, MOCK_AVATARS } from "@/lib/tasks-seeds";
 
 export function generateRandomTask(input?: Partial<Task>): Task {
+  const status = faker.helpers.shuffle(TASK_STATUSES)[0] ?? "todo";
+  const createdAt = new Date();
+
   return {
     id: generateId("task"),
     code: `TASK-${customAlphabet("0123456789", 4)()}`,
@@ -36,11 +34,23 @@ export function generateRandomTask(input?: Partial<Task>): Task {
       .phrase()
       .replace(/^./, (letter) => letter.toUpperCase()),
     estimatedHours: faker.number.int({ min: 1, max: 24 }),
-    status: faker.helpers.shuffle(TASK_STATUSES)[0] ?? "todo",
+    status,
     label: faker.helpers.shuffle(TASK_LABELS)[0] ?? "bug",
     priority: faker.helpers.shuffle(TASK_PRIORITIES)[0] ?? "low",
+    progress:
+      status === "done"
+        ? 100
+        : status === "todo" || status === "canceled"
+          ? 0
+          : faker.number.int({ min: 10, max: 90 }),
+    dueDate: new Date(
+      createdAt.getTime() + faker.number.int({ min: 1, max: 14 }) * 86400000,
+    ),
+    assignee: faker.datatype.boolean({ probability: 0.8 })
+      ? faker.helpers.shuffle(MOCK_AVATARS)[0]
+      : null,
     archived: faker.datatype.boolean({ probability: 0.2 }),
-    createdAt: new Date(),
+    createdAt,
     updatedAt: new Date(),
     ...input,
   };

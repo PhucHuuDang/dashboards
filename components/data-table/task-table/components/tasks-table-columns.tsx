@@ -10,19 +10,18 @@ import {
   Ellipsis,
   Text,
 } from "lucide-react";
-import { toast } from "sonner";
 
 import { formatDate } from "@/lib/format";
-import { getErrorMessage } from "@/lib/handle-error";
 import {
   TASK_LABELS,
   TASK_PRIORITIES,
   TASK_STATUSES,
 } from "@/lib/task-constants";
-import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
+import { type Task } from "@/lib/tasks-seeds";
 
 import { getPriorityIcon, getStatusIcon } from "@/app/lib/utils";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -38,6 +37,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Progress } from "@/components/ui/progress";
 
 import type { DataTableRowAction } from "@/types/data-table";
 
@@ -123,6 +123,32 @@ export function getTasksTableColumns({
       enableColumnFilter: true,
     },
     {
+      id: "assignee",
+      accessorKey: "assignee",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} label="Assignee" />
+      ),
+      cell: ({ row }) => {
+        const assignee = row.original.assignee;
+        if (!assignee)
+          return (
+            <span className="text-muted-foreground text-sm">Unassigned</span>
+          );
+
+        return (
+          <div className="flex items-center gap-2">
+            <Avatar className="size-6">
+              <AvatarImage src={assignee.avatar} alt={assignee.name} />
+              <AvatarFallback>{assignee.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <span className="truncate">{assignee.name}</span>
+          </div>
+        );
+      },
+      enableSorting: false,
+      enableColumnFilter: false,
+    },
+    {
       id: "status",
       accessorKey: "status",
       header: ({ column }) => (
@@ -160,6 +186,26 @@ export function getTasksTableColumns({
         icon: CircleDashed,
       },
       enableColumnFilter: true,
+    },
+    {
+      id: "progress",
+      accessorKey: "progress",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} label="Progress" />
+      ),
+      cell: ({ row }) => {
+        const progress = row.original.progress;
+        return (
+          <div className="flex items-center gap-2 w-24">
+            <Progress value={progress} className="h-2" />
+            <span className="text-xs text-muted-foreground min-w-8">
+              {progress}%
+            </span>
+          </div>
+        );
+      },
+      enableSorting: true,
+      enableColumnFilter: false,
     },
     {
       id: "priority",
@@ -230,6 +276,16 @@ export function getTasksTableColumns({
       enableColumnFilter: true,
     },
     {
+      id: "dueDate",
+      accessorKey: "dueDate",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} label="Due Date" />
+      ),
+      cell: ({ cell }) => formatDate(cell.getValue<Date>()),
+      enableSorting: true,
+      enableColumnFilter: false,
+    },
+    {
       id: "actions",
       cell: function Cell({ row }) {
         const [isUpdatePending, startUpdateTransition] = React.useTransition();
@@ -256,7 +312,7 @@ export function getTasksTableColumns({
                 <DropdownMenuSubContent>
                   <DropdownMenuRadioGroup
                     value={row.original.label}
-                    onValueChange={(value) => {
+                    onValueChange={() => {
                       startUpdateTransition(() => {
                         // toast.promise(
                         //   updateTask({

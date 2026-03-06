@@ -1,4 +1,5 @@
 // ./lib/queries.ts (mock version)
+import { getDateRangeFromSelector } from "@/lib/analytics-utils";
 import { paginate, sortData } from "@/lib/mock-utils";
 import { MOCK_TASKS, Task } from "@/lib/tasks-seeds";
 
@@ -101,6 +102,20 @@ export async function getTasks(input: GetTasksSchema) {
       if (input.priority.length) {
         data = data.filter((t) => input.priority.includes(t.priority));
       }
+    }
+
+    if (input.dateRange) {
+      const { start, end } = getDateRangeFromSelector(input.dateRange);
+      // Allow a tiny bit of buffer for the end of the day or exact matching
+      const endOfDay = new Date(end);
+      endOfDay.setHours(23, 59, 59, 999);
+
+      data = data.filter((t) => {
+        const createdAtMs = new Date(t.createdAt).getTime();
+        return (
+          createdAtMs >= start.getTime() && createdAtMs <= endOfDay.getTime()
+        );
+      });
     }
 
     // sort + paginate (giữ nguyên)

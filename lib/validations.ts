@@ -4,15 +4,34 @@ import {
   parseAsInteger,
   parseAsString,
   parseAsStringEnum,
+  createParser,
 } from "nuqs/server";
 import * as z from "zod";
 
 import { getFiltersStateParser, getSortingStateParser } from "@/lib/parsers";
-import { type Task, MOCK_TASKS as tasks } from "@/lib/tasks-seeds";
+import { type Task } from "@/lib/tasks-seeds";
 
 import { flagConfig } from "@/config/flag";
 
 import { TASK_LABELS, TASK_PRIORITIES, TASK_STATUSES } from "./task-constants";
+
+import type { DateSelectorValue } from "@/components/reui/date-selector";
+
+export const dateSelectorValueParser = createParser({
+  parse(queryValue) {
+    try {
+      const parsed = JSON.parse(queryValue);
+      if (parsed.startDate) parsed.startDate = new Date(parsed.startDate);
+      if (parsed.endDate) parsed.endDate = new Date(parsed.endDate);
+      return parsed as DateSelectorValue;
+    } catch {
+      return null;
+    }
+  },
+  serialize(value) {
+    return JSON.stringify(value);
+  },
+});
 
 export const searchParamsCache = createSearchParamsCache({
   filterFlag: parseAsStringEnum(
@@ -31,6 +50,9 @@ export const searchParamsCache = createSearchParamsCache({
   // advanced filter
   filters: getFiltersStateParser().withDefault([]),
   joinOperator: parseAsStringEnum(["and", "or"]).withDefault("and"),
+  dateRange: dateSelectorValueParser.withDefault(
+    null as unknown as DateSelectorValue,
+  ),
 });
 
 export const createTaskSchema = z.object({

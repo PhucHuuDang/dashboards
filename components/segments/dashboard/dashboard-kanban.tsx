@@ -1,12 +1,16 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useMemo } from "react";
 
 import { TrendingUp, UserIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
+
+import { dateSelectorValueParser } from "@/lib/validations";
 
 import { StatisticCard } from "@/components/card-block/statistic-card";
 import { RichAreaChart } from "@/components/charts/rich-area-chart";
 import { RichPieChart } from "@/components/charts/rich-pie-chart";
+import { DateSelectorPopover } from "@/components/patterns/date-selector-popover";
 import {
   Card,
   CardContent,
@@ -21,6 +25,7 @@ import {
   KanbanColumn,
   KanbanColumnHandle,
 } from "@/components/ui/kanban";
+import { useDashboardAnalytics } from "@/hooks/use-dashboard-analytics";
 
 import TaskTableWrapper from "../../data-table/task-table/task-table-wrapper";
 
@@ -36,81 +41,57 @@ interface DashboardKanbanProps {
   searchParams: Promise<SearchParams>;
 }
 
-const PIE_DATA = [
-  { browser: "Chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "Safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "Firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "Edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "Other", visitors: 90, fill: "var(--color-other)" },
-];
-
-const PIE_CONFIG = {
-  visitors: { label: "Visitors" },
-  chrome: { label: "Chrome", color: "var(--chart-1)" },
-  safari: { label: "Safari", color: "var(--chart-2)" },
-  firefox: { label: "Firefox", color: "var(--chart-3)" },
-  edge: { label: "Edge", color: "var(--chart-4)" },
-  other: { label: "Other", color: "var(--chart-5)" },
-} satisfies ChartConfig;
-
-const AREA_DATA = [
-  { date: "2024-04-01", desktop: 222, mobile: 150 },
-  { date: "2024-04-08", desktop: 409, mobile: 320 },
-  { date: "2024-04-15", desktop: 120, mobile: 170 },
-  { date: "2024-04-22", desktop: 224, mobile: 170 },
-  { date: "2024-04-29", desktop: 315, mobile: 240 },
-  { date: "2024-05-06", desktop: 498, mobile: 520 },
-  { date: "2024-05-13", desktop: 197, mobile: 160 },
-  { date: "2024-05-20", desktop: 177, mobile: 230 },
-  { date: "2024-05-27", desktop: 420, mobile: 460 },
-  { date: "2024-06-03", desktop: 103, mobile: 160 },
-  { date: "2024-06-10", desktop: 155, mobile: 200 },
-  { date: "2024-06-17", desktop: 475, mobile: 520 },
-  { date: "2024-06-24", desktop: 132, mobile: 180 },
-  { date: "2024-06-30", desktop: 446, mobile: 400 },
-];
-
-const AREA_CONFIG = {
-  visitors: { label: "Visitors" },
-  desktop: { label: "Desktop", color: "var(--chart-1)" },
-  mobile: { label: "Mobile", color: "var(--chart-2)" },
-} satisfies ChartConfig;
+// removed static PIE_DATA and AREA_DATA
 
 function StatisticBlock() {
+  const { metrics } = useDashboardAnalytics();
+  const nf = new Intl.NumberFormat("en-US");
+
   const [columns, setColumns] = useState<Record<string, DashboardBlock[]>>({
-    users: [
-      {
-        id: "1",
-        component: (
-          <StatisticCard title="Users" description="100" icon={UserIcon} />
-        ),
-      },
-    ],
-    orders: [
-      {
-        id: "2",
-        component: (
-          <StatisticCard title="Orders" description="100" icon={UserIcon} />
-        ),
-      },
-    ],
-    products: [
-      {
-        id: "3",
-        component: (
-          <StatisticCard title="Products" description="100" icon={UserIcon} />
-        ),
-      },
-    ],
-    revenue: [
-      {
-        id: "4",
-        component: (
-          <StatisticCard title="Revenue" description="100" icon={UserIcon} />
-        ),
-      },
-    ],
+    users: [{ id: "1", component: null as unknown as React.ReactElement }],
+    orders: [{ id: "2", component: null as unknown as React.ReactElement }],
+    products: [{ id: "3", component: null as unknown as React.ReactElement }],
+    revenue: [{ id: "4", component: null as unknown as React.ReactElement }],
   });
+
+  const renderCard = (id: string) => {
+    switch (id) {
+      case "1":
+        return (
+          <StatisticCard
+            title="Visitors"
+            description={`${nf.format(metrics.users.value)} (${metrics.users.growthPercent > 0 ? "+" : ""}${metrics.users.growthPercent}%)`}
+            icon={UserIcon}
+          />
+        );
+      case "2":
+        return (
+          <StatisticCard
+            title="Orders"
+            description={`${nf.format(metrics.orders.value)} (${metrics.orders.growthPercent > 0 ? "+" : ""}${metrics.orders.growthPercent}%)`}
+            icon={UserIcon}
+          />
+        );
+      case "3":
+        return (
+          <StatisticCard
+            title="Products"
+            description={`${nf.format(metrics.products.value)} (${metrics.products.growthPercent > 0 ? "+" : ""}${metrics.products.growthPercent}%)`}
+            icon={UserIcon}
+          />
+        );
+      case "4":
+        return (
+          <StatisticCard
+            title="Revenue"
+            description={`$${nf.format(metrics.revenue.value)} (${metrics.revenue.growthPercent > 0 ? "+" : ""}${metrics.revenue.growthPercent}%)`}
+            icon={UserIcon}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -125,7 +106,7 @@ function StatisticBlock() {
               <KanbanColumn key={columnId} value={columnId}>
                 {blocks.map((block) => (
                   <Fragment key={`${columnId}-block-${block.id}`}>
-                    {block.component}
+                    {renderCard(block.id)}
                   </Fragment>
                 ))}
               </KanbanColumn>
@@ -138,16 +119,81 @@ function StatisticBlock() {
 }
 
 function ChartsBlock() {
+  const { timeseries, metrics, dateRange } = useDashboardAnalytics();
+
+  const areaData = useMemo(() => {
+    const data = timeseries.map((d) => ({
+      date: d.date,
+      desktop: d.visitors.desktop,
+      mobile: d.visitors.mobile,
+    }));
+
+    if (data.length === 1 && data[0]) {
+      const point = data[0];
+      const startOfDay = new Date(point.date);
+      startOfDay.setHours(0, 0, 0, 0);
+
+      const endOfDay = new Date(point.date);
+      endOfDay.setHours(23, 59, 59, 999);
+
+      return [
+        { ...point, date: startOfDay.toISOString() },
+        { ...point, date: endOfDay.toISOString() },
+      ];
+    }
+
+    return data;
+  }, [timeseries]);
+
+  const pieData = useMemo(() => {
+    let chrome = 0,
+      safari = 0,
+      firefox = 0,
+      edge = 0,
+      other = 0;
+    timeseries.forEach((d) => {
+      chrome += d.browsers.chrome;
+      safari += d.browsers.safari;
+      firefox += d.browsers.firefox;
+      edge += d.browsers.edge;
+      other += d.browsers.other;
+    });
+    return [
+      { browser: "Chrome", visitors: chrome, fill: "var(--color-chrome)" },
+      { browser: "Safari", visitors: safari, fill: "var(--color-safari)" },
+      { browser: "Firefox", visitors: firefox, fill: "var(--color-firefox)" },
+      { browser: "Edge", visitors: edge, fill: "var(--color-edge)" },
+      { browser: "Other", visitors: other, fill: "var(--color-other)" },
+    ];
+  }, [timeseries]);
+
+  const PIE_CONFIG = {
+    visitors: { label: "Visitors" },
+    chrome: { label: "Chrome", color: "var(--chart-1)" },
+    safari: { label: "Safari", color: "var(--chart-2)" },
+    firefox: { label: "Firefox", color: "var(--chart-3)" },
+    edge: { label: "Edge", color: "var(--chart-4)" },
+    other: { label: "Other", color: "var(--chart-5)" },
+  } satisfies ChartConfig;
+
+  const AREA_CONFIG = {
+    visitors: { label: "Visitors" },
+    desktop: { label: "Desktop", color: "var(--chart-1)" },
+    mobile: { label: "Mobile", color: "var(--chart-2)" },
+  } satisfies ChartConfig;
+
   return (
     <KanbanColumnHandle className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 lg:gap-4 w-full transition-opacity opacity-100 group-hover/kanban-column:backdrop-opacity-90 group-hover/kanban-column:shadow-2xl">
       <Card className="flex flex-col">
         <CardHeader className="items-center pb-0">
-          <CardTitle>Pie Chart - Donut Active</CardTitle>
-          <CardDescription>January - June 2025</CardDescription>
+          <CardTitle>Browser Distribution</CardTitle>
+          <CardDescription>
+            Selected Date Range ({dateRange.days} days)
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-1 items-center justify-center pb-0">
           <RichPieChart
-            data={PIE_DATA}
+            data={pieData}
             config={PIE_CONFIG}
             dataKey="visitors"
             nameKey="browser"
@@ -155,11 +201,17 @@ function ChartsBlock() {
         </CardContent>
         <CardFooter className="flex-col gap-2 text-sm">
           <div className="flex items-center gap-2 font-medium leading-none">
-            Trending up by 5.2% this month
-            <TrendingUp className="size-4" />
+            Visits trending {metrics.users.trend} by{" "}
+            {metrics.users.growthPercent > 0 ? "+" : ""}
+            {metrics.users.growthPercent}%
+            {metrics.users.trend !== "neutral" && (
+              <TrendingUp
+                className={`size-4 ${metrics.users.trend === "down" ? "rotate-180 text-red-500" : "text-green-500"}`}
+              />
+            )}
           </div>
           <div className="text-muted-foreground leading-none">
-            Showing total visitors for the last 6 months
+            Showing total visitor breakdown for the selected timeframe
           </div>
         </CardFooter>
       </Card>
@@ -167,15 +219,15 @@ function ChartsBlock() {
       <Card className="flex flex-col pt-0">
         <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
           <div className="grid flex-1 gap-1">
-            <CardTitle>Area Chart - Interactive</CardTitle>
+            <CardTitle>Visitor Acquisition</CardTitle>
             <CardDescription>
-              Showing total visitors for the last 3 months
+              Desktop vs Mobile trend over the selected {dateRange.days} days
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
           <RichAreaChart
-            data={AREA_DATA}
+            data={areaData}
             config={AREA_CONFIG}
             areas={[
               { dataKey: "mobile", stackId: "a", type: "natural" },
@@ -211,13 +263,29 @@ export const DashboardKanban = ({
     blocks?: DashboardBlock[];
   }
 >) => {
+  const [dateRange, setDateRange] = useQueryState(
+    "dateRange",
+    dateSelectorValueParser.withOptions({ shallow: false }),
+  );
+
   const [columns, setColumns] = useState<Record<string, DashboardBlock[]>>({
-    totalUsers: [{ id: "1", component: <StatisticBlock /> }],
-    charts: [{ id: "2", component: <ChartsBlock /> }],
-    dataTable: [
-      { id: "3", component: <TaskTableWrapper searchParams={searchParams} /> },
-    ],
+    totalUsers: [{ id: "1", component: null as unknown as React.ReactElement }],
+    charts: [{ id: "2", component: null as unknown as React.ReactElement }],
+    dataTable: [{ id: "3", component: null as unknown as React.ReactElement }],
   });
+
+  const renderBlock = (id: string) => {
+    switch (id) {
+      case "1":
+        return <StatisticBlock />;
+      case "2":
+        return <ChartsBlock />;
+      case "3":
+        return <TaskTableWrapper searchParams={searchParams} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <Kanban<DashboardBlock>
@@ -225,13 +293,26 @@ export const DashboardKanban = ({
       onValueChange={setColumns}
       getItemValue={(item) => item.id}
     >
+      <div className="flex items-center justify-between p-4 rounded-xl sticky top-1 z-20 background/80 backdrop-blur-md">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
+          <p className="text-muted-foreground">
+            Analytics overview and active tasks.
+          </p>
+        </div>
+        <DateSelectorPopover
+          value={dateRange ?? undefined}
+          onChange={(val) => setDateRange(val ?? null)}
+        />
+      </div>
+
       <KanbanBoard className="overflow-hidden space-y-2 md:space-y-3 lg:space-y-4">
         {Object.entries(columns).map(([columnId, blocks]) => (
           <KanbanColumn key={columnId} value={columnId} className="min-w-full">
             <div>
               {blocks.map((block) => (
                 <div key={`${columnId}-block-${block.id}`}>
-                  {block.component}
+                  {renderBlock(block.id)}
                 </div>
               ))}
             </div>

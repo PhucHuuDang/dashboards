@@ -84,7 +84,7 @@ export function TasksTable({ promises, queryKeys }: TasksTableProps) {
   });
 
   return (
-    <>
+    <div>
       <DataTable
         table={table}
         actionBar={<TasksTableActionBar table={table} />}
@@ -127,6 +127,6 @@ export function TasksTable({ promises, queryKeys }: TasksTableProps) {
         showTrigger={false}
         onSuccess={() => rowAction?.row.toggleSelected(false)}
       />
-    </>
+    </div>
   );
 }
