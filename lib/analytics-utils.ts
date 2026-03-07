@@ -1,8 +1,8 @@
-// lib/analytics-utils.ts
+import type { DateSelectorValue } from "@/components/reui/date-selector";
+import type { DailyEmployeeData } from "@/features/employee/mocks/mock-employee-analytics";
+
 // Pure utility functions for the Employee Analytics Dashboard.
 // No React imports — safe to use anywhere.
-
-import type { DailyEmployeeData } from "@/mocks/mock-employee-analytics";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -35,8 +35,6 @@ export interface AggregatedAnalytics {
   employmentTypes: Record<string, number>;
   performance: Record<string, number>;
 }
-
-import type { DateSelectorValue } from "@/components/reui/date-selector";
 
 // ─── Date Range ───────────────────────────────────────────────────────────────
 

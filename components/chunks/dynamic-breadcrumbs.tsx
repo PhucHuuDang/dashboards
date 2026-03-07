@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { HomeIcon, LucideIcon, SlashIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
 import React, { useMemo } from "react";
+
+import { usePathname } from "next/navigation";
+
+import { HomeIcon, LucideIcon, SlashIcon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -19,6 +13,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/animate-ui/primitives/radix/dropdown-menu";
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 interface BreadcrumbProps {
   icons?: LucideIcon[];

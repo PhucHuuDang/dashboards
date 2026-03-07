@@ -1,4 +1,3 @@
-import type { FilterFn, Row } from "@tanstack/react-table";
 import type {
   BooleanFilterOperator,
   DateFilterOperator,
@@ -8,6 +7,8 @@ import type {
   SelectFilterOperator,
   TextFilterOperator,
 } from "@/types/data-grid";
+
+import type { FilterFn, Row } from "@tanstack/react-table";
 
 export const TEXT_FILTER_OPERATORS: ReadonlyArray<{
   label: string;
@@ -260,7 +261,7 @@ export function getFilterFn<TData>(): FilterFn<TData> {
     if (operator === "isAnyOf" && Array.isArray(value)) {
       if (Array.isArray(cellValue)) {
         return cellValue.some((v) =>
-          value.some((fv) => String(v) === String(fv))
+          value.some((fv) => String(v) === String(fv)),
         );
       }
       return value.some((fv) => String(cellValue) === String(fv));
@@ -269,7 +270,7 @@ export function getFilterFn<TData>(): FilterFn<TData> {
     if (operator === "isNoneOf" && Array.isArray(value)) {
       if (Array.isArray(cellValue)) {
         return !cellValue.some((v) =>
-          value.some((fv) => String(v) === String(fv))
+          value.some((fv) => String(v) === String(fv)),
         );
       }
       return !value.some((fv) => String(cellValue) === String(fv));

@@ -1,8 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
+
 import { AnimatePresence, motion, type HTMLMotionProps } from "motion/react";
+import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
+
+import { getStrictContext } from "@/lib/get-strict-context";
 
 import {
   Highlight,
@@ -10,7 +13,6 @@ import {
   type HighlightItemProps,
   type HighlightProps,
 } from "@/components/animate-ui/primitives/effects/highlight";
-import { getStrictContext } from "@/lib/get-strict-context";
 import { useControlledState } from "@/hooks/use-controlled-state";
 import { useDataState } from "@/hooks/use-data-state";
 
@@ -43,7 +45,7 @@ function DropdownMenu(props: DropdownMenuProps) {
     onChange: props?.onOpenChange,
   });
   const [highlightedValue, setHighlightedValue] = React.useState<string | null>(
-    null
+    null,
   );
 
   return (
@@ -138,18 +140,7 @@ function DropdownMenuSubTrigger({
   textValue,
   ...props
 }: DropdownMenuSubTriggerProps) {
-  const { setHighlightedValue } = useDropdownMenu();
-  const [, highlightedRef] = useDataState<HTMLDivElement>(
-    "highlighted",
-    undefined,
-    (value) => {
-      if (value === true) {
-        const el = highlightedRef.current;
-        const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
-      }
-    }
-  );
+  const highlightedRef = useHighlightRef();
 
   return (
     <DropdownMenuPrimitive.SubTrigger
@@ -353,19 +344,7 @@ function DropdownMenuItem({
   textValue,
   ...props
 }: DropdownMenuItemProps) {
-  const { setHighlightedValue } = useDropdownMenu();
-  const [, highlightedRef] = useDataState<HTMLDivElement>(
-    "highlighted",
-    undefined,
-    (value) => {
-      if (value === true) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        const el = highlightedRef.current;
-        const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
-      }
-    }
-  );
+  const highlightedRef = useHighlightRef();
 
   return (
     <DropdownMenuPrimitive.Item
@@ -399,18 +378,7 @@ function DropdownMenuCheckboxItem({
   textValue,
   ...props
 }: DropdownMenuCheckboxItemProps) {
-  const { setHighlightedValue } = useDropdownMenu();
-  const [, highlightedRef] = useDataState<HTMLDivElement>(
-    "highlighted",
-    undefined,
-    (value) => {
-      if (value === true) {
-        const el = highlightedRef.current;
-        const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
-      }
-    }
-  );
+  const highlightedRef = useHighlightRef();
 
   return (
     <DropdownMenuPrimitive.CheckboxItem
@@ -444,18 +412,7 @@ function DropdownMenuRadioItem({
   textValue,
   ...props
 }: DropdownMenuRadioItemProps) {
-  const { setHighlightedValue } = useDropdownMenu();
-  const [, highlightedRef] = useDataState<HTMLDivElement>(
-    "highlighted",
-    undefined,
-    (value) => {
-      if (value === true) {
-        const el = highlightedRef.current;
-        const v = el?.dataset.value || el?.id || null;
-        if (v) setHighlightedValue(v);
-      }
-    }
-  );
+  const highlightedRef = useHighlightRef();
 
   return (
     <DropdownMenuPrimitive.RadioItem
@@ -519,6 +476,37 @@ function DropdownMenuItemIndicator(props: DropdownMenuItemIndicatorProps) {
       <motion.div {...props} />
     </DropdownMenuPrimitive.ItemIndicator>
   );
+}
+
+function useHighlightRef() {
+  const { setHighlightedValue } = useDropdownMenu();
+  const innerRef = React.useRef<HTMLDivElement | null>(null);
+
+  const [, highlightedRef] = useDataState<HTMLDivElement>(
+    "highlighted",
+    undefined,
+    (value) => {
+      if (value === true) {
+        const el = innerRef.current;
+        const v = el?.dataset.value || el?.id || null;
+        if (v) setHighlightedValue(v);
+      }
+    },
+  );
+
+  const refCallback = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      innerRef.current = node;
+      if (typeof highlightedRef === "function") {
+        highlightedRef(node);
+      } else if (highlightedRef) {
+        Object.assign(highlightedRef, { current: node });
+      }
+    },
+    [highlightedRef],
+  );
+
+  return refCallback;
 }
 
 export {

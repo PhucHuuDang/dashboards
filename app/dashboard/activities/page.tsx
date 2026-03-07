@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { activitySearchParamsCache } from "@/lib/activity-parsers";
 
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
-import ActivitiesClient from "@/components/segments/activities/activities-client";
+import ActivitiesClient from "@/features/activities/components/activities-client";
 
 import type { SearchParams } from "nuqs/server";
 

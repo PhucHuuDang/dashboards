@@ -8,7 +8,7 @@ import {
   DataGridSkeletonGrid,
   DataGridSkeletonToolbar,
 } from "@/components/data-grid/data-grid-skeleton";
-import { DashboardKanban } from "@/components/segments/dashboard/dashboard-kanban";
+import { DashboardKanban } from "@/features/dashboard/components/dashboard-kanban";
 import { Prettify, SearchParams } from "@/types";
 
 export const metadata: Metadata = {

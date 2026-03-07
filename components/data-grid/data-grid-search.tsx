@@ -1,13 +1,15 @@
 "use client";
 
-import { ChevronDown, ChevronUp, X } from "lucide-react";
 import * as React from "react";
+
+import { ChevronDown, ChevronUp, X } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAsRef } from "@/hooks/use-as-ref";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import type { SearchState } from "@/types/data-grid";
 
+import type { SearchState } from "@/types/data-grid";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface DataGridSearchProps extends SearchState {}
@@ -99,7 +101,7 @@ function DataGridSearchImpl({
         }
       }
     },
-    [propsRef]
+    [propsRef],
   );
 
   const debouncedSearch = useDebouncedCallback((query: string) => {
@@ -112,7 +114,7 @@ function DataGridSearchImpl({
       propsRef.current.onSearchQueryChange(value);
       debouncedSearch(value);
     },
-    [propsRef, debouncedSearch]
+    [propsRef, debouncedSearch],
   );
 
   const onTriggerPointerDown = React.useCallback(
@@ -135,19 +137,19 @@ function DataGridSearchImpl({
         event.preventDefault();
       }
     },
-    []
+    [],
   );
 
   const onPrevMatchPointerDown = React.useCallback(
     (event: React.PointerEvent<HTMLButtonElement>) =>
       onTriggerPointerDown(event),
-    [onTriggerPointerDown]
+    [onTriggerPointerDown],
   );
 
   const onNextMatchPointerDown = React.useCallback(
     (event: React.PointerEvent<HTMLButtonElement>) =>
       onTriggerPointerDown(event),
-    [onTriggerPointerDown]
+    [onTriggerPointerDown],
   );
 
   const onClose = React.useCallback(() => {

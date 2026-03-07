@@ -21,7 +21,8 @@
     "build": "next build",
     "start": "next start",
     "prepare": "husky",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "lint": "eslint \"{app,components,features,hooks,lib,store}/**/*.{ts,tsx}\" --fix",
+    "generate:feature": "node generate-feature.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",

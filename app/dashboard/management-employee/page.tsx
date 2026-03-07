@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 
 import { SidebarInsetContent } from "@/components/chunks/sidebar-chunks";
-import { EmployeeAnalyticsSection } from "@/components/segments/management-employee/employee-analytics/employee-analytics-section";
-import EmployeeTableWrapper from "@/components/segments/management-employee/employee-table/employee-table-wrapper";
+import { EmployeeAnalyticsSection } from "@/features/employee/components/employee-analytics/employee-analytics-section";
+import EmployeeTableWrapper from "@/features/employee/components/employee-table/employee-table-wrapper";
 
 import type { SearchParams } from "nuqs/server";
 

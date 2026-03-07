@@ -13,6 +13,18 @@ const eslintConfig = defineConfig([
       import: importPlugin,
     },
     rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["../../*", "../../../*"],
+              message:
+                "Use absolute `@/features/...` imports when crossing boundaries to allow ESLint to enforce architecture.",
+            },
+          ],
+        },
+      ],
       "import/order": [
         "error",
         {

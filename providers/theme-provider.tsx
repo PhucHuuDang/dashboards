@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export const ThemeProvider = ({
   children,

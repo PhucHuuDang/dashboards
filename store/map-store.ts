@@ -1,8 +1,9 @@
 import { createWithEqualityFn } from "zustand/traditional";
+
 import {
   locations as initialLocations,
   type Location,
-} from "@/mocks/location-mock";
+} from "@/features/locations/mocks/location-mock";
 
 type ViewMode = "map" | "list" | "split";
 type SortBy =
@@ -19,7 +20,7 @@ function calculateDistance(
   lat1: number,
   lng1: number,
   lat2: number,
-  lng2: number
+  lng2: number,
 ): number {
   const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -90,7 +91,7 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
 
     if (state.selectedLocationId) {
       const location = state.locations.find(
-        (l) => l.id === state.selectedLocationId
+        (l) => l.id === state.selectedLocationId,
       );
       if (
         location &&
@@ -125,7 +126,7 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
       locations: state.locations.map((location) =>
         location.id === locationId
           ? { ...location, isFavorite: !location.isFavorite }
-          : location
+          : location,
       ),
     })),
 
@@ -161,13 +162,13 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
 
     if (state.selectedCategory !== "all") {
       filtered = filtered.filter(
-        (l) => l.categoryId === state.selectedCategory
+        (l) => l.categoryId === state.selectedCategory,
       );
     }
 
     if (state.selectedTags.length > 0) {
       filtered = filtered.filter((l) =>
-        state.selectedTags.some((tag) => l.tags.includes(tag))
+        state.selectedTags.some((tag) => l.tags.includes(tag)),
       );
     }
 
@@ -177,7 +178,7 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
         (l) =>
           l.name.toLowerCase().includes(query) ||
           l.description.toLowerCase().includes(query) ||
-          l.address.toLowerCase().includes(query)
+          l.address.toLowerCase().includes(query),
       );
     }
 
@@ -189,13 +190,13 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
               state.userLocation!.lat,
               state.userLocation!.lng,
               a.coordinates.lat,
-              a.coordinates.lng
+              a.coordinates.lng,
             );
             const distB = calculateDistance(
               state.userLocation!.lat,
               state.userLocation!.lng,
               b.coordinates.lat,
-              b.coordinates.lng
+              b.coordinates.lng,
             );
             return distA - distB;
           });
@@ -204,13 +205,13 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
       case "date-newest":
         filtered.sort(
           (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         );
         break;
       case "date-oldest":
         filtered.sort(
           (a, b) =>
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
         );
         break;
       case "alpha-az":
@@ -236,7 +237,7 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
 
     if (state.selectedCategory !== "all") {
       filtered = filtered.filter(
-        (l) => l.categoryId === state.selectedCategory
+        (l) => l.categoryId === state.selectedCategory,
       );
     }
 
@@ -246,13 +247,13 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
         (l) =>
           l.name.toLowerCase().includes(query) ||
           l.description.toLowerCase().includes(query) ||
-          l.address.toLowerCase().includes(query)
+          l.address.toLowerCase().includes(query),
       );
     }
 
     filtered.sort(
       (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
 
     return filtered;
@@ -264,7 +265,7 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
 
     if (state.selectedCategory !== "all") {
       filtered = filtered.filter(
-        (l) => l.categoryId === state.selectedCategory
+        (l) => l.categoryId === state.selectedCategory,
       );
     }
 
@@ -274,13 +275,13 @@ export const useMapsStore = createWithEqualityFn<MapsState>((set, get) => ({
         (l) =>
           l.name.toLowerCase().includes(query) ||
           l.description.toLowerCase().includes(query) ||
-          l.address.toLowerCase().includes(query)
+          l.address.toLowerCase().includes(query),
       );
     }
 
     filtered.sort(
       (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
 
     return filtered.slice(0, 20);

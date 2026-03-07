@@ -1,6 +1,9 @@
 "use client";
 
 import * as React from "react";
+
+import { GripVertical } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge-2";
 import { Button } from "@/components/ui/button-1";
@@ -14,7 +17,6 @@ import {
   KanbanItemHandle,
   KanbanOverlay,
 } from "@/components/ui/kanban";
-import { GripVertical } from "lucide-react";
 
 interface Task {
   id: string;
@@ -33,8 +35,10 @@ const COLUMN_TITLES: Record<string, string> = {
   done: "Done",
 };
 
-interface TaskCardProps
-  extends Omit<React.ComponentProps<typeof KanbanItem>, "value" | "children"> {
+interface TaskCardProps extends Omit<
+  React.ComponentProps<typeof KanbanItem>,
+  "value" | "children"
+> {
   task: Task;
   asHandle?: boolean;
 }
@@ -50,8 +54,8 @@ function TaskCard({ task, asHandle, ...props }: TaskCardProps) {
               task.priority === "high"
                 ? "destructive"
                 : task.priority === "medium"
-                ? "primary"
-                : "warning"
+                  ? "primary"
+                  : "warning"
             }
             appearance="outline"
             className="pointer-events-none h-5 rounded-sm px-1.5 text-[11px] capitalize shrink-0"
@@ -90,8 +94,10 @@ function TaskCard({ task, asHandle, ...props }: TaskCardProps) {
   );
 }
 
-interface TaskColumnProps
-  extends Omit<React.ComponentProps<typeof KanbanColumn>, "children"> {
+interface TaskColumnProps extends Omit<
+  React.ComponentProps<typeof KanbanColumn>,
+  "children"
+> {
   tasks: Task[];
   isOverlay?: boolean;
 }

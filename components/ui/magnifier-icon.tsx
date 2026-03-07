@@ -1,6 +1,8 @@
 import { forwardRef, useImperativeHandle } from "react";
-import { AnimatedIconHandle, AnimatedIconProps } from "./types";
+
 import { motion, useAnimate } from "motion/react";
+
+import { AnimatedIconHandle, AnimatedIconProps } from "./types";
 
 const MagnifierIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
   (

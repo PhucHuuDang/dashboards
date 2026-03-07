@@ -1,8 +1,10 @@
 "use client";
 
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+
+import { cva, type VariantProps } from "class-variance-authority";
 import * as ReactDOM from "react-dom";
+
 import { cn } from "@/lib/utils";
 
 const fpsVariants = cva(
@@ -30,11 +32,12 @@ const fpsVariants = cva(
       position: "top-right",
       status: "good",
     },
-  }
+  },
 );
 
 interface FpsProps
-  extends React.ComponentProps<"div">,
+  extends
+    React.ComponentProps<"div">,
     Omit<VariantProps<typeof fpsVariants>, "status"> {
   label?: string;
   updateInterval?: number;
@@ -62,12 +65,10 @@ function Fps(props: FpsProps) {
   const [fps, setFps] = React.useState(0);
   const frameCountRef = React.useRef(0);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const lastTimeRef = React.useRef(performance.now());
-  const animationFrameRef = React.useRef<number | null>(null);
-  const updateTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(
-    null
-  );
+  const lastTimeRef = React.useRef(0);
+  React.useLayoutEffect(() => {
+    lastTimeRef.current = performance.now();
+  }, []);
 
   React.useLayoutEffect(() => setMounted(true), []);
 
@@ -79,6 +80,8 @@ function Fps(props: FpsProps) {
 
   React.useEffect(() => {
     if (!enabled || typeof window === "undefined") return;
+
+    let requestId: number;
 
     function measureFps() {
       const now = performance.now();
@@ -92,18 +95,13 @@ function Fps(props: FpsProps) {
         lastTimeRef.current = now;
       }
 
-      animationFrameRef.current = requestAnimationFrame(measureFps);
+      requestId = requestAnimationFrame(measureFps);
     }
 
-    animationFrameRef.current = requestAnimationFrame(measureFps);
+    requestId = requestAnimationFrame(measureFps);
 
     return () => {
-      if (animationFrameRef.current !== null) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (updateTimeoutRef.current !== null) {
-        clearTimeout(updateTimeoutRef.current);
-      }
+      cancelAnimationFrame(requestId);
     };
   }, [enabled, updateInterval]);
 
@@ -112,7 +110,7 @@ function Fps(props: FpsProps) {
   const portalContainer =
     strategy === "absolute"
       ? null
-      : portalContainerProp ?? (mounted ? globalThis.document?.body : null);
+      : (portalContainerProp ?? (mounted ? globalThis.document?.body : null));
 
   const Comp = (
     <div

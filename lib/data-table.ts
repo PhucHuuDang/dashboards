@@ -1,10 +1,12 @@
-import type { Column } from "@tanstack/react-table";
 import { dataTableConfig } from "@/config/data-table";
+
 import type {
   ExtendedColumnFilter,
   FilterOperator,
   FilterVariant,
 } from "@/types/data-table";
+
+import type { Column } from "@tanstack/react-table";
 
 export function getColumnPinningStyle<TData>({
   column,
@@ -24,8 +26,8 @@ export function getColumnPinningStyle<TData>({
       ? isLastLeftPinnedColumn
         ? "-4px 0 4px -4px var(--border) inset"
         : isFirstRightPinnedColumn
-        ? "4px 0 4px -4px var(--border) inset"
-        : undefined
+          ? "4px 0 4px -4px var(--border) inset"
+          : undefined
       : undefined,
     left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
     right: isPinned === "right" ? `${column.getAfter("right")}px` : undefined,
@@ -62,7 +64,7 @@ export function getDefaultFilterOperator(filterVariant: FilterVariant) {
 }
 
 export function getValidFilters<TData>(
-  filters: ExtendedColumnFilter<TData>[]
+  filters: ExtendedColumnFilter<TData>[],
 ): ExtendedColumnFilter<TData>[] {
   return filters.filter(
     (filter) =>
@@ -72,6 +74,6 @@ export function getValidFilters<TData>(
         ? filter.value.length > 0
         : filter.value !== "" &&
           filter.value !== null &&
-          filter.value !== undefined)
+          filter.value !== undefined),
   );
 }

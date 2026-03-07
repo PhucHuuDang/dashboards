@@ -1,14 +1,16 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { motion, isMotionComponent, type HTMLMotionProps } from 'motion/react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+
+import { motion, isMotionComponent, type HTMLMotionProps } from "motion/react";
+
+import { cn } from "@/lib/utils";
 
 type AnyProps = Record<string, unknown>;
 
 type DOMMotionProps<T extends HTMLElement = HTMLElement> = Omit<
   HTMLMotionProps<keyof HTMLElementTagNameMap>,
-  'ref'
+  "ref"
 > & { ref?: React.Ref<T> };
 
 type WithAsChild<Base extends object> =
@@ -26,7 +28,7 @@ function mergeRefs<T>(
   return (node) => {
     refs.forEach((ref) => {
       if (!ref) return;
-      if (typeof ref === 'function') {
+      if (typeof ref === "function") {
         ref(node);
       } else {
         (ref as React.RefObject<T | null>).current = node;
@@ -58,13 +60,24 @@ function mergeProps<T extends HTMLElement>(
   return merged;
 }
 
+const motionCompCache = new Map<React.ElementType, React.ElementType>();
+
+function getMotionComp(type: React.ElementType) {
+  if (motionCompCache.has(type)) {
+    return motionCompCache.get(type)!;
+  }
+  const cmp = motion.create(type);
+  motionCompCache.set(type, cmp);
+  return cmp;
+}
+
 function Slot<T extends HTMLElement = HTMLElement>({
   children,
   ref,
   ...props
 }: SlotProps<T>) {
   const isAlreadyMotion =
-    typeof children.type === 'object' &&
+    typeof children.type === "object" &&
     children.type !== null &&
     isMotionComponent(children.type);
 
@@ -72,7 +85,7 @@ function Slot<T extends HTMLElement = HTMLElement>({
     () =>
       isAlreadyMotion
         ? (children.type as React.ElementType)
-        : motion.create(children.type as React.ElementType),
+        : getMotionComp(children.type as React.ElementType),
     [isAlreadyMotion, children.type],
   );
 
@@ -83,6 +96,7 @@ function Slot<T extends HTMLElement = HTMLElement>({
   const mergedProps = mergeProps(childProps, props);
 
   return (
+    // eslint-disable-next-line react-hooks/static-components
     <Base {...mergedProps} ref={mergeRefs(childRef as React.Ref<T>, ref)} />
   );
 }

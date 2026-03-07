@@ -1,10 +1,11 @@
 import { Suspense } from "react";
+
+import { DataGridDemo } from "./data-grid-demo";
 import {
   DataGridSkeleton,
   DataGridSkeletonGrid,
   DataGridSkeletonToolbar,
 } from "./data-grid-skeleton";
-import { DataGridDemo } from "./data-grid-demo";
 
 export const DataGridPage = () => {
   return (

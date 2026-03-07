@@ -1,18 +1,14 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, Plus } from "lucide-react";
 import * as React from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -21,11 +17,10 @@ import {
 // import { createTask } from "../lib/actions";
 // import type { CreateTaskSchema } from "../lib/validations";
 // import { createTaskSchema } from "../lib/validations";
-import { TaskForm } from "./task-form";
+// import { TaskForm } from "./task-form";
 
 export function CreateTaskSheet() {
   const [open, setOpen] = React.useState(false);
-  const [isPending, startTransition] = React.useTransition();
 
   // const form = useForm<CreateTaskSchema>({
   //   resolver: zodResolver(createTaskSchema),

@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
 
   experimental: {
     optimizePackageImports: [
+      "lucide-react",
+      "date-fns",
       "lodash",
       "react-use",
       "framer-motion",

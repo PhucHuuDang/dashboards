@@ -1,13 +1,14 @@
 "use client";
 
-import type { Table } from "@tanstack/react-table";
+import * as React from "react";
+
 import {
   AlignVerticalSpaceAroundIcon,
   ChevronsDownUpIcon,
   EqualIcon,
   MinusIcon,
 } from "lucide-react";
-import * as React from "react";
+
 import {
   Select,
   SelectContent,
@@ -15,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import type { Table } from "@tanstack/react-table";
 
 const rowHeights = [
   {
@@ -39,8 +42,9 @@ const rowHeights = [
   },
 ] as const;
 
-interface DataGridRowHeightMenuProps<TData>
-  extends React.ComponentProps<typeof SelectContent> {
+interface DataGridRowHeightMenuProps<TData> extends React.ComponentProps<
+  typeof SelectContent
+> {
   table: Table<TData>;
   disabled?: boolean;
 }
