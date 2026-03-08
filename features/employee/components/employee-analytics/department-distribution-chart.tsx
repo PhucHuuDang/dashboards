@@ -53,7 +53,9 @@ export const DepartmentDistributionChart = React.memo(
     );
 
     return (
-      <Card className={cn("flex flex-col h-full ", className)}>
+      <Card
+        className={cn("flex flex-col h-full border rounded-2xl", className)}
+      >
         <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold">
             Department Distribution

@@ -85,7 +85,7 @@ export const EmployeeGrowthChart = React.memo(function EmployeeGrowthChart({
   );
 
   return (
-    <Card className={cn("flex flex-col", className)}>
+    <Card className={cn("flex flex-col border rounded-2xl", className)}>
       <CardHeader className="flex-row items-start justify-between gap-4 space-y-0 pb-2">
         <div className="grid gap-1">
           <CardTitle className="text-base font-semibold">

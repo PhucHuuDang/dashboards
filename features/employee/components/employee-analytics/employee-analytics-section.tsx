@@ -112,7 +112,10 @@ export function EmployeeAnalyticsSection() {
           </LazyChart>
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        <ResizableHandle
+          withHandle
+          className="bg-transparent hover:bg-border/70 transition duration-300"
+        />
 
         <ResizablePanel defaultSize={70} minSize="30%" maxSize="75%">
           <LazyChart
@@ -140,7 +143,10 @@ export function EmployeeAnalyticsSection() {
           </LazyChart>
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        <ResizableHandle
+          withHandle
+          className="bg-transparent hover:bg-border/70 transition duration-300"
+        />
         {/* Employment type */}
         <ResizablePanel defaultSize={34} minSize="30%" maxSize="75%">
           <LazyChart skeleton={<AnalyticsChartSkeleton height={200} />}>

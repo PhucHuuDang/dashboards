@@ -69,7 +69,7 @@ export const EmploymentTypeChart = React.memo(function EmploymentTypeChart({
   const tickFormatter = React.useCallback((value: string) => value, []);
 
   return (
-    <Card className={cn("flex flex-col", className)}>
+    <Card className={cn("flex flex-col border rounded-2xl", className)}>
       <CardHeader className="pb-2">
         <CardTitle className="text-base font-semibold">
           Employment Type
