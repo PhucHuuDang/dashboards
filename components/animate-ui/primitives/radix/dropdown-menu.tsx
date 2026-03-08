@@ -14,7 +14,7 @@ import {
   type HighlightProps,
 } from "@/components/animate-ui/primitives/effects/highlight";
 import { useControlledState } from "@/hooks/use-controlled-state";
-import { useDataState } from "@/hooks/use-data-state";
+import { DataStateValue, useDataState } from "@/hooks/use-data-state";
 
 type DropdownMenuContextType = {
   isOpen: boolean;
@@ -482,17 +482,29 @@ function useHighlightRef() {
   const { setHighlightedValue } = useDropdownMenu();
   const innerRef = React.useRef<HTMLDivElement | null>(null);
 
+  // const [, highlightedRef] = useDataState<HTMLDivElement>(
+  //   "highlighted",
+  //   undefined,
+  //   (value) => {
+  //     if (value === true) {
+  //       const el = innerRef.current;
+  //       const v = el?.dataset.value || el?.id || null;
+  //       if (v) setHighlightedValue(v);
+  //     }
+  //   },
+  // );
+
   const [, highlightedRef] = useDataState<HTMLDivElement>(
     "highlighted",
     undefined,
-    (value) => {
+    (value: DataStateValue) => {
       if (value === true) {
-        const el = innerRef.current;
-        const v = el?.dataset.value || el?.id || null;
+        const el: HTMLDivElement | null = innerRef.current;
+        const v: string | null = el?.dataset.value || el?.id || null;
         if (v) setHighlightedValue(v);
       }
     },
-  );
+  ) as [unknown, React.Ref<HTMLDivElement>];
 
   const refCallback = React.useCallback(
     (node: HTMLDivElement | null) => {
